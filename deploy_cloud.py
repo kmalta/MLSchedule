@@ -4,8 +4,12 @@ from subprocess import Popen, PIPE
 from time import sleep, gmtime, strftime
 
 #Dependency Files
+import glob
 from image_funcs import *
 #import data_partition
+
+glob.set_globals()
+print glob.CLOUD
 
 def time_str():
     return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
@@ -87,7 +91,7 @@ def launch_instances(num_insts, inst_type, inst_role):
     image = read_image_id(inst_role)
 
     if image == 0:
-        sys.exit('ERROR: Cannot find image.')
+        image = glob.BASE_IMAGE
 
     stdout = py_euca_run_instances(image, num_insts, inst_type)
     wait_for_nodes_to_launch()
@@ -127,16 +131,17 @@ def create_hostfiles(ips, new_ips):
 
 def setup_instance(ip, inst_role):
     if inst_role == 'master':
-        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + \
-              'add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh'
-        py_cmd_line(cmd)
+        cmd = ('tar -cf scripts.tar.gz ' + glob.PEM_PATH +
+              'add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh')
+        py_cmd_line(cmd[0])
     elif inst_role == 'worker':
-        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + \
-              'build_image_script.sh'
+        cmd = ('tar -cf scripts.tar.gz ' + glob.PEM_PATH + 
+              'build_image_script.sh')
+        py_cmd_line(cmd[0])
     else:
         sys.exit('ERROR: In setup_instance function')
 
-    target_path = '/'.join(REMOTE_PATH.split('/')[:-1])
+    target_path = '/'.join(glob.REMOTE_PATH.split('/')[:-1])
     py_scp_to_remote('', ip, 'scripts.tar.gz', target_path)
     py_scp_to_remote('', ip, 'build_dependencies.sh', target_path)
     py_ssh('', ip, 'source ' + target_path + '/build_dependencies.sh ' + target_path)
@@ -146,7 +151,7 @@ def setup_instance(ip, inst_role):
 def replace_hostfiles(master_ip):
     print 'Replacing Hostfiles...'
 
-    target_path = REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
+    target_path = glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
     py_scp_to_remote('', master_ip, 'hostfile_petuum_format', target_path)
 
     f = open('hostfile', 'r')
@@ -160,22 +165,22 @@ def replace_hostfiles(master_ip):
 
 def passwordless_ssh(master_ip):
     print 'Moving Hostfile to Master...'
-    py_scp_to_remote('', master_ip, 'hostfile', REMOTE_PATH + '/hostfile')
+    py_scp_to_remote('', master_ip, 'hostfile', glob.REMOTE_PATH + '/hostfile')
     print 'Moving New Hostfile to Master...'
-    py_scp_to_remote('', master_ip, 'new_hostfile', REMOTE_PATH + '/new_hostfile')
+    py_scp_to_remote('', master_ip, 'new_hostfile', glob.REMOTE_PATH + '/new_hostfile')
     print 'Setting up Passwordless SSH...'
-    py_ssh('', master_ip, 'source ' + REMOTE_PATH + '/add_public_key_script.sh')
+    py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/add_public_key_script.sh')
     print 'Finished Passwordless SSH'
     return
 
 
 def add_ssh_key_to_master(master_ip):
-    py_ssh('', master_ip, 'source ' + REMOTE_PATH + '/create_ssh_keygen.sh')
+    py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/create_ssh_keygen.sh')
     return
 
 
 def push_launch_script_to_master(master_ip):
-    py_scp_to_remote('', master_ip, 'launch.py', REMOTE_PATH + '/bosen/app/mlr/script/launch.py')
+    py_scp_to_remote('', master_ip, 'launch.py', glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py')
     return
 
 
@@ -209,7 +214,7 @@ def terminate_instances(inst_ids, inst_ips):
 
 
 def launch_machine_learning_job(master_ip, argvs, remote_file_name):
-    py_ssh('', master_ip, 'python ' + REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + file_name)
+    py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + file_name)
     return
 
 
@@ -232,7 +237,7 @@ def run_ml_task(master_ip, inst_type, inst_count, epochs, cores, staleness, run,
     inst_string.append('run')
     inst_string.append(str(run))
     file_root = '_'.join(inst_str)
-    remote_file_name = REMOTE_PATH + '/' + file_root
+    remote_file_name = glob.REMOTE_PATH + '/' + file_root
     argvs = ' '.join(epochs, cores, staleness)
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)
@@ -248,7 +253,6 @@ def run_experiment(master_inst_type, mach_array, data_set_name, runs):
 
     #Use this to only build the images
     force_uncache(master_inst_type)
-    sys.exit("END SCRIPT")
     #sys.exit("END SCRIPT")
 
     master_ip, master_id = launch_instance_with_metadata(master_inst_type, 'master')
@@ -296,8 +300,6 @@ inst_ids = check_instance_status('ids', 'all')
 inst_ips = check_instance_status('ips', 'all')
 terminate_instances(inst_ids, inst_ips)
 
-
-set_globals()
 run_experiment('m3.2xlarge', [1,1,2,4,8,16], 'mnist8m', 40)
 
 

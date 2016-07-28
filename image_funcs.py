@@ -1,4 +1,5 @@
 #Dependency Files
+import glob
 from py_euca_wrappers import *
 
 MASTER_CHECK_SUM_ARRAY = [
@@ -24,37 +25,41 @@ CSA_DICT = {
 
 
 def check_or_create_image(inst_type):
-    if REPLACE_WHICH == 'both':
+    if glob.REPLACE_WHICH == 'both':
         if check_sum('master') == 0:
             create_image(inst_type, 'master')
         if check_sum('worker') == 0:
             create_worker_image(inst_type, 'worker')
-    if REPLACE_WHICH == 'master':
+    if glob.REPLACE_WHICH == 'master':
         if check_sum('master') == 0:
             create_image(inst_type, 'master')
-    if REPLACE_WHICH == 'worker':
+    if glob.REPLACE_WHICH == 'worker':
         if check_sum('worker') == 0:
             create_image(inst_type, 'worker')
 
 
 def force_uncache(master_inst_type):
-    if LAUNCH_FROM == 'scratch':
-        if REPLACE_WHICH == 'both':
+    if glob.LAUNCH_FROM == 'scratch':
+        if glob.REPLACE_WHICH == 'both':
             for inst_role in ['master', 'worker']:
                 py_cmd_line('rm ' + inst_role + '_check_sum_cache;touch ' + inst_role + '_check_sum_cache')
         else:
-            py_cmd_line('rm ' + REPLACE_WHICH + '_check_sum_cache;touch ' + REPLACE_WHICH + '_check_sum_cache')
-        check_or_create_image(master_inst_type, REPLACE_WHICH)
+            py_cmd_line('rm ' + glob.REPLACE_WHICH + '_check_sum_cache;touch ' + glob.REPLACE_WHICH + '_check_sum_cache')
+        check_or_create_image(master_inst_type, glob.REPLACE_WHICH)
     return
 
 
 def read_image_id(inst_role):
     if inst_role not in ['master', 'worker']:
         return 0
-    f = open(inst_role + '_image_id', 'r')
-    image_id = f.read()
-    if 'emi' in image_id:
-        return image_id.strip()
+    file_name = inst_role + '_image_id'
+    if os.path.isfile(file_name):
+        f = open(inst_role + '_image_id', 'r')
+        image_id = f.read()
+        if 'emi' in image_id:
+            return image_id.strip()
+        else:
+            return 0
     else:
         return 0
 
@@ -76,7 +81,10 @@ def check_sum(inst_role):
         return 0
 
 
+
 def create_image(inst_type, inst_role):
+    s3cmd_create_bucket(glob.BUCKET)
+    sys.exit('END SCRIPT IN CREATE IMAGE')
     _ip, _id = launch_instance_with_metadata(inst_type, 'neither')
     setup_instance(_ip, inst_role)
     image_id = read_image_id(inst_role)
