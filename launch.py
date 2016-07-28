@@ -13,8 +13,7 @@ hostfile = join(proj_dir, "machinefiles", hostfile_name)
 
 ssh_cmd = (
     "ssh "
-    "-tt "
-    "-o StrictHostKeyChecking=no "
+    "-o stricthostkeychecking=no "
     "-o UserKnownHostsFile=/dev/null "
     )
 

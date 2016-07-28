@@ -3,7 +3,7 @@ import sys
 from subprocess import Popen, PIPE
 from time import sleep, gmtime, strftime
 
-#INCLUDE FILES
+#Dependency Files
 import data_partition
 import image_funcs
 
@@ -126,14 +126,35 @@ def create_hostfiles(ips, new_ips):
 
 
 def setup_instance(ip, inst_role):
-    print 'Starting to setup ' + inst_role + '...'
-    py_wait_proc('source ' + inst_role + '_setup_script.sh ' + ip)
+    if inst_role == 'master':
+        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + 
+              'add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh'
+        py_cmd_line(cmd)
+    elif inst_role == 'worker':
+        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + 
+              'build_image_script.sh'
+    else:
+        sys.exit('ERROR: In setup_instance function')
+
+    target_path = '/'.join(REMOTE_PATH.split('/')[:-1])
+    py_scp_to_remote('', ip, 'scripts.tar.gz', target_path)
+    py_scp_to_remote('', ip, 'build_dependencies.sh', target_path)
+    py_ssh('', ip, 'source ' + target_path + '/build_dependencies.sh ' + target_path)
     return
 
 
 def replace_hostfiles(master_ip):
     print 'Replacing Hostfiles...'
-    py_wait_proc('source replace_hostfiles.sh ' + master_ip)
+
+    target_path = REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
+    py_scp_to_remote('', master_ip, 'hostfile_petuum_format', target_path)
+
+    f = open('hostfile', 'r')
+    data = f.readlines()
+    for i in range(len(data)):
+        if data[i] == '':
+            continue
+        py_scp_to_remote('', data[i].strip(), 'hostfile_petuum_format', target_path)
     return
 
 
