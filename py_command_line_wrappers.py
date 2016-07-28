@@ -4,7 +4,7 @@ from subprocess import Popen, PIPE
 from time import sleep
 
 #Dependency Files
-import global_file
+from global_file import *
 
 
 def py_scp_to_remote(additional_options, ip, file1, file2):
@@ -36,15 +36,13 @@ def py_ssh(additional_options, ip, post_command):
 
 
 def py_wait_proc(process_str):
-    cmd = [process_str]
-    proc = Popen(cmd.split(), shell=True, executable='/bin/bash')
+    proc = Popen(process_str.split(), shell=True, executable='/bin/bash')
     proc.wait()
     return proc
 
 
 def py_out_proc(process_str):
-    cmd = [process_str]
-    (stdout, stderr) = Popen(cmd.split(), stdout=PIPE).communicate()
+    (stdout, stderr) = Popen(process_str.split(), stdout=PIPE).communicate()
     return stdout
 
 

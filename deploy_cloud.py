@@ -4,8 +4,8 @@ from subprocess import Popen, PIPE
 from time import sleep, gmtime, strftime
 
 #Dependency Files
-import data_partition
-import image_funcs
+from image_funcs import *
+#import data_partition
 
 def time_str():
     return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
@@ -13,12 +13,12 @@ def time_str():
 def read_instance_types():
     stdout = py_euca_describe_instance_types()
     stdout_array = stdout.split('\n')
-    instance_types = []
+    inst_types = []
     for line in stdout_array[1:]:
         line_array = line.split()
         if len(line_array) > 0:
-            instance_types.append((line_array[1], int(line_array[2]), int(line_array[3]), int(line_array[4])))
-    return instance_types
+            inst_types.append((line_array[1], int(line_array[2]), int(line_array[3]), int(line_array[4])))
+    return inst_types
 
 def check_instance_status(info, inst_status):
     stdout = py_euca_describe_instances()
@@ -32,15 +32,15 @@ def check_instance_status(info, inst_status):
         idx = 12
     for line in stdout_array:
         inst_info = line.split()
+        if len(inst_info) > 0 and (inst_info[0] == 'INSTANCE') :
+            check_bool = True
+            if inst_status == 'running':
+                check_bool = inst_info[5] == 'running'
+            elif inst_status == 'all':
+                check_bool = inst_info[5] != 'terminated'
 
-        check_bool = True
-        if inst_status == 'running':
-            check_bool = inst_info[5] == 'running'
-        elif inst_status == 'all':
-            check_bool = inst_info[5] != 'terminated'
-
-        if len(inst_info) > 0 and (inst_info[0] == 'INSTANCE') and check_bool:
-            ret_vals.append(inst_info[idx])
+            if check_bool:
+                ret_vals.append(inst_info[idx])
     return ret_vals
 
 #WAITS
@@ -54,8 +54,8 @@ def wait_for_nodes_to_launch():
         stdout_array = stdout.split('\n')
         flag = 0
         for line in stdout_array:
-            instance_info = line.split()
-            if len(instance_info) > 0 and (instance_info[0] == 'INSTANCE') and (instance_info[5] == 'pending'):
+            inst_info = line.split()
+            if len(inst_info) > 0 and (inst_info[0] == 'INSTANCE') and (inst_info[5] == 'pending'):
                 print 'Need to wait...the nodes are not running yet'
                 flag = 1
         if flag == 1:
@@ -127,11 +127,11 @@ def create_hostfiles(ips, new_ips):
 
 def setup_instance(ip, inst_role):
     if inst_role == 'master':
-        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + 
+        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + \
               'add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh'
         py_cmd_line(cmd)
     elif inst_role == 'worker':
-        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + 
+        cmd = 'tar -cf scripts.tar.gz ' + PEM_PATH + \
               'build_image_script.sh'
     else:
         sys.exit('ERROR: In setup_instance function')
@@ -191,7 +191,7 @@ def terminate_instances(inst_ids, inst_ips):
     f2 = open('temp_known_hosts', 'w')
     for line in known_host_lines:
         flag = 0
-        for ip in instance_ips:
+        for ip in inst_ips:
             if ip in line:
                 flag = 1
         if flag == 0:
@@ -244,13 +244,11 @@ def run_experiment(master_inst_type, mach_array, data_set_name, runs):
 
     #CONSTANTS
     epochs = str(40)
-    cores = str(instance_type[1])
     staleness = str(3)
-
-    sys.exit("END SCRIPT")
 
     #Use this to only build the images
     force_uncache(master_inst_type)
+    sys.exit("END SCRIPT")
     #sys.exit("END SCRIPT")
 
     master_ip, master_id = launch_instance_with_metadata(master_inst_type, 'master')
@@ -265,7 +263,7 @@ def run_experiment(master_inst_type, mach_array, data_set_name, runs):
         py_cmd('mkdir ' + local_file_dir + '/' + inst_type[0])
         for i in mach_array:
             old_ips = check_instance_status('ips', 'running')
-            launch_instances(i, instance_type[0], 'worker')
+            launch_instances(i, inst_type[0], 'worker')
             ips = check_instance_status('ips', 'running')
             if len(ips) == len(old_ips):
                 break
@@ -275,11 +273,13 @@ def run_experiment(master_inst_type, mach_array, data_set_name, runs):
             create_hostfiles(ips, new_ips)
             passwordless_ssh(master_ip)
             replace_hostfiles(master_ip)
+
+            cores = str(inst_type[1])
             for j in range(runs):
                 run_ml_task(master_ip, inst_type, len(ips), epochs, cores, staleness, j, local_file_dir)
 
-        inst_ids = read_all_instances('ids')
-        inst_ips = read_all_instances('ips')
+        inst_ids = check_instance_status('ids', 'all')
+        inst_ips = check_instance_status('ips', 'all')
         inst_ids.remove(master_id)
         inst_ips.remove(master_ip)
         terminate_instances(inst_ids, inst_ips)
@@ -292,8 +292,8 @@ EXCLUDED_INSTANCE_TYPES = []
 
 #RUN IT HERE!!
 #Start with Clean Slate
-inst_ids = read_all_instances('ids')
-inst_ips = read_all_instances('ips')
+inst_ids = check_instance_status('ids', 'all')
+inst_ips = check_instance_status('ips', 'all')
 terminate_instances(inst_ids, inst_ips)
 
 

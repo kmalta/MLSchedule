@@ -1,4 +1,5 @@
-import py_euca_wrappers
+#Dependency Files
+from py_euca_wrappers import *
 
 MASTER_CHECK_SUM_ARRAY = [
                           'add_public_key_script.sh',
@@ -60,7 +61,7 @@ def read_image_id(inst_role):
 
 def check_sum(inst_role):
 
-    py_cmd_line('rm ' inst_role + '_check_sum')
+    py_cmd_line('rm ' + inst_role + '_check_sum')
 
     script_array = CSA_DICT[inst_role + '_csa']
 
