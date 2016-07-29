@@ -42,8 +42,7 @@ def py_wait_proc(process_str):
 
 
 def py_out_proc(process_str):
-    print process_str
-    (stdout, stderr) = Popen([process_str], stdout=PIPE).communicate()
+    (stdout, stderr) = Popen(process_str.split(), stdout=PIPE).communicate()
     return stdout
 
 

@@ -1,10 +1,11 @@
 #!/bin/bash
 #1: TARGET_PATH
 cd $1
-mkdir petuum
-mv scripts.tar.gz petuum/scripts.tar.gz
+sudo mkdir petuum
+sudo mkdir petuum/data_loc
+sudo mv scripts.tar.gz petuum/scripts.tar.gz
 cd petuum
-tar -xf scripts.tar.gz
+sudo tar -xf scripts.tar.gz
 
 sudo apt-get -y update
 sudo dpkg --configure -a
@@ -13,19 +14,19 @@ sudo apt-get -y install g++ make autoconf git libtool uuid-dev openssh-server cm
 
 
 # Clone and build Bosen and its dependent repo Third Party
-git clone -b stable https://github.com/petuum/bosen.git
+sudo git clone -b stable git@github.com:petuum/bosen.git
 cd $1/petuum/bosen
-git clone https://github.com/petuum/third_party.git
+sudo git clone git@github.com:petuum/third_party.git
 
 cd $1/petuum/bosen/third_party
-make
+sudo make
 cd $1/petuum/bosen
 cp defns.mk.template defns.mk
-make
+sudo make
 
 # Build any algorithm from bosen here
 cd $1/petuum/bosen/app/mlr
-make
+sudo make
 
 cd $1/petuum/
 source build_image_script.sh
