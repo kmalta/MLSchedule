@@ -59,26 +59,26 @@ local_split = 'gsplit'
 # def delete_chunks(chunk_bucket_path, filename):
 #     os.system('s3cmd -c s3cfg del ' + chunk_bucket_path + '/' + filename + '-chunk-*')
 
-def looped_assign(num_chunks, percentage_cores_array):
-    curr_chunk_count = num_chunks
-    chunk_assignment_array = [0 for i in range(len(percentage_cores_array))]
-    while(curr_chunk_count > 0):
-        print chunk_assignment_array
-        chunks_to_assign = [int(math.floor(curr_chunk_count*i)) for i in percentage_cores_array]
-        chunk_assignment_array = [x + y for x, y in zip(chunk_assignment_array, chunks_to_assign)]
-        used_chunks = sum(chunks_to_assign)
-        curr_chunk_count -= used_chunks
+def doll_out_chunks(num_chunks, machine_cores_array):
+    num_machs = len(machine_cores_array)
+    total_cores = sum(machine_cores_array)
+    percentage_cores_array = [float(i)/total_cores for i in machine_cores_array]
+    dolled_out_chunks = [int(math.floor(float(i*num_chunks))) for i in percentage_cores_array]
+    remainder = num_chunks - sum(dolled_out_chunks)
+    for j in range(remainder):
+        temp_arr = [float(dolled_out_chunks[i]+ 1)/machine_cores_array[i] for i in range(num_machs)]
+        dolled_out_chunks[temp_arr.index(min(temp_arr))] += 1
+
+    return dolled_out_chunks
 
 def compute_num_chunks_to_distribute(machine_cores_array):
-    # py_cmd_line('rm *-chunk-metadata')
-    # py_s3cmd_get(data_chunk_bucket_path + '/*-chunk-metadata')
-    # f = open('*-chunk-metadata', 'r')
-    # data = f.readlines()[1].split()
-    num_chunks = 517#int(data[1])
+    py_cmd_line('rm *-chunk-metadata')
+    py_s3cmd_get(data_chunk_bucket_path + '/*-chunk-metadata')
+    f = open('*-chunk-metadata', 'r')
+    data = f.readlines()[1].split()
+    int(data[1])
 
-    total_cores = sum(machine_cores_array)
-
-    return looped_assign(num_chunks, [float(i)/total_cores for i in machine_cores_array])
+    return doll_out_chunks(num_chunks, machine_cores_array)
 
 def distribute_chunks(num_chunk_array, data_chunk_bucket_path):
 
@@ -89,7 +89,10 @@ def distribute_chunks(num_chunk_array, data_chunk_bucket_path):
 
     data = f.readlines()[1].split()
 
-compute_num_chunks_to_distribute([4,4,4,4])
+
+
+
+print compute_num_chunks_to_distribute([32,16,8,8,8,2])
 
 
 
@@ -103,4 +106,4 @@ compute_num_chunks_to_distribute([4,4,4,4])
 
 #delete_chunks('s3://mnist-data', 'mnist8m')
 
-chunk_data_locally('s3://mnist-data','s3://mnist-data', 'mnist8m', 100000000)
+#chunk_data_locally('s3://mnist-data','s3://mnist-data', 'mnist8m', 100000000)
