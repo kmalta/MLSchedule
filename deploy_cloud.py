@@ -6,9 +6,10 @@ from time import sleep, gmtime, strftime
 #Dependency Files
 import glob
 from image_funcs import *
-#import data_partition
 
 glob.set_globals()
+print glob.REPLACE_WHICH
+print glob.LAUNCH_FROM
 
 def time_str():
     return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
@@ -22,6 +23,16 @@ def read_instance_types():
         if len(line_array) > 0:
             inst_types.append((line_array[1], int(line_array[2]), int(line_array[3]), int(line_array[4])))
     return inst_types
+
+def get_machine_cores_from_names(machine_array):
+    inst_types = read_instance_types()
+    inst_names = map(lambda x: x[0], inst_types)
+    machine_core_array = []
+    for elem in machine_array:
+        idx = inst_names.index(elem)
+        machine_core_array.append(inst_types[idx][1])
+    return machine_core_array
+
 
 def create_hostfiles(ips, new_ips):
     print 'Creating Hostfiles...'
@@ -45,7 +56,7 @@ def create_hostfiles(ips, new_ips):
 def replace_hostfiles(master_ip):
     print 'Replacing Hostfiles...'
 
-    target_path = glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
+    get_path = glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
     py_scp_to_remote('', master_ip, 'hostfile_petuum_format', target_path)
 
     f = open('hostfile', 'r')
@@ -129,62 +140,10 @@ def run_ml_task(master_ip, inst_type, inst_count, epochs, cores, staleness, run,
     wait_for_file_to_write(master_ip, remote_file_name, local_file_dir + '/' + file_root)
     return
 
+#Creates Images if you so desire:
+def main():
+    force_uncache('m3.2xlarge')
 
-def run_experiment(master_inst_type, mach_array, data_set_name, runs):
-
-    #CONSTANTS
-    epochs = str(40)
-    staleness = str(3)
-
-    #Use this to only build the images
-    force_uncache(master_inst_type)
-    sys.exit("END SCRIPT")
-
-    master_ip, master_id = launch_instance_with_metadata(master_inst_type, 'master')
-    add_ssh_key_to_master(master_ip)
-    push_launch_script_to_master(master_ip)
-
-    local_file_dir = 'experiment_data/' + data_set_name + time_str()
-    py_cmd_line('mkdir ' + local_file_dir)
-
-    inst_types = read_instance_types()
-    for inst_type in inst_types:
-        py_cmd_line('mkdir ' + local_file_dir + '/' + inst_type[0])
-        for i in mach_array:
-            old_ips = check_instance_status('ips', 'running')
-            launch_instances(i, inst_type[0], 'worker')
-            ips = check_instance_status('ips', 'running')
-            if len(ips) == len(old_ips):
-                break
-            ips.remove(master_ip)
-            new_ips = filter(lambda x: x not in old_ips, ips)
-
-            create_hostfiles(ips, new_ips)
-            passwordless_ssh(master_ip)
-            replace_hostfiles(master_ip)
-
-            cores = str(inst_type[1])
-            for j in range(runs):
-                run_ml_task(master_ip, inst_type, len(ips), epochs, cores, staleness, j, local_file_dir)
-
-        inst_ids = check_instance_status('ids', 'all')
-        inst_ips = check_instance_status('ips', 'all')
-        inst_ids.remove(master_id)
-        inst_ips.remove(master_ip)
-        terminate_instances(inst_ids, inst_ips)
-        clean_master_known_hosts(master_ip)
-
-
-#EXCLUDE PARTICULAR INSTANCES HERE
-EXCLUDED_INSTANCE_TYPES = []
-
-
-#RUN IT HERE!!
-#Start with Clean Slate
-inst_ids = check_instance_status('ids', 'all')
-inst_ips = check_instance_status('ips', 'all')
-terminate_instances(inst_ids, inst_ips)
-
-run_experiment('m3.2xlarge', [1,1,2,4,8,16], 'mnist8m', 40)
-
+if __name__ == "__main__":
+    main()
 

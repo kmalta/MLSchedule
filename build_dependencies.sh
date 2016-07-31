@@ -30,3 +30,8 @@ sudo make
 
 cd $1/petuum/
 source build_image_script.sh
+
+cd $1/petuum/
+git clone https://github.com/eucalyptus/s3cmd
+cd $1/petuum/s3cmd
+python setup.py install

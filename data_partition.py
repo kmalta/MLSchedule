@@ -5,7 +5,13 @@ from subprocess import Popen, PIPE
 from time import sleep
 import math
 
+#Dependency Files
+import glob
+from deploy_cloud import *
+
 local_split = 'gsplit'
+
+
 
 #NEEDS REFACTOR!
 
@@ -71,28 +77,32 @@ def doll_out_chunks(num_chunks, machine_cores_array):
 
     return dolled_out_chunks
 
-def compute_num_chunks_to_distribute(machine_cores_array):
+
+def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
+
     py_cmd_line('rm *-chunk-metadata')
     py_s3cmd_get(data_chunk_bucket_path + '/*-chunk-metadata')
-    f = open('*-chunk-metadata', 'r')
+    f = open(data_name + '-chunk-metadata', 'r')
     data = f.readlines()[1].split()
-    int(data[1])
+    num_chunks = int(data[1])
+    num_digits = int(data[2])
 
-    return doll_out_chunks(num_chunks, machine_cores_array)
-
-def distribute_chunks(num_chunk_array, data_chunk_bucket_path):
-
-    py_s3cmd_get(data_chunk_bucket_path + '/*-chunk-metadata')
-
-    os.system('mkdir temp_metadata_file')
-    f = open('temp_metadata_file/*-chunk-metadata', 'r')
-
-    data = f.readlines()[1].split()
+    machine_cores_array = get_machine_cores_from_names(machine_array)
+    chunk_partitions = doll_out_chunks(num_chunks, machine_cores_array)
 
 
 
 
-print compute_num_chunks_to_distribute([32,16,8,8,8,2])
+#Creates Images if you so desire:
+def main():
+    distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], 'mnist-data', 'mnist8m')
+
+if __name__ == "__main__":
+    main()
+
+
+
+#print compute_num_chunks_to_distribute([32,16,8,8,8,2])
 
 
 

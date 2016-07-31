@@ -25,11 +25,11 @@ def launch_instance_with_metadata(inst_type, inst_role):
 def setup_instance(ip, inst_role):
     if inst_role == 'master':
         cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH +
-              ' add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh']
+              ' add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh ' + glob.S3CMD_CFG_PATH]
         py_cmd_line(cmd[0])
     elif inst_role == 'worker':
         cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH + 
-              ' build_image_script.sh']
+              ' build_image_script.sh ' + glob.S3CMD_CFG_PATH]
         py_cmd_line(cmd[0])
     else:
         sys.exit('ERROR: In setup_instance function')

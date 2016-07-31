@@ -13,16 +13,14 @@ def set_globals():
     OPTIONS = ' '.join(data[1].split()[2:]) + ' ' + PEM_PATH
     global REMOTE_PATH
     REMOTE_PATH = data[2].split()[2]
-    global REPLACE_WHICH
-    REPLACE_WHICH = data[3].split()[2]
     global BUCKET
-    BUCKET = data[4].split()[2]
+    BUCKET = data[3].split()[2]
     global BUCKET_STR
     BUCKET_STR = '--bucket ' + BUCKET
     global PREFIX_SUFFIX
-    PREFIX_SUFFIX = data[5].split()[2]
+    PREFIX_SUFFIX = data[4].split()[2]
     global VIRT_TYPE
-    VIRT_TYPE = data[6].split()[2]
+    VIRT_TYPE = data[5].split()[2]
     global VIRT_TYPE_STR
     VIRT_TYPE_STR = '--virtualization-type ' + VIRT_TYPE
 
@@ -41,7 +39,9 @@ def set_globals():
     global BASE_IMAGE
     BASE_IMAGE = data2[3].split()[2]
     global LAUNCH_FROM
-    LAUNCH_FROM = data[4].split()[2]
+    LAUNCH_FROM = data2[4].split()[2]
+    global REPLACE_WHICH
+    REPLACE_WHICH = data2[5].split()[2]
 
     global S3CMD_CFG_PATH
     S3CMD_CFG_PATH = CLOUD + '/' + CLOUD + '-s3cfg'
