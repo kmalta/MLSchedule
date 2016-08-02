@@ -95,11 +95,14 @@ def assign_data_chunks(chunk_partitions, num_digits):
 def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
     py_cmd_line('rm *-chunk-metadata')
-    py_s3cmd_get(data_chunk_bucket_path + '/*-chunk-metadata')
+    data_path = data_chunk_bucket_path + '/' + data_name
+    py_s3cmd_get(data_path + '-chunk-metadata')
     f = open(data_name + '-chunk-metadata', 'r')
     data = f.readlines()[1].split()
     num_chunks = int(data[1])
     num_digits = int(data[2])
+    f.close()
+
 
     machine_cores_array = get_machine_cores_from_names(machine_array)
     chunk_partitions = doll_out_chunks(num_chunks, machine_cores_array)
@@ -111,20 +114,16 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
     for i in range(len(chunk_ranges)):
         ip = host_ips[i]
+        with open('chunks-' + i, 'w') as f:
+            for idx in chunk_ranges[i]:
+                f.write(idx + '\n')
+        py_scp('', ip, 'chunks-' + i, glob.REMOTE_PATH + '/data_loc/chunks-' + i)
+        #ADD THIS BACK ONCE IT'S BEEN TESTED
+        #py_cmd_line('rm ' + 'chunks-' + ip_suffix)
+        py_ssh('', ip, 'sudo mkdir ' + glob.DATA_PATH)
+        py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/get_chunks.sh ' + glob.REMOTE_PATH + ' ' + data_path + ' ' + i)
 
-        for chunk_idx in chunk_ranges[i]:
-            s3cmd_str = ['s3cmd -c ' + glob.REMOTE_PATH + '/data_loc '
-                         + ' get s3://' + data_chunk_bucket_path + '/'
-                         + '-chunk-' + chunk_idx]
-            py_ssh('', ip, s3cmd_str[0])
-
-
-        py_ssh('', ip, 'cat ' + glob.REMOTE_PATH + '/data_loc/*.txt >> train_file.' + i)
-        
-
-
-
-
+    return
 
 
 

@@ -23,14 +23,19 @@ clp = sys.argv
 epochs = int(clp[1])
 cores = int(clp[2])
 staleness = int(clp[3])
+data_path = clp[4]
+use_weight_file = clp[5]
+
+data_set_path = remote_path + '/train_file'
+
 
 
 params = {
-    "train_file": join(app_dir, "datasets/covtype.scale.train.small")
-    , "test_file": join(app_dir, "datasets/covtype.scale.test.small")
-    , "global_data": "true"
-    , "perform_test": "true"
-    , "use_weight_file": "false"
+    "train_file": join(app_dir, data_set_path)
+    , "test_file": join(app_dir, data_set_path)
+    , "global_data": "false"
+    , "perform_test": "false"
+    , "use_weight_file": use_weight_file
     , "weight_file": ""
     , "num_epochs": epochs
     , "num_batches_per_epoch": 10

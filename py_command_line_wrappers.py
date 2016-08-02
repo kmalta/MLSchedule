@@ -34,7 +34,6 @@ def py_ssh(additional_options, ip, post_command):
     proc.wait()
     return proc
 
-
 def py_wait_proc(process_str):
     proc = Popen([process_str], shell=True, executable='/bin/bash')
     proc.wait()

@@ -66,8 +66,7 @@ def check_sum(inst_role):
         return 0
 
 def create_image(inst_type, inst_role):
-    if inst_role == 'master':
-        return
+    print 'Creating', inst_role, 'image...'
     py_s3cmd_mb(glob.BUCKET)
     _ip, _id = launch_instance_with_metadata(inst_type, 'neither')
     setup_instance(_ip, inst_role)
@@ -89,7 +88,7 @@ def create_image(inst_type, inst_role):
         flag = 0
         for line in stdout_array:
             inst_info = line.split()
-            if len(inst_info) > 0 and (inst_info[0] == 'BUNDLE') and (inst_info[7] != 'complete'):
+            if len(inst_info) > 0 and (inst_info[0] == 'BUNDLE') and (inst_info[7] != 'complete') and (inst_info[7] != 'failed'):
                 print 'Need to wait...the bundles are not bundled yet, hold your bundles...\t\t', inst_info[8], '% complete'
                 flag = 1
         if flag == 1:
@@ -98,5 +97,5 @@ def create_image(inst_type, inst_role):
 
     stdout = py_euca_register(inst_role)
     image_id = stdout.split('\n')[0].split()[1]
-    py_cmd_line('echo ' + image_id + ' > ' + inst_role + '_image_id')
+    py_cmd_line('echo ' + image_id + ' > ' + glob.CLOUD + '/' + glob.CLOUD + '_' + inst_role + '_image_id')
     return

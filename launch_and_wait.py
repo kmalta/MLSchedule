@@ -25,11 +25,12 @@ def launch_instance_with_metadata(inst_type, inst_role):
 def setup_instance(ip, inst_role):
     if inst_role == 'master':
         cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH +
-              ' add_public_key_script.sh build_image_script.sh create_ssh_keygen.sh ' + glob.S3CMD_CFG_PATH]
+              ' add_public_key_script.sh build_image_script.sh '
+              + 'create_ssh_keygen.sh ' + glob.S3CMD_CFG_PATH]
         py_cmd_line(cmd[0])
     elif inst_role == 'worker':
         cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH + 
-              ' build_image_script.sh ' + glob.S3CMD_CFG_PATH]
+              ' build_image_script.sh get_chunks.sh ' + glob.S3CMD_CFG_PATH]
         py_cmd_line(cmd[0])
     else:
         sys.exit('ERROR: In setup_instance function')
@@ -42,9 +43,9 @@ def setup_instance(ip, inst_role):
 def read_image_id(inst_role):
     if inst_role not in ['master', 'worker']:
         return 0
-    file_name = inst_role + '_image_id'
+    file_name = glob.CLOUD + '/' + glob.CLOUD + '_' + inst_role + '_image_id'
     if os.path.isfile(file_name):
-        f = open(inst_role + '_image_id', 'r')
+        f = open(glob.CLOUD + '/' + glob.CLOUD + '_' + inst_role + '_image_id', 'r')
         image_id = f.read()
         if 'emi' in image_id:
             return image_id.strip()

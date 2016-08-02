@@ -14,7 +14,7 @@ def set_globals():
     global REMOTE_PATH
     REMOTE_PATH = data[2].split()[2]
     global BUCKET
-    BUCKET = data[3].split()[2]
+    BUCKET = CLOUD + '-' + data[3].split()[2]
     global BUCKET_STR
     BUCKET_STR = '--bucket ' + BUCKET
     global PREFIX_SUFFIX
@@ -23,6 +23,8 @@ def set_globals():
     VIRT_TYPE = data[5].split()[2]
     global VIRT_TYPE_STR
     VIRT_TYPE_STR = '--virtualization-type ' + VIRT_TYPE
+    global DATA_PATH
+    DATA_PATH = data[6].split()[2] + '/data_loc'
 
     f2 = open(CLOUD + '/' + CLOUD + '-params', 'r')
     data2 = f2.readlines()

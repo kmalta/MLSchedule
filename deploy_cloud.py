@@ -7,10 +7,6 @@ from time import sleep, gmtime, strftime
 import glob
 from image_funcs import *
 
-glob.set_globals()
-print glob.REPLACE_WHICH
-print glob.LAUNCH_FROM
-
 def time_str():
     return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
 
@@ -134,7 +130,11 @@ def run_ml_task(master_ip, inst_type, inst_count, epochs, cores, staleness, run,
     inst_str.append(str(run))
     file_root = '_'.join(inst_str)
     remote_file_name = glob.REMOTE_PATH + '/' + file_root
-    argvs = ' '.join([epochs, cores, staleness])
+    use_weights = 'false'
+    if run > 0:
+        use_weights = 'true'
+
+    argvs = ' '.join([epochs, cores, staleness, glob.DATA_PATH, use_weights])
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)
     wait_for_file_to_write(master_ip, remote_file_name, local_file_dir + '/' + file_root)
@@ -142,6 +142,10 @@ def run_ml_task(master_ip, inst_type, inst_count, epochs, cores, staleness, run,
 
 #Creates Images if you so desire:
 def main():
+    glob.set_globals()
+    inst_ids = check_instance_status('ids', 'all')
+    inst_ips = check_instance_status('ips', 'all')
+    terminate_instances(inst_ids, inst_ips)
     force_uncache('m3.2xlarge')
 
 if __name__ == "__main__":
