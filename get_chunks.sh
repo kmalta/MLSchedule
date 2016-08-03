@@ -1,9 +1,17 @@
 #!/bin/bash
-#1: Remote Path
-#2: Bucket-path-name
-#3: ip_idx
-cd $1/data_loc
-for idx in `cat chunks-$3`; do
-    sudo s3cmd -c ../*-s3cfg get s3://$2-chunk-$idx
+#1: Data Path
+#2: Config Path
+#3: Bucket-path-name
+#4: ip_idx
+#5: remote path
+#sudo mkdir $1
+mkdir $5/data_loc
+cd $5/data_loc
+#sudo touch $1/train_file.$4
+for idx in `cat $5/data_loc/chunks-$4`; do
+    echo Fetching and moving: $3-chunk-$idx
+    s3cmd -c $2 get s3://$3-chunk-$idx
+    cat *chunk-* | tee -a train_file.$4 1&> /dev/null
+    rm *-chunk-$idx
+    sudo rm 1
 done
-sudo cat *chunk* >> train_file.$3

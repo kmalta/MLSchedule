@@ -3,6 +3,7 @@ from time import sleep, gmtime, strftime, time
 #Dependency Files
 import glob
 from deploy_cloud import *
+from data_partition import *
 
 def write_times(ssut, esut, sfut, efut, spdt, epdt, file_path, num_machs):
     f = open(file_path + 'times_' + num_machs, 'w')
@@ -19,8 +20,6 @@ def run_experiment(master_inst_type, mach_array, data_set_name, data_bucket_name
     staleness = str(3)
 
     #Use this to only build the images
-    force_uncache(master_inst_type)
-    sys.exit("END SCRIPT")
 
     master_ip, master_id = launch_instance_with_metadata(master_inst_type, 'master')
     add_ssh_key_to_master(master_ip)
@@ -30,7 +29,8 @@ def run_experiment(master_inst_type, mach_array, data_set_name, data_bucket_name
     py_cmd_line('mkdir ' + local_file_dir)
 
     inst_types = read_instance_types()
-    for inst_type in inst_types:
+    inst_types_filter = filter(lambda x: int(x[3]) > 13 , inst_types)
+    for inst_type in inst_types_filter:
         py_cmd_line('mkdir ' + local_file_dir + '/' + inst_type[0])
         for i in mach_array:
             old_ips = []
@@ -75,7 +75,7 @@ def run_experiment(master_inst_type, mach_array, data_set_name, data_bucket_name
 
 
 #EXCLUDE PARTICULAR INSTANCES HERE
-EXCLUDED_INSTANCE_TYPES = []
+EXCLUDED_INSTANCE_TYPES = ['m1.small', 't1.micro', 'm1.medium', 'c1.medium']
 
 def main():
     glob.set_globals()
@@ -83,7 +83,7 @@ def main():
     inst_ips = check_instance_status('ips', 'all')
     terminate_instances(inst_ids, inst_ips)
 
-    run_experiment('m3.2xlarge', [1,2,4,8,16,32], 'mnist8m', 'mnist-data', 1)
+    run_experiment('m3.2xlarge', [2,4,8,16,32], 'mnist8m', 'mnist-data', 1)
 
 if __name__ == "__main__":
     main()

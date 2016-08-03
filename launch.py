@@ -26,7 +26,7 @@ staleness = int(clp[3])
 data_path = clp[4]
 use_weight_file = clp[5]
 
-data_set_path = remote_path + '/train_file'
+data_set_path = data_path + '/train_file'
 
 
 

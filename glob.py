@@ -47,4 +47,6 @@ def set_globals():
 
     global S3CMD_CFG_PATH
     S3CMD_CFG_PATH = CLOUD + '/' + CLOUD + '-s3cfg'
+    global REMOTE_CFG
+    REMOTE_CFG = REMOTE_PATH + '/' + S3CMD_CFG_PATH
 

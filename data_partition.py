@@ -91,6 +91,21 @@ def assign_data_chunks(chunk_partitions, num_digits):
 
     return chunk_ranges
 
+def replace_s3cfg(ip):
+    ip_s3 = py_out_proc('dig +short ' + glob.REGION).strip()
+    print "@@@@@@@@", ip_s3
+    with open(glob.S3CMD_CFG_PATH, 'r') as input_file, open(glob.S3CMD_CFG_PATH + '-temp', 'w') as output_file:
+        for line in input_file:
+            if 'host_base' in line:
+                output_file.write('host_base = ' + ip_s3 + ':8773\n')
+            elif 'host_bucket' in line:
+                output_file.write('host_bucket = ' + ip_s3 + ':8773\n')
+            else:
+                output_file.write(line)
+
+    py_cmd_line('mv ' + glob.S3CMD_CFG_PATH + '-temp ' + glob.S3CMD_CFG_PATH)
+    py_scp_to_remote('', ip, glob.S3CMD_CFG_PATH, glob.REMOTE_CFG)
+    return
 
 def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
@@ -111,24 +126,28 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
     f2 = open('hostfile', 'r')
     host_ips = f2.readlines()
-
     for i in range(len(chunk_ranges)):
-        ip = host_ips[i]
-        with open('chunks-' + i, 'w') as f:
+        ip = host_ips[i].strip()
+        with open('chunks-' + str(i), 'w') as f:
             for idx in chunk_ranges[i]:
                 f.write(idx + '\n')
-        py_scp('', ip, 'chunks-' + i, glob.REMOTE_PATH + '/data_loc/chunks-' + i)
-        #ADD THIS BACK ONCE IT'S BEEN TESTED
-        #py_cmd_line('rm ' + 'chunks-' + ip_suffix)
-        py_ssh('', ip, 'sudo mkdir ' + glob.DATA_PATH)
-        py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/get_chunks.sh ' + glob.REMOTE_PATH + ' ' + data_path + ' ' + i)
-
+        #REMOVE THIS ON THE NEXT IMAGE BUILD
+        py_scp_to_remote('', ip, 'get_chunks.sh', '~/get_chunks.sh')
+        py_scp_to_remote('', ip, 'chunks-' + str(i), '~/chunks-' + str(i))
+        #MOVE EVERYTHING USING SUDO
+        py_ssh('', ip, 'mkdir ' + glob.REMOTE_PATH + '/data_loc' + ';' + 
+                       'mv get_chunks.sh ' + glob.REMOTE_PATH + '/get_chunks.sh;' + 
+                       'mv chunks* ' +  glob.REMOTE_PATH + '/data_loc')
+        #replace_s3cfg(ip)
+        py_cmd_line('rm ' + 'chunks-' + str(i))
+        py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/get_chunks.sh ' +
+                       glob.DATA_PATH + ' ' + glob.REMOTE_CFG + ' ' +
+                       data_path + ' ' + str(i) + ' ' + glob.REMOTE_PATH)
     return
 
 
 
 
-#Creates Images if you so desire:
 def main():
     distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], 'mnist-data', 'mnist8m')
 

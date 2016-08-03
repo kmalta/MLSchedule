@@ -53,14 +53,15 @@ def replace_hostfiles(master_ip):
     print 'Replacing Hostfiles...'
 
     get_path = glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
-    py_scp_to_remote('', master_ip, 'hostfile_petuum_format', target_path)
+    py_scp_to_remote('', master_ip, 'hostfile_petuum_format', get_path)
 
     f = open('hostfile', 'r')
     data = f.readlines()
     for i in range(len(data)):
         if data[i] == '':
             continue
-        py_scp_to_remote('', data[i].strip(), 'hostfile_petuum_format', target_path)
+        py_scp_to_remote('', data[i].strip(), 'hostfile_petuum_format', get_path)
+        py_scp_to_remote('', data[i].strip(), 'hostfile', glob.REMOTE_PATH + '/hostfile')
     return
 
 def passwordless_ssh(master_ip):
@@ -106,14 +107,13 @@ def terminate_instances(inst_ids, inst_ips):
         py_euca_terminate_instances(inst_id)
 
 def launch_machine_learning_job(master_ip, argvs, remote_file_name):
-    py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + file_name)
+    py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + remote_file_name)
     return
 
 
 def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
     while(1):
         sleep(20)
-        local_file_path = local_file_dir + '/' + file_root
         proc = py_scp_to_local('', master_ip, remote_file_name, local_file_path)
         stdout = py_out_proc('cat ' + local_file_path)
         if 'MLR finished and shut down!' in stdout:

@@ -1,8 +1,15 @@
 #!/bin/bash
 #1: TARGET_PATH
 cd $1
+
+#Builds Swapfile
+# sudo dd if=/dev/zero of=/swapfile bs=1024 count=4096
+# sudo chmod 0600 /swapfile
+# sudo mkswap /swapfile
+# sudo swapon /swapfile
+# echo "/swapfile          swap            swap    defaults        0 0" | sudo tee -a /etc/fstab
+
 mkdir petuum
-mkdir petuum/data_loc
 mv scripts.tar.gz petuum/scripts.tar.gz
 cd petuum
 tar -xf scripts.tar.gz
@@ -29,7 +36,7 @@ cd $1/petuum/bosen/app/mlr
 sudo make
 
 cd $1/petuum/
-git clone https://github.com/s3tools/s3cmd
+git clone https://github.com/eucalyptus/s3cmd
 cd $1/petuum/s3cmd
 sudo pip install setuptools
 sudo python setup.py install
