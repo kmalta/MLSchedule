@@ -130,14 +130,15 @@ def run_ml_task(master_ip, inst_type, inst_count, epochs, cores, staleness, run,
     inst_str.append(str(run))
     file_root = '_'.join(inst_str)
     remote_file_name = glob.REMOTE_PATH + '/' + file_root
+    remote_pem = glob.REMOTE_PATH + '/' + glob.PEM_PATH
     use_weights = 'false'
     if run > 0:
         use_weights = 'true'
 
-    argvs = ' '.join([epochs, cores, staleness, glob.DATA_PATH, use_weights])
+    argvs = ' '.join([epochs, cores, staleness, glob.DATA_PATH, use_weights, remote_pem])
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)
-    wait_for_file_to_write(master_ip, remote_file_name, local_file_dir + '/' + file_root)
+    wait_for_file_to_write(master_ip, remote_file_name, local_file_dir + '/' + inst_type[0] + '/' + file_root)
     return
 
 #Creates Images if you so desire:

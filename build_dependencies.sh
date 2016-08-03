@@ -2,13 +2,6 @@
 #1: TARGET_PATH
 cd $1
 
-#Builds Swapfile
-# sudo dd if=/dev/zero of=/swapfile bs=1024 count=4096
-# sudo chmod 0600 /swapfile
-# sudo mkswap /swapfile
-# sudo swapon /swapfile
-# echo "/swapfile          swap            swap    defaults        0 0" | sudo tee -a /etc/fstab
-
 mkdir petuum
 mv scripts.tar.gz petuum/scripts.tar.gz
 cd petuum

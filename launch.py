@@ -4,18 +4,6 @@ from os.path import dirname, join
 import time
 import sys
 
-hostfile_name = "hostfile_petuum_format"
-
-app_dir = dirname(dirname(os.path.realpath(__file__)))
-proj_dir = dirname(dirname(app_dir))
-
-hostfile = join(proj_dir, "machinefiles", hostfile_name)
-
-ssh_cmd = (
-    "ssh "
-    "-o stricthostkeychecking=no "
-    "-o UserKnownHostsFile=/dev/null "
-    )
 
 #Command Line Parameters
 clp = sys.argv
@@ -25,8 +13,24 @@ cores = int(clp[2])
 staleness = int(clp[3])
 data_path = clp[4]
 use_weight_file = clp[5]
+pem_path = clp[6]
 
-data_set_path = data_path + '/train_file'
+data_set_path = data_path + "/train_file"
+
+
+hostfile_name = "hostfile_petuum_format"
+
+app_dir = dirname(dirname(os.path.realpath(__file__)))
+proj_dir = dirname(dirname(app_dir))
+
+hostfile = join(proj_dir, "machinefiles", hostfile_name)
+
+ssh_cmd = (
+    "ssh "
+    "-i " + pem_path + " "
+    "-o stricthostkeychecking=no "
+    "-o UserKnownHostsFile=/dev/null "
+    )
 
 
 

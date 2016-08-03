@@ -134,10 +134,12 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
         #REMOVE THIS ON THE NEXT IMAGE BUILD
         py_scp_to_remote('', ip, 'get_chunks.sh', '~/get_chunks.sh')
         py_scp_to_remote('', ip, 'chunks-' + str(i), '~/chunks-' + str(i))
+        py_scp_to_remote('', ip, 'mnist8m_meta_data_for_train_file', '~/train_file.' + str(i) + '.meta')
         #MOVE EVERYTHING USING SUDO
         py_ssh('', ip, 'mkdir ' + glob.REMOTE_PATH + '/data_loc' + ';' + 
                        'mv get_chunks.sh ' + glob.REMOTE_PATH + '/get_chunks.sh;' + 
-                       'mv chunks* ' +  glob.REMOTE_PATH + '/data_loc')
+                       'mv chunks* ' +  glob.REMOTE_PATH + '/data_loc;' + 
+                       'mv tr* ' + glob.REMOTE_PATH + '/data_loc')
         #replace_s3cfg(ip)
         py_cmd_line('rm ' + 'chunks-' + str(i))
         py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/get_chunks.sh ' +

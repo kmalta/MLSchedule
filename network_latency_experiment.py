@@ -6,7 +6,7 @@ from deploy_cloud import *
 from data_partition import *
 
 def write_times(ssut, esut, sfut, efut, spdt, epdt, file_path, num_machs):
-    f = open(file_path + 'times_' + num_machs, 'w')
+    f = open(file_path + 'times_' + str(num_machs), 'w')
     f.write('spin up time' + '\t' + 'file upload time' + '\t'
             + 'partition data time' + '\n')
     f.write(str(esut - ssut) + '\t' + str(efut - sfut) + '\t'
@@ -83,7 +83,7 @@ def main():
     inst_ips = check_instance_status('ips', 'all')
     terminate_instances(inst_ids, inst_ips)
 
-    run_experiment('m3.2xlarge', [2,4,8,16,32], 'mnist8m', 'mnist-data', 1)
+    run_experiment('m3.2xlarge', [16], 'mnist8m', 'mnist-data', 1)
 
 if __name__ == "__main__":
     main()
