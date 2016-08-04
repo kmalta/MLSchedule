@@ -125,6 +125,13 @@ def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
         stdout = py_out_proc('cat ' + local_file_path)
         if 'MLR finished and shut down!' in stdout:
             break
+        if 'std::bad_alloc' in stdout:
+            print '\n\n'
+            print '##############################################################################'
+            print '################################# BAD ALLOC ##################################'
+            print '##############################################################################'
+            print '\n\n'
+            break
     return
 
 

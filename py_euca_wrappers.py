@@ -48,3 +48,7 @@ def py_s3cmd_get(file_path):
     py_wait_proc('s3cmd -c ' + glob.S3CMD_CFG_PATH + ' get  s3://' + file_path)
     return
 
+def py_s3cmd_put(local_file_path, bucket_file_path):
+    py_wait_proc('s3cmd -c ' + glob.S3CMD_CFG_PATH + ' put ' + local_file_path + ' s3://' + bucket_file_path)
+    return
+

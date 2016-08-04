@@ -11,59 +11,57 @@ from deploy_cloud import *
 
 local_split = 'gsplit'
 
+def chunk_data_locally(file_bucket_path, chunk_bucket_path, filename, chunksize):
+    py_cmd_line('find ./temp_data_chunks -maxdepth 1 -name "*" -print0 | xargs -0 rm')
 
+    if file_bucket_path == 'local':
+        py_s3cmd_mb(chunk_bucket_path.split('/')[-1])
+    else:
+        py_s3cmd_get(file_bucket_path + '/' + filename)
+        py_cmd_line('mv ' + filename + ' ' + glob.DATA_SET_PATH)
 
-#NEEDS REFACTOR!
+    print glob.DATA_SET_PATH
+    stdout = py_out_proc('wc -l ' + glob.DATA_SET_PATH + '/' + filename)
 
-# def chunk_data_locally(file_bucket_path, chunk_bucket_path, filename, filesize):
-#     os.system('find ./temp_data_chunks -maxdepth 1 -name "*" -print0 | xargs -0 rm')
-
-#     # cmd1 = ['s3cmd -c s3cfg get ' + file_bucket_path + "/" + filename]
-#     # proc1 = Popen(cmd1, shell=True, executable="/bin/bash")
-#     # proc1.wait()
-
-#     cmd2 = 'wc -l ' + filename
-#     (stdout, stderr) = Popen(cmd2.split(), stdout=PIPE).communicate()
-
-#     num_lines = int(stdout.split()[0])
+    num_lines = int(stdout.split()[0])
     
-#     cmd3 = 'ls -l ' + filename
-#     (stdout, stderr) = Popen(cmd3.split(), stdout=PIPE).communicate()
+    stdout = py_out_proc('ls -l ' + glob.DATA_SET_PATH + '/' + filename)
+    print stdout
+    file_byte_size = int(stdout.split()[4])
+    print file_byte_size
+    print num_lines
+    num_chunks = int(math.ceil(float(file_byte_size)/chunksize))
+    print num_chunks
 
-#     file_byte_size = int(stdout.split()[4])
-#     print file_byte_size
-#     print num_lines
-#     num_chunks = int(math.ceil(float(file_byte_size)/filesize))
-#     print num_chunks
+    num_digits = int(math.ceil(math.log(num_chunks, 10)))
 
-#     num_digits = int(math.ceil(math.log(num_chunks, 10)))
+    py_cmd_line('mkdir temp_data_chunks')
+    py_cmd_line(local_split + ' -n l/' + str(num_chunks) + ' -a ' + str(num_digits)
+                + ' -d ' + glob.DATA_SET_PATH + '/' + filename + ' temp_data_chunks/' + filename + '-chunk-')
 
-#     os.system(local_split + ' -n l/' + str(num_chunks) + ' -a ' + str(num_digits)
-#               + ' -d ' + filename + ' temp_data_chunks/' + filename + '-chunk-')
-
-#     cmd4 = 'ls -l ' + 'temp_data_chunks/' + filename + '-chunk-' + num_digits*"0"
-#     (stdout, stderr) = Popen(cmd4.split(), stdout=PIPE).communicate()
-#     chunk_byte_size = int(stdout.split()[4])
-
-
-#     metadata_filepath = 'temp_data_chunks/' + filename + '-chunk-' + 'metadata'
-
-#     f = open(metadata_filepath, 'w')
-#     f.write('file_byte_size' + '\t' + 'num_chunks' + '\t'
-#             + 'num_digits' + '\t' + 'chunk_byte_size' + '\n')
-#     f.write(str(file_byte_size) + '\t' + str(num_chunks) + '\t'
-#             + str(num_digits) + '\t' + str(chunk_byte_size) + '\n')
-
-#     os.system('s3cmd -c s3cfg put ' + metadata_filepath + ' ' + chunk_bucket_path)
-
-#     for i in range(num_chunks):
-#         num_zeros = num_digits - len(str(i))
-#         filepath_to_upload = 'temp_data_chunks/' + filename + '-chunk-' + num_zeros*"0" + str(i)
-#         os.system('s3cmd -c s3cfg put ' + filepath_to_upload + ' ' + chunk_bucket_path)
+    stdout = py_out_proc('ls -l ' + 'temp_data_chunks/' + filename + '-chunk-' + num_digits*"0")
+    chunk_byte_size = int(stdout.split()[4])
 
 
-# def delete_chunks(chunk_bucket_path, filename):
-#     os.system('s3cmd -c s3cfg del ' + chunk_bucket_path + '/' + filename + '-chunk-*')
+    metadata_filepath = 'temp_data_chunks/' + filename + '-chunk-metadata'
+
+    f = open(metadata_filepath, 'w')
+    f.write('file_byte_size' + '\t' + 'num_chunks' + '\t'
+            + 'num_digits' + '\t' + 'chunk_byte_size' + '\n')
+    f.write(str(file_byte_size) + '\t' + str(num_chunks) + '\t'
+            + str(num_digits) + '\t' + str(chunk_byte_size) + '\n')
+
+
+    py_s3cmd_put(metadata_filepath, chunk_bucket_path)
+
+    for i in range(num_chunks):
+        num_zeros = num_digits - len(str(i))
+        filepath_to_upload = 'temp_data_chunks/' + filename + '-chunk-' + num_zeros*"0" + str(i)
+        py_s3cmd_put(filepath_to_upload, chunk_bucket_path)
+
+
+def delete_chunks(chunk_bucket_path, filename):
+    os.system('s3cmd -c s3cfg del ' + chunk_bucket_path + '/' + filename + '-chunk-*')
 
 def doll_out_chunks(num_chunks, machine_cores_array):
     num_machs = len(machine_cores_array)
@@ -112,7 +110,8 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
     py_cmd_line('rm *-chunk-metadata')
     data_path = data_chunk_bucket_path + '/' + data_name
     py_s3cmd_get(data_path + '-chunk-metadata')
-    f = open(data_name + '-chunk-metadata', 'r')
+    py_cmd_line('mv ' + data_name + '-chunk-metadata ' + glob.DATA_SET_PATH)
+    f = open(glob.DATA_SET_PATH + '/' + data_name + '-chunk-metadata', 'r')
     data = f.readlines()[1].split()
     num_chunks = int(data[1])
     num_digits = int(data[2])
@@ -134,7 +133,7 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
         #REMOVE THIS ON THE NEXT IMAGE BUILD
         py_scp_to_remote('', ip, 'get_chunks.sh', '~/get_chunks.sh')
         py_scp_to_remote('', ip, 'chunks-' + str(i), '~/chunks-' + str(i))
-        py_scp_to_remote('', ip, 'mnist8m_meta_data_for_train_file', '~/train_file.' + str(i) + '.meta')
+        py_scp_to_remote('', ip, glob.DATA_SET_PATH + '/' + glob.DATA_SET + '_meta_data_for_train_file', '~/train_file.' + str(i) + '.meta')
         #MOVE EVERYTHING USING SUDO
         py_ssh('', ip, 'mkdir ' + glob.REMOTE_PATH + '/data_loc' + ';' + 
                        'mv get_chunks.sh ' + glob.REMOTE_PATH + '/get_chunks.sh;' + 
@@ -151,25 +150,16 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
 
 def main():
-    distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], 'mnist-data', 'mnist8m')
+    glob.set_globals()
+    #USE THIS TO SPLIT CHUNKS LOCALLY
+    chunk_data_locally('local', glob.DATA_SET_BUCKET, glob.DATA_SET, 1000)
+
+    #USE THIS TO DELETE CHUNKS
+    #delete_chunks('s3://' + glob.DATA_SET_BUCKET, glob.DATA_SET)
+
+    #USE THIS TO DISTRIBUTE CHUNKS
+    #distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
 
 if __name__ == "__main__":
     main()
 
-
-
-#print compute_num_chunks_to_distribute([32,16,8,8,8,2])
-
-
-
-
-
-
-
-
-
-
-
-#delete_chunks('s3://mnist-data', 'mnist8m')
-
-#chunk_data_locally('s3://mnist-data','s3://mnist-data', 'mnist8m', 100000000)
