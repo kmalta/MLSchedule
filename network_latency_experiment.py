@@ -51,6 +51,8 @@ def run_experiment(master_inst_type, mach_array, data_set_name, data_bucket_name
             create_hostfiles(ips, new_ips)
             passwordless_ssh(master_ip)
             replace_hostfiles(master_ip)
+            for ip in new_ips:
+                add_swapfile(ip, inst_type[2])
             efut = time()
 
             #PARTITION DATA
@@ -83,7 +85,7 @@ def main():
     inst_ips = check_instance_status('ips', 'all')
     terminate_instances(inst_ids, inst_ips)
 
-    run_experiment('m3.2xlarge', [16], 'mnist8m', 'mnist-data', 1)
+    run_experiment('m3.2xlarge', [2], 'mnist8m', 'mnist-data', 1)
 
 if __name__ == "__main__":
     main()

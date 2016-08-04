@@ -1,5 +1,6 @@
 #!/bin/bash
-sudo dd if=/dev/zero of=/swapfile bs=4096 count=65
+#1: Num Blocks
+sudo dd if=/dev/zero of=/swapfile bs=1024 count=$1
 sudo chmod 0600 /swapfile
 sudo mkswap /swapfile
 sudo swapon /swapfile

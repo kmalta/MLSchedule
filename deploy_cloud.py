@@ -6,6 +6,7 @@ from time import sleep, gmtime, strftime
 #Dependency Files
 import glob
 from image_funcs import *
+from swapfile_table import *
 
 def time_str():
     return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
@@ -108,6 +109,12 @@ def terminate_instances(inst_ids, inst_ips):
 
 def launch_machine_learning_job(master_ip, argvs, remote_file_name):
     py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + remote_file_name)
+    return
+
+def add_swapfile(ip, ram):
+    swap = str(SWAP[RAM.index(int(ram))]*1024)
+    py_scp_to_remote('', ip, 'make_swapfile.sh', glob.REMOTE_PATH)
+    py_ssh('', ip, 'cd ' + glob.REMOTE_PATH + '; source make_swapfile.sh ' + swap)
     return
 
 
