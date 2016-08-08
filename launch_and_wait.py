@@ -22,6 +22,7 @@ def launch_instance_with_metadata(inst_type, inst_role):
     _id = out_array[1]
     return _ip, _id
 
+
 def setup_instance(ip, inst_role):
     if inst_role == 'master':
         cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH +
@@ -30,7 +31,7 @@ def setup_instance(ip, inst_role):
         py_cmd_line(cmd[0])
     elif inst_role == 'worker':
         cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH + 
-              ' build_image_script.sh get_chunks.sh ' + glob.S3CMD_CFG_PATH]
+              ' build_image_script.sh get_chunks.sh phys_mem.sh disk_space.sh ' + glob.S3CMD_CFG_PATH]
         py_cmd_line(cmd[0])
     else:
         sys.exit('ERROR: In setup_instance function')

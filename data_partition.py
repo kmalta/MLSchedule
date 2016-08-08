@@ -26,7 +26,6 @@ def chunk_data_locally(file_bucket_path, chunk_bucket_path, filename, chunksize)
     num_lines = int(stdout.split()[0])
     
     stdout = py_out_proc('ls -l ' + glob.DATA_SET_PATH + '/' + filename)
-    print stdout
     file_byte_size = int(stdout.split()[4])
     print file_byte_size
     print num_lines
@@ -51,35 +50,39 @@ def chunk_data_locally(file_bucket_path, chunk_bucket_path, filename, chunksize)
     f.write(str(file_byte_size) + '\t' + str(num_chunks) + '\t'
             + str(num_digits) + '\t' + str(chunk_byte_size) + '\n')
 
-
-    py_s3cmd_put(metadata_filepath, chunk_bucket_path)
-
     for i in range(num_chunks):
         num_zeros = num_digits - len(str(i))
         filepath_to_upload = 'temp_data_chunks/' + filename + '-chunk-' + num_zeros*"0" + str(i)
         py_s3cmd_put(filepath_to_upload, chunk_bucket_path)
 
+    #SUPER BUGGY...SENDS AN EMPTY FILE...WHYYYYYY!!!!???
+    py_s3cmd_put(metadata_filepath, chunk_bucket_path)
+
 
 def delete_chunks(chunk_bucket_path, filename):
     os.system('s3cmd -c s3cfg del ' + chunk_bucket_path + '/' + filename + '-chunk-*')
 
-def doll_out_chunks(num_chunks, machine_cores_array):
+def doll_out_chunks(num_chunks, machine_cores_array, mem_array, chunk_size):
+
     num_machs = len(machine_cores_array)
-    total_cores = sum(machine_cores_array)
-    percentage_cores_array = [float(i)/total_cores for i in machine_cores_array]
-    dolled_out_chunks = [int(math.floor(float(i*num_chunks))) for i in percentage_cores_array]
-    remainder = num_chunks - sum(dolled_out_chunks)
-    for j in range(remainder):
+
+    dolled_out_chunks = [0 for i in range(num_machs)]
+    for j in range(num_chunks):
         temp_arr = [float(dolled_out_chunks[i]+ 1)/machine_cores_array[i] for i in range(num_machs)]
-        dolled_out_chunks[temp_arr.index(min(temp_arr))] += 1
+        idx = temp_arr.index(min(temp_arr))
+        if (dolled_out_chunks[idx] + 1) * chunk_size > mem_array[idx]:
+            return num_chunks - j, dolled_out_chunks
+        else:
+            dolled_out_chunks[temp_arr.index(min(temp_arr))] += 1
 
-    return dolled_out_chunks
+    return 0, dolled_out_chunks
 
 
-def assign_data_chunks(chunk_partitions, num_digits):
+
+def assign_data_chunks(chunk_partitions, num_digits, index):
     num_chunks = sum(chunk_partitions)
     chunk_ranges = []
-    idx = 0
+    idx = index
     for chunks in chunk_partitions:
         range_arr = []
         for i in range(chunks):
@@ -91,7 +94,6 @@ def assign_data_chunks(chunk_partitions, num_digits):
 
 def replace_s3cfg(ip):
     ip_s3 = py_out_proc('dig +short ' + glob.REGION).strip()
-    print "@@@@@@@@", ip_s3
     with open(glob.S3CMD_CFG_PATH, 'r') as input_file, open(glob.S3CMD_CFG_PATH + '-temp', 'w') as output_file:
         for line in input_file:
             if 'host_base' in line:
@@ -105,6 +107,7 @@ def replace_s3cfg(ip):
     py_scp_to_remote('', ip, glob.S3CMD_CFG_PATH, glob.REMOTE_CFG)
     return
 
+
 def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
     py_cmd_line('rm *-chunk-metadata')
@@ -113,52 +116,85 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
     py_cmd_line('mv ' + data_name + '-chunk-metadata ' + glob.DATA_SET_PATH)
     f = open(glob.DATA_SET_PATH + '/' + data_name + '-chunk-metadata', 'r')
     data = f.readlines()[1].split()
-    num_chunks = int(data[1])
-    num_digits = int(data[2])
     f.close()
+
+    file_size = float(int(data[0]))/(1024*1024)
+    total_num_chunks = int(data[1])
+    num_digits = int(data[2])
+    chunk_size = float(int(data[3]))/(1024*1024)
+
+    host_ips = read_host_ips()
+    mem_array = compute_total_physical_mem(host_ips)
+    disk_array = compute_total_disk_space(host_ips)
+
+    min_array = [min(x,y) for (x,y) in zip(mem_array, disk_array)]
+
+    sum_min = sum(min_array)
+    iterations = int(math.ceil(file_size/sum_min))
+
+    num_chunks_to_distribute = int(total_num_chunks/iterations)
+    left_over_chunks = total_num_chunks % num_chunks_to_distribute
+
 
 
     machine_cores_array = get_machine_cores_from_names(machine_array)
-    chunk_partitions = doll_out_chunks(num_chunks, machine_cores_array)
 
-    chunk_ranges = assign_data_chunks(chunk_partitions, num_digits)
+    remainder, chunk_partitions = doll_out_chunks(num_chunks_to_distribute, machine_cores_array, min_array, chunk_size)
 
-    f2 = open('hostfile', 'r')
-    host_ips = f2.readlines()
+    if remainder + left_over_chunks != 0:
+        iterations = int(math.ceil(float(total_num_chunks)/(num_chunks_to_distribute - remainder)))
+
+    remaining_chunks = total_num_chunks % sum(chunk_partitions)
+
+    temp, final_chunk_partition = doll_out_chunks(remaining_chunks, machine_cores_array, min_array, chunk_size)
+    return total_num_chunks, num_digits, iterations, chunk_partitions, final_chunk_partition
+
+
+
+
+
+def data_fetch(chunk_partitions, num_digits, index, data_chunk_bucket_path, data_name):
+
+    chunk_ranges = assign_data_chunks(chunk_partitions, num_digits, index)
+    data_path = data_chunk_bucket_path + '/' + data_name
+
+    host_ips = read_host_ips()
+
     for i in range(len(chunk_ranges)):
-        ip = host_ips[i].strip()
-        with open('chunks-' + str(i), 'w') as f:
+        ip = host_ips[i]
+        time = time_str()
+        with open('chunks' + time + '-' + str(i), 'w') as f:
             for idx in chunk_ranges[i]:
                 f.write(idx + '\n')
-        #REMOVE THIS ON THE NEXT IMAGE BUILD
-        py_scp_to_remote('', ip, 'get_chunks.sh', '~/get_chunks.sh')
-        py_scp_to_remote('', ip, 'chunks-' + str(i), '~/chunks-' + str(i))
-        py_scp_to_remote('', ip, glob.DATA_SET_PATH + '/' + glob.DATA_SET + '_meta_data_for_train_file', '~/train_file.' + str(i) + '.meta')
-        #MOVE EVERYTHING USING SUDO
-        py_ssh('', ip, 'mkdir ' + glob.REMOTE_PATH + '/data_loc' + ';' + 
-                       'mv get_chunks.sh ' + glob.REMOTE_PATH + '/get_chunks.sh;' + 
-                       'mv chunks* ' +  glob.REMOTE_PATH + '/data_loc;' + 
-                       'mv tr* ' + glob.REMOTE_PATH + '/data_loc')
-        #replace_s3cfg(ip)
-        py_cmd_line('rm ' + 'chunks-' + str(i))
+        dp = glob.DATA_PATH
+
+        py_scp_to_remote('', ip, 'chunks' + time + '-' + str(i), dp + '/chunks-' + str(i))
+        py_scp_to_remote('', ip, glob.DATA_SET_PATH + '/' + glob.DATA_SET + '_meta_data_for_train_file', dp + '/train_file.' + str(i) + '.meta')
+
+        py_cmd_line('rm ' + 'chunks' + time + '-' + str(i))
+
         py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/get_chunks.sh ' +
-                       glob.DATA_PATH + ' ' + glob.REMOTE_CFG + ' ' +
+                       dp + ' ' + glob.REMOTE_CFG + ' ' +
                        data_path + ' ' + str(i) + ' ' + glob.REMOTE_PATH)
     return
 
 
-
-
 def main():
-    glob.set_globals()
+    file_name = create_script_config_file('aristotle', '/home/ubuntu/petuum', '/mnt', 'mnist8m', 'mnist-data', 'staleness')
+    glob.set_globals(file_name)
+    py_cmd_line('rm ' + file_name)
+    #data_queue(ips, ['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
+
     #USE THIS TO SPLIT CHUNKS LOCALLY
-    chunk_data_locally('local', glob.DATA_SET_BUCKET, glob.DATA_SET, 1000)
+    #chunk_data_locally('local', glob.DATA_SET_BUCKET, glob.DATA_SET, 102400)
 
     #USE THIS TO DELETE CHUNKS
     #delete_chunks('s3://' + glob.DATA_SET_BUCKET, glob.DATA_SET)
 
     #USE THIS TO DISTRIBUTE CHUNKS
-    #distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
+    #out1, out2, out3, out4 = distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
+    out1, out2, out3, out4, out5 = distribute_chunks(['m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
+    print out1, out2, out3, out4, out5
 
 if __name__ == "__main__":
     main()

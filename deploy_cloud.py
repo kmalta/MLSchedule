@@ -8,9 +8,6 @@ import glob
 from image_funcs import *
 from swapfile_table import *
 
-def time_str():
-    return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
-
 def read_instance_types():
     stdout = py_euca_describe_instance_types()
     stdout_array = stdout.split('\n')
@@ -20,6 +17,11 @@ def read_instance_types():
         if len(line_array) > 0:
             inst_types.append((line_array[1], int(line_array[2]), int(line_array[3]), int(line_array[4])))
     return inst_types
+
+def read_host_ips():
+    f = open('hostfile', 'r')
+    host_ips = f.readlines()
+    return filter(lambda y: y != '', map(lambda x: x.strip(), host_ips))
 
 def get_machine_cores_from_names(machine_array):
     inst_types = read_instance_types()
@@ -71,7 +73,7 @@ def passwordless_ssh(master_ip):
     print 'Moving New Hostfile to Master...'
     py_scp_to_remote('', master_ip, 'new_hostfile', glob.REMOTE_PATH + '/new_hostfile')
     print 'Setting up Passwordless SSH...'
-    py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/add_public_key_script.sh')
+    py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/add_public_key_script.sh ' + glob.REMOTE_PATH + ' ' + glob.PEM_PATH)
     print 'Finished Passwordless SSH'
     return
 
@@ -117,6 +119,34 @@ def add_swapfile(ip, ram):
     py_ssh('', ip, 'cd ' + glob.REMOTE_PATH + '; source make_swapfile.sh ' + swap)
     return
 
+def compute_total_physical_mem(ips):
+    total_mem = []
+    for ip in ips:
+        py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/phys_mem.sh')
+        py_scp_to_local('', ip, '~/mem_file', 'mem_' + ip)
+        out = py_out_proc('cat mem_' + ip).strip()
+        if out == '':
+            print "\n\nERROR, SCRIPT RETURNED EMPTY VALUE\n\n"
+        else:
+            total_mem.append(float(out))
+        py_cmd_line('rm mem_' + ip)
+    return total_mem
+
+def compute_total_disk_space(ips):
+    total_disk = []
+    for ip in ips:
+        py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/disk_space.sh')
+        py_scp_to_local('', ip, '~/disk_space_file', 'disk_' + ip)
+        out = py_out_proc('cat disk_' + ip).strip()
+        if out == '':
+            print "\n\nERROR, SCRIPT RETURNED EMPTY VALUE\n\n"
+        else:
+            disk_vals = out.split('\n')
+            disk_space = int(disk_vals[0]) - int(disk_vals[1])
+            total_disk.append(float(disk_space))
+        py_cmd_line('rm disk_' + ip)
+    return total_disk
+
 
 def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
     while(1):
@@ -135,25 +165,36 @@ def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
     return
 
 
-def run_ml_task(master_ip, inst_type, inst_count, epochs, cores, staleness, run, local_file_dir):
+def run_ml_task(master_ip, inst_type, inst_count, epoch_num, cores, staleness, run, iteration, exp_dir, run_dependency):
+    inst_str = []
+    if inst_type != None:
+        inst_str = list(map(lambda x: str(x), inst_type))
 
-    inst_str = list(map(lambda x: str(x), inst_type))
     inst_str.append('machines')
     inst_str.append(str(inst_count))
     inst_str.append('run')
-    inst_str.append(str(run))
+    inst_str.append(str(run + 1))
+    inst_str.append('epoch')
+    inst_str.append(str(int(epoch_num) + 1))
+    inst_str.append('sub-epoch')
+    inst_str.append(str(iteration + 1))
     file_root = '_'.join(inst_str)
+
     remote_file_name = glob.REMOTE_PATH + '/' + file_root
     remote_pem = glob.REMOTE_PATH + '/' + glob.PEM_PATH
     use_weights = 'false'
-    if run > 0:
+    if (int(run) > 0 and run_dependency == 'dependent') or (int(epoch_num) > 0) or (int(iteration) > 0):
+        print 'Using weight file:', str(run), str(epoch_num), str(iteration)
         use_weights = 'true'
 
-    argvs = ' '.join([epochs, cores, staleness, glob.DATA_PATH, use_weights, remote_pem])
+    #THIS IS SET TO 1 BECAUSE WE ONLY DO 1 EPOCH AT A TIME
+    num_epochs = str(1)
+    argvs = ' '.join([num_epochs, cores, staleness, glob.DATA_PATH, use_weights, remote_pem])
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)
-    wait_for_file_to_write(master_ip, remote_file_name, local_file_dir + '/' + inst_type[0] + '/' + file_root)
+    wait_for_file_to_write(master_ip, remote_file_name, exp_dir + '/' + file_root)
     return
+
 
 #Creates Images if you so desire:
 def main():
@@ -162,6 +203,7 @@ def main():
     inst_ips = check_instance_status('ips', 'all')
     terminate_instances(inst_ids, inst_ips)
     force_uncache('m3.2xlarge')
+
 
 if __name__ == "__main__":
     main()

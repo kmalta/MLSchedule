@@ -40,7 +40,7 @@ params = {
     , "global_data": "false"
     , "perform_test": "false"
     , "use_weight_file": use_weight_file
-    , "weight_file": ""
+    , "weight_file": "/home/ubuntu/petuum/bosen/app/mlr/out.weight"
     , "num_epochs": epochs
     , "num_batches_per_epoch": 10
     , "init_lr": 0.01 # initial learning rate
@@ -64,7 +64,7 @@ prog_path = join(app_dir, "bin", prog_name)
 
 env_params = (
   "GLOG_logtostderr=true "
-  "GLOG_v=-1 "
+  "GLOG_v=2 "
   "GLOG_minloglevel=0 "
   )
 

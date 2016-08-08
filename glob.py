@@ -1,3 +1,8 @@
+from time import sleep, gmtime, strftime, time
+
+def time_str():
+    return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
+
 def set_globals():
     f = open('./script-cfg', 'r')
     data = f.readlines()
@@ -27,10 +32,10 @@ def set_globals():
     DATA_PATH = data[6].split()[2] + '/data_loc'
     global DATA_SET
     DATA_SET = data[7].split()[2]
-    global DATA_SET_PATH
-    DATA_SET_PATH = 'experiment_data' + '/' + DATA_SET
     global DATA_SET_BUCKET
     DATA_SET_BUCKET = data[8].split()[2]
+    global DATA_SET_PATH
+    DATA_SET_PATH = data[9].split()[2] + '_data' + '/' + DATA_SET
 
     f2 = open(CLOUD + '/' + CLOUD + '-params', 'r')
     data2 = f2.readlines()

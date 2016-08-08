@@ -1,8 +1,8 @@
 #!/bin/bash
 #1: TARGET_PATH
 cd $1
-
 mkdir petuum
+mkdir petuum/data_loc
 mv scripts.tar.gz petuum/scripts.tar.gz
 cd petuum
 tar -xf scripts.tar.gz
@@ -10,8 +10,7 @@ tar -xf scripts.tar.gz
 sudo apt-get update
 dpkg --configure -a
 sudo apt-get -y install git
-sudo apt-get -y install g++ make autoconf git libtool uuid-dev openssh-server cmake libopenmpi-dev openmpi-bin libssl-dev libnuma-dev python-dev python-numpy python-pip python-scipy python-yaml protobuf-compiler subversion libxml2-dev libxslt-dev zlibc zlib1g zlib1g-dev libbz2-1.0 libbz2-dev
-
+sudo apt-get -y install g++ make autoconf git libtool uuid-dev openssh-server cmake bc libopenmpi-dev openmpi-bin libssl-dev libnuma-dev python-dev python-numpy python-pip python-scipy python-yaml protobuf-compiler subversion libxml2-dev libxslt-dev zlibc zlib1g zlib1g-dev libbz2-1.0 libbz2-dev
 
 # Clone and build Bosen and its dependent repo Third Party
 git clone -b stable https://github.com/petuum/bosen.git
