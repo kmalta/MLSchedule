@@ -8,6 +8,9 @@ import glob
 from image_funcs import *
 from swapfile_table import *
 
+def time_str():
+    return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
+
 def read_instance_types():
     stdout = py_euca_describe_instance_types()
     stdout_array = stdout.split('\n')
@@ -43,28 +46,48 @@ def create_hostfiles(ips, new_ips):
     for ip in new_ips:
         f2.write(ip + '\n')
     f2.close()
-    f3 = open('./hostfile_petuum_format', 'w')
 
+def create_hostfiles_petuum_format(chunks_array, ips):
+    f1 = open('hosts_used', 'w')
+    for (i, ip) in enumerate(ips):
+        if chunks_array[i] != 0:
+            f1.write(ip + '\n')
+    f1.close()
+
+    f2 = open('./hostfile_petuum_format', 'w')
+    idx = 0
     for (j, ip) in enumerate(ips):
         if j != len(ips) - 1:
-            f3.write(str(j) + ' ' + ip + ' 9999\n')
-    if len(ips) > 0:
-        f3.write(str(len(ips) - 1) + ' ' + ips[-1] + ' 9999')
-    f3.close()
+            if chunks_array[j] != 0:
+                f2.write(str(idx) + ' ' + ip + ' 9999\n')
+                idx += 1
+    if len(ips) > 0 and len(chunks_array) > 0 and chunks_array[-1] != 0:
+        f2.write(str(idx) + ' ' + ips[-1] + ' 9999')
+    f2.close()
 
 def replace_hostfiles(master_ip):
     print 'Replacing Hostfiles...'
-
-    get_path = glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
-    py_scp_to_remote('', master_ip, 'hostfile_petuum_format', get_path)
 
     f = open('hostfile', 'r')
     data = f.readlines()
     for i in range(len(data)):
         if data[i] == '':
             continue
-        py_scp_to_remote('', data[i].strip(), 'hostfile_petuum_format', get_path)
         py_scp_to_remote('', data[i].strip(), 'hostfile', glob.REMOTE_PATH + '/hostfile')
+    return
+
+def replace_hostfiles_petuum_format(master_ip):
+    print 'Replacing Hostfiles...'
+
+    get_path = glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format'
+    py_scp_to_remote('', master_ip, 'hostfile_petuum_format', get_path)
+
+    f = open('hosts_used', 'r')
+    data = f.readlines()
+    for i in range(len(data)):
+        if data[i] == '':
+            continue
+        py_scp_to_remote('', data[i].strip(), 'hostfile_petuum_format', get_path)
     return
 
 def passwordless_ssh(master_ip):
@@ -150,7 +173,7 @@ def compute_total_disk_space(ips):
 
 def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
     while(1):
-        sleep(20)
+        sleep(3)
         proc = py_scp_to_local('', master_ip, remote_file_name, local_file_path)
         stdout = py_out_proc('cat ' + local_file_path)
         if 'MLR finished and shut down!' in stdout:
@@ -164,6 +187,10 @@ def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
             break
     return
 
+def kill_ml_task(master_ip):
+    py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script kill.py ' +
+                   glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format')
+    return
 
 def run_ml_task(master_ip, inst_type, inst_count, epoch_num, cores, staleness, run, iteration, exp_dir, run_dependency):
     inst_str = []

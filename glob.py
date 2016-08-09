@@ -1,8 +1,3 @@
-from time import sleep, gmtime, strftime, time
-
-def time_str():
-    return strftime("-%Y-%m-%d-%H-%M-%S", gmtime())
-
 def set_globals():
     f = open('./script-cfg', 'r')
     data = f.readlines()
