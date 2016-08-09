@@ -171,12 +171,14 @@ def compute_total_disk_space(ips):
     return total_disk
 
 
-def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
+def wait_for_file_to_write(master_ip, first_host_ip, remote_file_name, local_file_path):
     while(1):
         sleep(3)
         proc = py_scp_to_local('', master_ip, remote_file_name, local_file_path)
         stdout = py_out_proc('cat ' + local_file_path)
         if 'MLR finished and shut down!' in stdout:
+            py_scp_to_local('', first_host_ip, glob.REMOTE_PATH + '/bosen/app/mlr/out.loss', local_file_path)
+            py_cmd_line('echo "\n********************************************************\n" >> ' + local_file_path)
             break
         if 'std::bad_alloc' in stdout:
             print '\n\n'
@@ -188,11 +190,11 @@ def wait_for_file_to_write(master_ip, remote_file_name, local_file_path):
     return
 
 def kill_ml_task(master_ip):
-    py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script kill.py ' +
+    py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/kill.py ' +
                    glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format')
     return
 
-def run_ml_task(master_ip, inst_type, inst_count, epoch_num, cores, staleness, run, iteration, exp_dir, run_dependency):
+def run_ml_task(master_ip, first_host_ip, inst_type, inst_count, epoch_num, cores, staleness, run, iteration, exp_dir, run_dependency):
     inst_str = []
     if inst_type != None:
         inst_str = list(map(lambda x: str(x), inst_type))
@@ -219,8 +221,8 @@ def run_ml_task(master_ip, inst_type, inst_count, epoch_num, cores, staleness, r
     argvs = ' '.join([num_epochs, cores, staleness, glob.DATA_PATH, use_weights, remote_pem])
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)
-    wait_for_file_to_write(master_ip, remote_file_name, exp_dir + '/' + file_root)
-    return
+    wait_for_file_to_write(master_ip, first_host_ip, remote_file_name, exp_dir + '/' + file_root)
+    return exp_dir + '/' + file_root
 
 
 #Creates Images if you so desire:
