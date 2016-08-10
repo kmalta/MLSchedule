@@ -136,6 +136,18 @@ def launch_machine_learning_job(master_ip, argvs, remote_file_name):
     py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + remote_file_name)
     return
 
+def check_for_s3_403():
+    f = open('hostfile')
+    ips = f.readlines()
+    for ip in ips:
+        ip = ip.strip()
+        if ip != '':
+            py_scp_to_local('', ip, '~/s3error', 's3error_check')
+            f = open('s3error_check', 'r')
+            if 'ERROR: S3 error: 403 (Forbidden)' in f.read():
+                return 1
+    return 0
+
 def add_swapfile(ip, ram):
     swap = str(SWAP[RAM.index(int(ram))]*1024)
     py_scp_to_remote('', ip, 'make_swapfile.sh', glob.REMOTE_PATH)

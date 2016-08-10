@@ -13,8 +13,10 @@ touch train_file.$4
 touch file_len
 rm file_len
 touch file_len
+rm ~/s3error
+touch ~/s3error
 for idx in `cat $1/chunks-$4`; do
-    s3cmd -c $2 get s3://$3-chunk-$idx
+    s3cmd -c $2 get s3://$3-chunk-$idx >> ~/s3error
     cat *chunk-* | tee -a train_file.$4 1> /dev/null
     wc -l *-chunk-$idx | tr -s ' ' | cut -d ' ' -f 1 >> file_len
     rm *-chunk-$idx

@@ -173,6 +173,9 @@ def data_fetch(chunk_partitions, num_digits, index, data_chunk_bucket_path, data
 
         py_cmd_line('rm ' + 'chunks' + time + '-' + str(i))
 
+        #REMOVE ON REIMAGE
+        py_scp_to_remote('', ip, 'get_chunks.sh', glob.REMOTE_PATH + '/get_chunks.sh')
+
         py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/get_chunks.sh ' +
                        dp + ' ' + glob.REMOTE_CFG + ' ' +
                        data_path + ' ' + str(i) + ' ' + glob.REMOTE_PATH)

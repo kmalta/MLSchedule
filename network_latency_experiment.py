@@ -99,10 +99,13 @@ def run_experiment(master_inst_type, mach_array, data_set_name, data_bucket_name
                     total_machine_learning_time = 0
 
                     for it in range(iters - 1):
-                        data_fetch_start_time = time()
-                        data_fetch(chunk_parts, num_digits, idx, data_bucket_name, data_set_name)
-                        data_fetch_end_time = time()
-                        total_data_fetch_time = data_fetch_end_time - data_fetch_start_time
+                        flag = 1
+                        while flag ==1:
+                            data_fetch_start_time = time()
+                            data_fetch(chunk_parts, num_digits, idx, data_bucket_name, data_set_name)
+                            flag = check_for_s3_403()
+                            data_fetch_end_time = time()
+                            total_data_fetch_time = data_fetch_end_time - data_fetch_start_time
 
                         machine_learning_start_time = time()
                         out_file_name = run_ml_task(master_ip, ips[0], inst_type, len(ips), str(k), cores, staleness, j, it, exp_dir, run_dependency)
@@ -170,7 +173,7 @@ def main():
     inst_ips = check_instance_status('ips', 'all')
     terminate_instances(inst_ids, inst_ips)
 
-    run_experiment('m3.2xlarge', [1,2,4,8,16], glob.DATA_SET, glob.DATA_SET_BUCKET, 1, 'independent', 20, 5)
+    run_experiment('m3.2xlarge', [1,2,4,8,16], glob.DATA_SET, glob.DATA_SET_BUCKET, 30, 'independent', 20, 5)
     #staleness_experiment('m2.2xlarge', 'm3.2xlarge', [4,8,16], [1,2,4,8,16,100000000], glob.DATA_SET, glob.DATA_SET_BUCKET, 1, 'independent')
 
 if __name__ == "__main__":
