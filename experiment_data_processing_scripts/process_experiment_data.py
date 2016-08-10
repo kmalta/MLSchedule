@@ -286,7 +286,8 @@ def create_html_files_from_processed_data(path):
                 f4.write('var options = {\n')
                 f4.write('chart: {\n')
                 f4.write('title: "Other Overheads ' + mach_name  + '",\n')
-                f4.write('},\nbars: "horizontal"\n};\n')
+                f4.write('},\nbars: "horizontal",\n')
+                f4.write('legend: { position: "bottom" }\n};\n')
                 f4.write('var chart = new google.charts.Bar(document.getElementById("barchart_material"));\n')
                 f4.write('chart.draw(data, options);\n}')
                 f4.close()
@@ -296,15 +297,23 @@ def create_html_files_from_processed_data(path):
                 data4 = f5.readlines()[0].split('\t')
                 f5 = open('tmp4', 'w')
                 f5.write('\n\n')
-                f5.write('<h2>Data Stats</h2>\n')
+                f5.write('</script>\n</head>\n<body>\n')
+                f5.write('<h1>Data Stats</h1>\n')
+                f5.write('<h3>Dataset Name: ' + path_array[-1].split('-')[2] + '</h3>\n')
                 f5.write('<h3>Number of Features: ' + data4[0].strip() + '</h3>\n')
                 f5.write('<h3>Number of Labels: ' + data4[1].strip() + '</h3>\n')
                 f5.write('<h3>Training Set Size: ' + data4[2].strip() + '</h3>\n')
+                f5.write('<div id="curve_chart1" style="width: 100%; height: 500px;"></div>\n')
+                f5.write('<div id="curve_chart2" style="width: 100%; height: 500px;"></div>\n')
+                f5.write('<div id="barchart_material" style="width: 100%; height: 500px;"></div>\n')
                 f5.write('</body>\n')
                 f5.write('</html>\n')
                 f5.close()
 
-                os.system('cat html1 tmp tmp2 tmp3 html2 tmp4 > ' + html_dir + '/' + mach_name + '.html')
+
+
+
+                os.system('cat html1 tmp tmp2 tmp3 tmp4 > ' + html_dir + '/' + mach_name + '.html')
 
                 os.system('rm tmp')
                 os.system('rm tmp2')
