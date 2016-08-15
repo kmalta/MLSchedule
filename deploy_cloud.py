@@ -26,14 +26,19 @@ def read_host_ips():
     host_ips = f.readlines()
     return filter(lambda y: y != '', map(lambda x: x.strip(), host_ips))
 
-def get_machine_cores_from_names(machine_array):
+def get_machine_attributes_from_names(machine_array, attr):
     inst_types = read_instance_types()
+    attr_idx = 1
+    if attr == 'cores':
+        attr_idx = 1
+    if attr == 'ram':
+        attr_idx = 2
     inst_names = map(lambda x: x[0], inst_types)
-    machine_core_array = []
+    machine_attr_array = []
     for elem in machine_array:
         idx = inst_names.index(elem)
-        machine_core_array.append(inst_types[idx][1])
-    return machine_core_array
+        machine_attr_array.append(inst_types[idx][attr_idx])
+    return machine_attr_array
 
 
 def create_hostfiles(ips, new_ips):
@@ -132,6 +137,11 @@ def terminate_instances(inst_ids, inst_ips):
     for inst_id in inst_ids:
         py_euca_terminate_instances(inst_id)
 
+    #Make sure to allow the instances to become available before a relaunch
+    print "Sleeping after termination"
+    sleep(60)
+    print "Woke up after termination"
+
 def launch_machine_learning_job(master_ip, argvs, remote_file_name):
     py_ssh('', master_ip, 'python ' + glob.REMOTE_PATH + '/bosen/app/mlr/script/launch.py ' + argvs + ' &> ' + remote_file_name)
     return
@@ -144,7 +154,8 @@ def check_for_s3_403():
         if ip != '':
             py_scp_to_local('', ip, '~/s3error', 's3error_check')
             f = open('s3error_check', 'r')
-            if 'ERROR: S3 error: 403 (Forbidden)' in f.read():
+            if '(Forbidden)' in f.read():
+                print "We found an S3 ERROR: 403 (Forbidden).  Don't be alarmed! It was caught."
                 return 1
     return 0
 
@@ -170,6 +181,7 @@ def compute_total_physical_mem(ips):
 def compute_total_disk_space(ips):
     total_disk = []
     for ip in ips:
+        py_scp_to_remote('', ip, 'disk_space.sh', glob.REMOTE_PATH + '/disk_space.sh')
         py_ssh('', ip, 'source ' + glob.REMOTE_PATH + '/disk_space.sh')
         py_scp_to_local('', ip, '~/disk_space_file', 'disk_' + ip)
         out = py_out_proc('cat disk_' + ip).strip()
@@ -177,8 +189,9 @@ def compute_total_disk_space(ips):
             print "\n\nERROR, SCRIPT RETURNED EMPTY VALUE\n\n"
         else:
             disk_vals = out.split('\n')
-            disk_space = int(disk_vals[0]) - int(disk_vals[1])
-            total_disk.append(float(disk_space))
+            # disk_space = int(disk_vals[0]) - int(disk_vals[1])
+            # total_disk.append(float(disk_space))
+            total_disk.append([int(disk_vals[0]), int(disk_vals[1])])
         py_cmd_line('rm disk_' + ip)
     return total_disk
 
@@ -206,30 +219,26 @@ def kill_ml_task(master_ip):
                    glob.REMOTE_PATH + '/bosen/machinefiles/hostfile_petuum_format')
     return
 
-def run_ml_task(master_ip, first_host_ip, inst_type, inst_count, epoch_num, cores, staleness, run, iteration, exp_dir, run_dependency):
+def run_ml_task(master_ip, first_host_ip, inst_type, inst_count, cores, staleness, run, epochs, exp_dir, run_dependency):
     inst_str = []
     if inst_type != None:
         inst_str = list(map(lambda x: str(x), inst_type))
 
     inst_str.append('machines')
     inst_str.append(str(inst_count))
+    inst_str.append('staleness')
+    inst_str.append(str(staleness))
     inst_str.append('run')
     inst_str.append(str(run + 1))
-    inst_str.append('epoch')
-    inst_str.append(str(int(epoch_num) + 1))
-    inst_str.append('sub-epoch')
-    inst_str.append(str(iteration + 1))
     file_root = '_'.join(inst_str)
 
     remote_file_name = glob.REMOTE_PATH + '/' + file_root
     remote_pem = glob.REMOTE_PATH + '/' + glob.PEM_PATH
     use_weights = 'false'
-    if (int(run) > 0 and run_dependency == 'dependent') or (int(epoch_num) > 0) or (int(iteration) > 0):
-        print 'Using weight file:', str(run), str(epoch_num), str(iteration)
+    if (int(run) > 0 and run_dependency == 'dependent'):
         use_weights = 'true'
 
-    #THIS IS SET TO 1 BECAUSE WE ONLY DO 1 EPOCH AT A TIME
-    num_epochs = str(1)
+    num_epochs = str(epochs)
     argvs = ' '.join([num_epochs, cores, staleness, glob.DATA_PATH, use_weights, remote_pem])
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)

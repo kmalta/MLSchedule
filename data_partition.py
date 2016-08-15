@@ -51,7 +51,7 @@ def chunk_data_locally(file_bucket_path, chunk_bucket_path, filename, chunksize)
             + str(num_digits) + '\t' + str(chunk_byte_size) + '\n')
 
     for i in range(num_chunks):
-        num_zeros = num_digits - len(str(i))
+        num_zeros = num_digits - len(str(i).strip())
         filepath_to_upload = 'temp_data_chunks/' + filename + '-chunk-' + num_zeros*"0" + str(i)
         py_s3cmd_put(filepath_to_upload, chunk_bucket_path)
 
@@ -60,7 +60,23 @@ def chunk_data_locally(file_bucket_path, chunk_bucket_path, filename, chunksize)
 
 
 def delete_chunks(chunk_bucket_path, filename):
-    os.system('s3cmd -c s3cfg del ' + chunk_bucket_path + '/' + filename + '-chunk-*')
+    os.system('s3cmd -c ' + glob.S3CMD_CFG_PATH + ' del ' + chunk_bucket_path + '/' + filename + '-chunk-*')
+
+# def doll_out_chunks(num_chunks, machine_cores_array, mem_array, chunk_size):
+
+#     num_machs = len(machine_cores_array)
+
+#     dolled_out_chunks = [0 for i in range(num_machs)]
+#     for j in range(num_chunks):
+#         temp_arr = [float(dolled_out_chunks[i]+ 1)/machine_cores_array[i] for i in range(num_machs)]
+#         idx = temp_arr.index(min(temp_arr))
+#         if (dolled_out_chunks[idx] + 1) * chunk_size > mem_array[idx]:
+#             return num_chunks - j, dolled_out_chunks
+#         else:
+#             dolled_out_chunks[temp_arr.index(min(temp_arr))] += 1
+
+#     return 0, dolled_out_chunks
+
 
 def doll_out_chunks(num_chunks, machine_cores_array, mem_array, chunk_size):
 
@@ -79,10 +95,10 @@ def doll_out_chunks(num_chunks, machine_cores_array, mem_array, chunk_size):
 
 
 
-def assign_data_chunks(chunk_partitions, num_digits, index):
+def assign_data_chunks(chunk_partitions, num_digits):
     num_chunks = sum(chunk_partitions)
     chunk_ranges = []
-    idx = index
+    idx = 0
     for chunks in chunk_partitions:
         range_arr = []
         for i in range(chunks):
@@ -108,6 +124,48 @@ def replace_s3cfg(ip):
     return
 
 
+# def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
+
+#     py_cmd_line('rm *-chunk-metadata')
+#     data_path = data_chunk_bucket_path + '/' + data_name
+#     py_s3cmd_get(data_path + '-chunk-metadata')
+#     py_cmd_line('mv ' + data_name + '-chunk-metadata ' + glob.DATA_SET_PATH)
+#     f = open(glob.DATA_SET_PATH + '/' + data_name + '-chunk-metadata', 'r')
+#     data = f.readlines()[1].split()
+#     f.close()
+
+#     file_size = float(int(data[0]))/(1024*1024)
+#     total_num_chunks = int(data[1])
+#     num_digits = int(data[2])
+#     chunk_size = float(int(data[3]))/(1024*1024)
+
+#     host_ips = read_host_ips()
+#     mem_array = compute_total_physical_mem(host_ips)
+#     disk_array = compute_total_disk_space(host_ips)
+
+#     min_array = [min(x,y) for (x,y) in zip(mem_array, disk_array)]
+
+#     sum_min = sum(min_array)
+#     iterations = int(math.ceil(file_size/sum_min))
+
+#     num_chunks_to_distribute = int(total_num_chunks/iterations)
+#     left_over_chunks = total_num_chunks % num_chunks_to_distribute
+
+
+
+#     machine_cores_array = get_machine_cores_from_names(machine_array)
+
+#     remainder, chunk_partitions = doll_out_chunks(num_chunks_to_distribute, machine_cores_array, min_array, chunk_size)
+
+#     if remainder + left_over_chunks != 0:
+#         iterations = int(math.ceil(float(total_num_chunks)/(num_chunks_to_distribute - remainder)))
+
+#     remaining_chunks = total_num_chunks % sum(chunk_partitions)
+
+#     temp, final_chunk_partition = doll_out_chunks(remaining_chunks, machine_cores_array, min_array, chunk_size)
+#     return total_num_chunks, num_digits, iterations, chunk_partitions, final_chunk_partition
+
+
 def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
 
     py_cmd_line('rm *-chunk-metadata')
@@ -123,39 +181,34 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
     num_digits = int(data[2])
     chunk_size = float(int(data[3]))/(1024*1024)
 
-    host_ips = read_host_ips()
-    mem_array = compute_total_physical_mem(host_ips)
-    disk_array = compute_total_disk_space(host_ips)
+    f = open('host_master', 'r')
+    master_ip = f.read().strip()
+    f.close()
 
-    min_array = [min(x,y) for (x,y) in zip(mem_array, disk_array)]
+    mem_array = get_machine_attributes_from_names(machine_array, 'ram')
+    disk_array = compute_total_disk_space([master_ip])
+
+    print mem_array
+    print disk_array
+
+    mem_diff_array = [disk_array[0][0] - mem_array[i] for i in range(len(mem_array))]
+
+    min_array = [min(x,y) for (x,y) in zip(mem_array, mem_diff_array)]
 
     sum_min = sum(min_array)
-    iterations = int(math.ceil(file_size/sum_min))
 
-    num_chunks_to_distribute = int(total_num_chunks/iterations)
-    left_over_chunks = total_num_chunks % num_chunks_to_distribute
+    machine_cores_array = get_machine_attributes_from_names(machine_array, 'cores')
 
-
-
-    machine_cores_array = get_machine_cores_from_names(machine_array)
-
-    remainder, chunk_partitions = doll_out_chunks(num_chunks_to_distribute, machine_cores_array, min_array, chunk_size)
-
-    if remainder + left_over_chunks != 0:
-        iterations = int(math.ceil(float(total_num_chunks)/(num_chunks_to_distribute - remainder)))
-
-    remaining_chunks = total_num_chunks % sum(chunk_partitions)
-
-    temp, final_chunk_partition = doll_out_chunks(remaining_chunks, machine_cores_array, min_array, chunk_size)
-    return total_num_chunks, num_digits, iterations, chunk_partitions, final_chunk_partition
+    remainder, chunk_partitions = doll_out_chunks(total_num_chunks, machine_cores_array, min_array, chunk_size)
+    return total_num_chunks, num_digits, remainder, chunk_partitions
 
 
 
 
 
-def data_fetch(chunk_partitions, num_digits, index, data_chunk_bucket_path, data_name):
+def data_fetch(chunk_partitions, num_digits, data_chunk_bucket_path, data_name):
 
-    chunk_ranges = assign_data_chunks(chunk_partitions, num_digits, index)
+    chunk_ranges = assign_data_chunks(chunk_partitions, num_digits)
     data_path = data_chunk_bucket_path + '/' + data_name
 
     host_ips = read_host_ips()
@@ -183,21 +236,19 @@ def data_fetch(chunk_partitions, num_digits, index, data_chunk_bucket_path, data
 
 
 def main():
-    file_name = create_script_config_file('aristotle', '/home/ubuntu/petuum', '/mnt', 'mnist8m', 'mnist-data', 'staleness')
-    glob.set_globals(file_name)
-    py_cmd_line('rm ' + file_name)
+    glob.set_globals()
     #data_queue(ips, ['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
-
-    #USE THIS TO SPLIT CHUNKS LOCALLY
-    #chunk_data_locally('local', glob.DATA_SET_BUCKET, glob.DATA_SET, 102400)
 
     #USE THIS TO DELETE CHUNKS
     #delete_chunks('s3://' + glob.DATA_SET_BUCKET, glob.DATA_SET)
 
+    #USE THIS TO SPLIT CHUNKS LOCALLY
+    chunk_data_locally('local', glob.DATA_SET_BUCKET, glob.DATA_SET, 102400)
+
     #USE THIS TO DISTRIBUTE CHUNKS
     #out1, out2, out3, out4 = distribute_chunks(['m3.2xlarge','m3.2xlarge','m3.2xlarge','m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
-    out1, out2, out3, out4, out5 = distribute_chunks(['m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
-    print out1, out2, out3, out4, out5
+    # out1, out2, out3, out4, out5 = distribute_chunks(['m3.2xlarge'], glob.DATA_SET_BUCKET, glob.DATA_SET)
+    # print out1, out2, out3, out4, out5
 
 if __name__ == "__main__":
     main()
