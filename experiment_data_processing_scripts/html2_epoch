@@ -1,0 +1,133 @@
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('number', 'Epochs');
+      var row_arrs = []
+      for (var j=0; j < machines; j++){
+        for (var i=0; i < runs; i++) {
+          data.addColumn('number', 'Machines-'.concat((Math.pow(2, j)).toString()));
+        }
+        data.addColumn({id:'max', type:'number', role:'interval'});
+        data.addColumn({id:'min', type:'number', role:'interval'});
+        data.addColumn({id:'firstNegStdDev', type:'number', role:'interval'});
+        data.addColumn({id:'median', type:'number', role:'interval'});
+        data.addColumn({id:'firstPosStdDev', type:'number', role:'interval'});
+        if (j == 0){
+          row_arrs = getBoxPlotValues(arrays[j], j)
+        }
+        else {
+          var arr = getBoxPlotValues(arrays[j], j)
+          for (var k = 0; k < arr.length; k++) {
+            row_arrs[k] = row_arrs[k].concat(arr[k].slice(1))
+          }
+        }
+      }
+      data.addRows(row_arrs);
+
+      /**
+       * Takes an array of input data and returns an
+       * array of the input data with the box plot
+       * interval data appended to each row.
+       */
+      function getBoxPlotValues(array, index) {
+
+        for (var i = 0; i < array.length; i++) {
+
+          var arr = array[i].slice(1).sort(function (a, b) {
+            return a - b;
+          });
+
+          var max = arr[arr.length - 1];
+          var min = arr[0];
+          var mean = getMean(arr);
+
+          var stdDev = getStdDev(arr);
+          var firstPosStdDev = mean + stdDev;
+          var firstNegStdDev = mean - stdDev;
+
+          means[index][means[index].length] = mean;
+          stdDevs[index][stdDevs[index].length] = stdDev;
+
+          array[i][runs + 1] = max;
+          array[i][runs + 2] = min
+          array[i][runs + 3] = firstNegStdDev;
+          array[i][runs + 4] = mean;
+          array[i][runs + 5] = firstPosStdDev;
+        }
+        return array;
+      }
+
+      function getStdDev(array) {
+        var num = array.length;
+        var mean = getMean(array);
+        var sum = 0;
+        for (var i = 0; i < num; i++) {
+          sum += Math.pow((array[i] - mean), 2)
+        }
+        return Math.pow((1.0 / num) * sum, 0.5);
+      }
+
+      function getMean(array) {
+        var num = array.length;
+        var sum = 0;
+        for (var i = 0; i < num; i++) {
+          sum += array[i];
+        }
+        return sum * 1.0 / num;
+      }
+
+      var options = {
+          title: machine_name + ' Epoch Durations: Epoch Number -vs- Duration (s) with Bounded Staleness ' + staleness,
+          height: 500,
+          legend: {position: 'none'},
+          hAxis: {
+            gridlines: {color: '#fff'}
+          },
+          lineWidth: 0,
+          series: [{'color': '#222222'}],
+          intervals: {
+            barWidth: 1,
+            boxWidth: 1,
+            lineWidth: 2,
+            style: 'boxes'
+          },
+          interval: {
+            max: {
+              style: 'bars',
+              fillOpacity: 1,
+              color: '#000'
+            },
+            min: {
+              style: 'bars',
+              fillOpacity: 1,
+              color: '#000'
+            }
+          }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('box_plot'));
+
+      var dev_str = 'Mean Mean  &nbsp &nbsp &nbsp &nbsp &nbsp  Mean StDev  &nbsp &nbsp &nbsp &nbsp &nbsp  Mean Percentage <br>';
+
+      var mean_prev = 0;
+      var perc_above = '';
+      for (var i = 0; i < stdDevs.length; i++) {
+          var meanStd = (getMean(stdDevs[i])).toFixed(4);
+          var meanMean = (getMean(means[i]).toFixed(4));
+          var perc = (Number(meanStd)/Number(meanMean)).toFixed(4);
+          if ( i != 0 ) {
+            perc_above = (Number(meanStd)/Number(mean_prev)).toFixed(4);
+          }
+
+          mean_prev = meanMean;
+          dev_str += meanMean + ' &nbsp  &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ' + meanStd + ' &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp ' + perc + ' &nbsp &nbsp ' + perc_above + '<br>';
+      }
+      document.querySelector('#ave_dev').innerHTML = dev_str;
+      chart.draw(data, options);
+    }
+    </script>
+  </head>
+  <body>
+    <div id='box_plot'></div>
+    <h3 id='ave_dev'></h3>
+  </body>
+</html>

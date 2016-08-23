@@ -1,0 +1,190 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawBoxPlot);
+    function drawBoxPlot() {
+
+      var machines = 2;
+      var runs = 7;
+      var epochs = 8;
+      var staleness = 10;
+
+      var mach1 = [
+        ['a', 100, 90, 110, 85, 96, 104, 120],
+        ['b', 120, 95, 130, 90, 113, 124, 140],
+        ['c', 130, 105, 140, 100, 117, 133, 139],
+        ['d', 90, 85, 95, 85, 88, 92, 95],
+        ['e', 70, 74, 63, 67, 69, 70, 72],
+        ['f', 30, 39, 22, 21, 28, 34, 40],
+        ['g', 80, 77, 83, 70, 77, 85, 90],
+        ['h', 100, 90, 110, 85, 95, 102, 110]
+      ];
+
+      var mach2 = [
+        ['a', 200, 190, 210, 185, 196, 204, 220],
+        ['b', 220, 195, 230, 190, 213, 224, 240],
+        ['c', 230, 205, 240, 200, 217, 233, 239],
+        ['d', 190, 185, 195, 185, 188, 192, 195],
+        ['e', 170, 174, 163, 167, 169, 170, 172],
+        ['f', 130, 139, 122, 121, 128, 134, 140],
+        ['g', 180, 177, 183, 170, 177, 185, 190],
+        ['h', 200, 190, 210, 185, 195, 202, 210]
+      ];
+      
+      var arrays = [mach1, mach2];
+      var stdDev = [[], []]
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'x');
+      var row_arrs = []
+      for (var j=0; j < machines; j++){
+        for (var i=0; i < runs; i++) {
+          data.addColumn('number', 'Machines-'.concat((Math.pow(2, j)).toString()));
+        }
+        data.addColumn({id:'max', type:'number', role:'interval'});
+        data.addColumn({id:'min', type:'number', role:'interval'});
+        data.addColumn({id:'firstQuartile', type:'number', role:'interval'});
+        data.addColumn({id:'median', type:'number', role:'interval'});
+        data.addColumn({id:'thirdQuartile', type:'number', role:'interval'});
+        if (j == 0){
+          row_arrs = getBoxPlotValues(arrays[j], j)
+        }
+        else {
+          var arr = getBoxPlotValues(arrays[j], j)
+          for (var k = 0; k < epochs; k++) {
+            row_arrs[k] = row_arrs[k].concat(arr[k].slice(1))
+          }
+        }
+      }
+      data.addRows(row_arrs);
+
+      /**
+       * Takes an array of input data and returns an
+       * array of the input data with the box plot
+       * interval data appended to each row.
+       */
+      function getBoxPlotValues(array, idx) {
+
+        for (var i = 0; i < epochs; i++) {
+
+          var arr = array[i].slice(1).sort(function (a, b) {
+            return a - b;
+          });
+
+          var max = arr[arr.length - 1];
+          var min = arr[0];
+          var mean = getMean(arr);
+
+          var stdDev = getStdDev(arr);
+          var posFirstStdDev = mean + stdDev;
+          var negFirstStdDev = mean - stdDev;
+
+          array[i][runs + 1] = max;
+          array[i][runs + 2] = min
+          array[i][runs + 3] = posFirstStdDev;
+          array[i][runs + 4] = mean;
+          array[i][runs + 5] = negFirstStdDev;
+
+          // var max = arr[arr.length - 1];
+          // var min = arr[0];
+          // var median = getMedian(arr);
+
+          // // First Quartile is the median from lowest to overall median.
+          // var firstQuartile = getMedian(arr.slice(0, Math.ceil(arr.length/2)));
+
+          // // Third Quartile is the median from the overall median to the highest.
+          // var thirdQuartile = getMedian(arr.slice(Math.floor(arr.length/2)));
+          // console.log(firstQuartile)
+          // console.log(thirdQuartile)
+          // console.log(median)
+          // array[i][runs + 1] = max;
+          // array[i][runs + 2] = min
+          // array[i][runs + 3] = firstQuartile;
+          // array[i][runs + 4] = median;
+          // array[i][runs + 5] = thirdQuartile;
+        }
+        return array;
+      }
+
+      /*
+       * Takes an array and returns
+       * the median value.
+       */
+      function getMedian(array) {
+        var length = array.length;
+
+        /* If the array is an even length the
+         * median is the average of the two
+         * middle-most values. Otherwise the
+         * median is the middle-most value.
+         */
+        if (length % 2 === 0) {
+          var midUpper = length / 2;
+          var midLower = midUpper - 1;
+
+          return (array[midUpper] + array[midLower]) / 2;
+        } else {
+          return array[Math.floor(length / 2)];
+        }
+      }
+
+      function getStdDev(array) {
+        var num = array.length;
+        var mean = getMean(array);
+        var sum = 0;
+        for (var i = 0; i < num; i++) {
+          sum += Math.pow((array[i] - mean), 2)
+        }
+        return Math.pow((1.0 / num) * sum, 0.5);
+      }
+
+      function getMean(array) {
+        var num = array.length;
+        var sum = 0;
+        for (var i = 0; i < num; i++) {
+          sum += array[i];
+        }
+        return sum * 1.0 / num;
+      }
+
+      var options = {
+          title:'Box Plot',
+          height: 500,
+          legend: {position: 'none'},
+          hAxis: {
+            gridlines: {color: '#fff'}
+          },
+          lineWidth: 0,
+          series: [{'color': '#222222'}],
+          intervals: {
+            barWidth: 1,
+            boxWidth: 1,
+            lineWidth: 2,
+            style: 'boxes'
+          },
+          interval: {
+            max: {
+              style: 'bars',
+              fillOpacity: 1,
+              color: '#777777'
+            },
+            min: {
+              style: 'bars',
+              fillOpacity: 1,
+              color: '#777777'
+            }
+          }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('box_plot'));
+
+      chart.draw(data, options);
+    }
+    </script>
+  </head>
+  <body>
+    <div id='box_plot'></div>
+  </body>
+</html>

@@ -6,6 +6,7 @@ from matplotlib import colors
 import six
 from random import randint
 import glob
+import math
 
 from subprocess import Popen, PIPE
 from time import sleep
@@ -14,8 +15,7 @@ from time import sleep
 #Dependency Files
 import color_file
 
-
-def walk_directories_to_process(root, out_file):
+def walk_directories_to_process(root, out_file, staleness):
     for dirpath, dirname, filenames in os.walk(root):
         if dirpath == root:
             continue
@@ -25,7 +25,7 @@ def walk_directories_to_process(root, out_file):
                 file_path = os.path.join(dirpath, file)
                 if 'run' in file_path and 'staleness_0' in file_path and int(file_path.split('_')[-1]) == 1:
                     print "Processing", file
-                    parse_run_out_file(root, file_path, out_file)
+                    parse_run_out_file(root, file_path, out_file, staleness)
 
 def get_num_files(path):
     return len(glob.glob(path + '*'))
@@ -88,6 +88,15 @@ def write_overhead_times_to_file(write_file, ml_overhead):
     f.write(stub + '\t' + str(ml_overhead))
     f.close()
 
+def get_num_epochs(path):
+    f = open(path, 'r')
+    data = f.readlines()
+    idx = -1
+    for (i, line) in enumerate(data):
+        if '****' in line:
+            idx = i - 2
+    return int(data[idx].split()[0])
+
 
 
 def read_epoch_times(file_path, num_epochs):
@@ -102,7 +111,7 @@ def read_epoch_times(file_path, num_epochs):
 
 
 
-def parse_run_out_file(root, path, out_file):
+def parse_run_out_file(root, path, out_file, staleness):
     mach_name = path.split('/')[-1].split('_')[0]
     split_path = path.split('_')
 
@@ -111,8 +120,7 @@ def parse_run_out_file(root, path, out_file):
 
     #CONSTANTS, change these from hardcode
     runs = 30
-    num_epochs = 40
-    staleness = [0,5,10,32]
+    num_epochs = get_num_epochs(path)
     #especially this one
     machs = {}
     for dirpath, dirname, filenames in os.walk(root):
@@ -121,6 +129,7 @@ def parse_run_out_file(root, path, out_file):
         for file in filenames:
             machs[machine_name].append(int(file.split('_')[-5]))
         machs[machine_name] = list(set(machs[machine_name]))
+        machs[machine_name].sort()
 
     path_prefix = '_'.join(split_path[:-5])
 
@@ -145,7 +154,7 @@ def parse_run_out_file(root, path, out_file):
 
 
 
-def create_epoch_html_files_from_processed_data(path):
+def create_epoch_html_files_from_processed_data(path, num_chunks, used_chunks):
 
     path_array =  path.split('/')
     out_dir = '/'.join(path_array[:-2]) + '/experiment_html_charts'
@@ -157,20 +166,23 @@ def create_epoch_html_files_from_processed_data(path):
     machs = {}
     for dirpath, dirname, filenames in os.walk(path):
         machine_name = dirpath.split('/')[-1]
-        machs[machine_name] = []
-        for file in filenames:
-            machs[machine_name].append(int(file.split('_')[-1]))
-        machs[machine_name] = list(set(machs[machine_name]))
+        if 'large' in machine_name:
+            machs[machine_name] = []
+            for file in filenames:
+
+                machs[machine_name].append(int(file.split('_')[-1]))
+            machs[machine_name] = list(set(machs[machine_name]))
+            machs[machine_name].sort()
+    print repr(machs)
     epochs = 0
     runs = 30
 
     for dirpath, dirname, filenames in os.walk(path):
         for file in filenames:
             file_path = os.path.join(dirpath, file)
-            machine_name = dirpath.split('/')[-1]
-
-            os.system('mkdir ' + html_dir + '/' + machine_name)
-            if 'epoch' in file and file_path[-1] == '1' and 'm3.xlarge' in file_path:
+            mach_name = dirpath.split('/')[-1]
+            os.system('mkdir ' + html_dir + '/' + mach_name)
+            if 'epoch' in file and file_path[-1] == str(machs[mach_name][0]):
                 file_path = '_'.join(file_path.split('_')[:-1])
                 matrices = []
                 for mach in machs[mach_name]:
@@ -181,7 +193,7 @@ def create_epoch_html_files_from_processed_data(path):
                     epochs = meta_data[1]
                     staleness = meta_data[2]
                     for line in data[1:]:
-                        arr = map(lambda x: float(x.strip()), line.split('\t'))
+                        arr = map(lambda x: float(x.strip())*get_dist_chunks(num_chunks, mach, used_chunks), line.split('\t'))
                         arr[0] = int(arr[0])
                         matrix.append(arr)
 
@@ -197,6 +209,7 @@ def create_epoch_html_files_from_processed_data(path):
                 std_dev_str = 'stdDevs = [[]'
                 mean_str = 'means = [[]'
 
+                f2.write('var machine_name = "' + mach_name + '";\n')
                 f2.write('var machines = ' + str(len(machs[mach_name])) + ';\n')
                 f2.write('var epochs = ' + str(epochs) + ';\n')
                 f2.write('var runs = ' + str(runs) + ';\n')
@@ -215,11 +228,78 @@ def create_epoch_html_files_from_processed_data(path):
                 f2.write(std_dev_str)
                 f2.write(mean_str)
                 f2.close()
-                os.system('cat html1 tmp html2 > ' + html_dir + '/' + machine_name + '/' +  '_'.join(file.split('_')[:-2]) + '.html')
+                os.system('cat html1 tmp html2_epoch > ' + html_dir + '/' + mach_name + '/' +  '_'.join(file.split('_')[:-2]) + '.html')
+
+def create_speedup_epoch_html_files_from_processed_data(path, num_chunks, used_chunks, staleness_arr):
+
+    path_array =  path.split('/')
+    out_dir = '/'.join(path_array[:-2]) + '/experiment_html_charts'
+    html_dir = out_dir + '/' + path_array[-1]
+    os.system('mkdir ' + html_dir)
+
+    #Constants
+    staleness = 0
+    machs = {}
+    for dirpath, dirname, filenames in os.walk(path):
+        machine_name = dirpath.split('/')[-1]
+        if 'large' in machine_name:
+            machs[machine_name] = []
+            for file in filenames:
+
+                machs[machine_name].append(int(file.split('_')[-1]))
+            machs[machine_name] = list(set(machs[machine_name]))
+            machs[machine_name].sort()
+    print repr(machs)
+    epochs = 0
+    runs = 30
 
 
-def create_overhead_html_files_from_processed_data(path):
 
+    for staleness in staleness_arr:
+        matrices = []
+        for mach_name in machs.keys():
+            epochs = len(machs[mach_name])
+            matrix = []
+            for mach in machs[mach_name]:
+                f = open(path + '/' + mach_name + '/epoch_times_' + mach_name + '_staleness_' + str(staleness) + '_machines_' + str(mach), 'r')
+                data = f.readlines()
+                meta_data = data[0].split()
+                num_pochs = int(meta_data[1])
+                epoch_mat = map(lambda x: map(lambda y: float(y.strip()), x.split('\t')[1:]), data[1:])
+                arr = [sum(x)/float((num_pochs - 1))*get_dist_chunks(num_chunks, mach, used_chunks) for x in zip(*epoch_mat)]
+                arr.insert(0, str(mach))
+                matrix.append(arr)
+            matrices.append(matrix)
+
+        f2 = open('tmp', 'w')
+        matrix_str = 'var arrays = [mach1'
+        std_dev_str = 'stdDevs = [[]'
+        mean_str = 'means = [[]'
+
+        f2.write('var machine_names = ' + repr(machs.keys()) + ';\n')
+        f2.write('var machines = ' + str(len(matrices)) + ';\n')
+        f2.write('var epochs = ' + str(epochs) + ';\n')
+        f2.write('var runs = ' + str(runs) + ';\n')
+        f2.write('var staleness = ' + str(staleness) + ';\n')
+        for i in range(len(matrices)):
+            f2.write('mach' + str(i + 1) + ' = ' + repr(matrices[i]))
+            f2.write('\n\n')
+            if i != 0:
+                matrix_str += ',mach' + str(i + 1)
+                std_dev_str += ',[]'
+                mean_str += ',[]'
+        matrix_str += '];\n'
+        std_dev_str += '];\n'
+        mean_str += '];\n'
+        f2.write(matrix_str)
+        f2.write(std_dev_str)
+        f2.write(mean_str)
+        f2.close()
+        os.system('cat html1 tmp html2_overhead > ' + html_dir + '/staleness_' + str(staleness) + '_speedups.html')
+
+
+
+def create_overhead_html_files_from_processed_data(path, num_chunks, used_chunks):
     path_array =  path.split('/')
     out_dir = '/'.join(path_array[:-2]) + '/experiment_html_charts'
     html_dir = out_dir + '/' + path_array[-1]
@@ -231,23 +311,27 @@ def create_overhead_html_files_from_processed_data(path):
     machs = {}
     for dirpath, dirname, filenames in os.walk(path):
         machine_name = dirpath.split('/')[-1]
-        machs[machine_name] = []
-        for file in filenames:
-            machs[machine_name].append(int(file.split('_')[-1]))
-        machs[machine_name] = list(set(machs[machine_name]))
+        if 'large' in machine_name:
+            machs[machine_name] = []
+            for file in filenames:
 
-    epochs = 3
+                machs[machine_name].append(int(file.split('_')[-1]))
+            machs[machine_name] = list(set(machs[machine_name]))
+            machs[machine_name].sort()
+
+    epochs = 1
     runs = 30
 
     for dirpath, dirname, filenames in os.walk(path):
         for file in filenames:
             file_path = os.path.join(dirpath, file)
-            machine_name = dirpath.split('/')[-1]
+            mach_name = dirpath.split('/')[-1]
 
-            os.system('mkdir ' + html_dir + '/' + machine_name)
-            if 'overhead' in file and file_path[-1] == '1':
+            os.system('mkdir ' + html_dir + '/' + mach_name)
+            if 'overhead' in file and file_path[-1] == str(machs[mach_name][0]):
                 file_path = '_'.join(file_path.split('_')[:-1])
                 matrices = []
+                epochs = len(machs[mach_name])
                 for mach in machs[mach_name]:
                     f = open(file_path + '_' + str(mach), 'r')
                     data = f.readlines()
@@ -255,10 +339,9 @@ def create_overhead_html_files_from_processed_data(path):
                     meta_data = data[0].split()
                     staleness = meta_data[2]
 
-                    arr = map(lambda x: float(x.strip()), data[1].split('\t'))
-                    arr.insert(0,mach)
+                    arr = map(lambda x: float(x.strip())*get_dist_chunks(num_chunks, mach, used_chunks), data[1].split('\t'))
+                    arr.insert(0, str(mach))
                     matrices.append(arr)
-                print matrices
 
                 matrices = [matrices]
 
@@ -267,6 +350,7 @@ def create_overhead_html_files_from_processed_data(path):
                 std_dev_str = 'stdDevs = [[]'
                 mean_str = 'means = [[]'
 
+                f2.write('var machine_names = "";\n')
                 f2.write('var machines = ' + str(1) + ';\n')
                 f2.write('var epochs = ' + str(epochs) + ';\n')
                 f2.write('var runs = ' + str(runs) + ';\n')
@@ -285,23 +369,53 @@ def create_overhead_html_files_from_processed_data(path):
                 f2.write(std_dev_str)
                 f2.write(mean_str)
                 f2.close()
-                os.system('cat html1 tmp html2 > ' + html_dir + '/' + machine_name + '/' +  '_'.join(file.split('_')[:-2]) + '.html')
+                os.system('cat html1 tmp html2_overhead > ' + html_dir + '/' + mach_name + '/' +  '_'.join(file.split('_')[:-2]) + '.html')
 
 
+
+def get_dist_chunks(num_chunks, num_machs, used_chunks):
+    if num_chunks == 1:
+        return 1
+    else:
+        return math.ceil(float(num_chunks) / num_machs) / math.ceil(float(used_chunks) / num_machs)
+
+def get_num_chunks(data_set, projected):
+    if projected == 1 :
+        if data_set == 'covtype':
+            return 408
+        elif data_set == 'mnist8m':
+            return 119
+        else:
+            return 1
+    else:
+        return 1
 
 
 def main():
     clp = sys.argv
     data_set = clp[1]
     run = clp[2]
+    try:
+        projected = int(clp[3])
+    except:
+        projectd = 0
+
+    used_chunks = 16
+
+    num_chunks = get_num_chunks(data_set, projected)
+
+    #Set this
+    staleness = [0]
 
     path_to_walk = '/Users/Kevin/MLSchedule/experiment_data/' + data_set + '/' + run
     out_file = '/Users/Kevin/MLSchedule/experiment_data_processing_scripts/processed_experiments/epoch-times-' + run
     os.system('mkdir ' + out_file)
     #PROCESS FILES
-    walk_directories_to_process(path_to_walk, out_file)
-    create_epoch_html_files_from_processed_data(out_file)
-    create_overhead_html_files_from_processed_data(out_file)
+    walk_directories_to_process(path_to_walk, out_file, staleness)
+    create_epoch_html_files_from_processed_data(out_file, num_chunks, used_chunks)
+    create_speedup_epoch_html_files_from_processed_data(out_file, num_chunks, used_chunks, staleness)
+    create_overhead_html_files_from_processed_data(out_file, num_chunks, used_chunks)
+
 
     #GRAPH FILES
     #walk_directories_to_graph(path_to_walk)

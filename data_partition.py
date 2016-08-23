@@ -166,7 +166,7 @@ def replace_s3cfg(ip):
 #     return total_num_chunks, num_digits, iterations, chunk_partitions, final_chunk_partition
 
 
-def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
+def distribute_chunks(machine_array, data_chunk_bucket_path, data_name, projected, chunks_to_use):
 
     py_cmd_line('rm *-chunk-metadata')
     data_path = data_chunk_bucket_path + '/' + data_name
@@ -177,7 +177,11 @@ def distribute_chunks(machine_array, data_chunk_bucket_path, data_name):
     f.close()
 
     file_size = float(int(data[0]))/(1024*1024)
-    total_num_chunks = int(data[1])
+    total_num_chunks = 0
+    if projected == 1:
+        total_num_chunks = chunks_to_use
+    else:
+        total_num_chunks = int(data[1])
     num_digits = int(data[2])
     chunk_size = float(int(data[3]))/(1024*1024)
 

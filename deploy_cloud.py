@@ -242,8 +242,7 @@ def run_ml_task(master_ip, first_host_ip, inst_type, inst_count, cores, stalenes
     argvs = ' '.join([num_epochs, cores, staleness, glob.DATA_PATH, use_weights, remote_pem])
 
     launch_machine_learning_job(master_ip, argvs, remote_file_name)
-    wait_for_file_to_write(master_ip, first_host_ip, remote_file_name, exp_dir + '/' + file_root)
-    return exp_dir + '/' + file_root
+    return remote_file_name, exp_dir + '/' + file_root
 
 
 #Creates Images if you so desire:
