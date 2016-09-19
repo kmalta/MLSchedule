@@ -48,8 +48,6 @@ def set_globals():
     BASE_IMAGE = data2[3].split()[2]
     global LAUNCH_FROM
     LAUNCH_FROM = data2[4].split()[2]
-    global REPLACE_WHICH
-    REPLACE_WHICH = data2[5].split()[2]
 
     global S3CMD_CFG_PATH
     S3CMD_CFG_PATH = CLOUD + '/' + CLOUD + '-s3cfg'

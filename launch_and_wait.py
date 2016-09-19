@@ -1,13 +1,14 @@
 import glob
 from py_euca_wrappers import *
 
-def launch_instances(num_insts, inst_type, inst_role):
+def launch_instances(num_insts, inst_type):
     print 'Starting to launch an instance from an image'
 
-    image = read_image_id(inst_role)
-
-    if image == 0:
+    image = 0
+    if glob.LAUNCH_FROM == 'scratch':
         image = glob.BASE_IMAGE
+    else:
+        image = read_image_id()
 
     stdout = py_euca_run_instances(image, num_insts, inst_type)
     wait_for_nodes_to_launch()
@@ -15,38 +16,30 @@ def launch_instances(num_insts, inst_type, inst_role):
     wait_ssh(ips)
     return stdout
 
-def launch_instance_with_metadata(inst_type, inst_role):
-    stdout = launch_instances(1, inst_type, inst_role)
+def launch_instance_with_metadata(inst_type):
+    stdout = launch_instances(1, inst_type)
     out_array = stdout.split('\n')[1].split()
     _ip = out_array[12]
     _id = out_array[1]
     return _ip, _id
 
 
-def setup_instance(ip, inst_role):
-    if inst_role == 'master':
-        cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH +
-              ' add_public_key_script.sh build_image_script.sh '
-              + 'create_ssh_keygen.sh ' + glob.S3CMD_CFG_PATH]
-        py_cmd_line(cmd[0])
-    elif inst_role == 'worker':
-        cmd = ['tar -cf scripts.tar.gz ' + glob.PEM_PATH + 
-              ' build_image_script.sh get_chunks.sh phys_mem.sh disk_space.sh ' + glob.S3CMD_CFG_PATH]
-        py_cmd_line(cmd[0])
-    else:
-        sys.exit('ERROR: In setup_instance function')
-    target_path = '/'.join(glob.REMOTE_PATH.split('/')[:-1])
-    py_scp_to_remote('', ip, 'scripts.tar.gz', '~/')
-    py_scp_to_remote('', ip, 'build_dependencies.sh', '~/')
-    py_ssh('', ip, 'sudo mv * ' + target_path + ';source ' + target_path + '/build_dependencies.sh ' + target_path)
+def setup_instance(ip):
+    cmd = [#Files for both
+           'tar -cf scripts.tar.gz ' + glob.PEM_PATH + ' ' + glob.S3CMD_CFG_PATH +
+           ' scripts hadoop_xml_files ssh_config'
+           ]
+    py_cmd_line(cmd[0])
+
+    py_scp_to_remote('', ip, 'scripts.tar.gz', '/home/ubuntu/scripts.tar.gz')
+    py_scp_to_remote('', ip, 'scripts/build_dependencies.sh', '/home/ubuntu/build_dependencies.sh')
+    py_ssh('', ip, 'source build_dependencies.sh')
     return
 
-def read_image_id(inst_role):
-    if inst_role not in ['master', 'worker']:
-        return 0
-    file_name = glob.CLOUD + '/' + glob.CLOUD + '_' + inst_role + '_image_id'
+def read_image_id():
+    file_name = glob.CLOUD + '/' + glob.CLOUD + '_image_id'
     if os.path.isfile(file_name):
-        f = open(glob.CLOUD + '/' + glob.CLOUD + '_' + inst_role + '_image_id', 'r')
+        f = open(glob.CLOUD + '/' + glob.CLOUD + '_image_id', 'r')
         image_id = f.read()
         if 'emi' in image_id:
             return image_id.strip()
@@ -75,7 +68,10 @@ def check_instance_status(info, inst_status):
                 check_bool = inst_info[5] != 'terminated'
 
             if check_bool:
-                ret_vals.append(inst_info[idx])
+                if idx == 12 and len(inst_info[idx].split('.')) == 4:
+                    ret_vals.append(inst_info[idx])
+                elif idx == 1 and inst_info[idx].split('-')[0] == 'i':
+                    ret_vals.append(inst_info[idx])
     return ret_vals
 
 def wait_for_nodes_to_launch():

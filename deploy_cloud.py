@@ -95,15 +95,21 @@ def replace_hostfiles_petuum_format(master_ip):
         py_scp_to_remote('', data[i].strip(), 'hostfile_petuum_format', get_path)
     return
 
-def passwordless_ssh(master_ip):
+
+
+def passwordless_ssh(master_ip, master_port, up, slave_ips):
     print 'Moving Hostfile to Master...'
     py_scp_to_remote('', master_ip, 'hostfile', glob.REMOTE_PATH + '/hostfile')
     print 'Moving New Hostfile to Master...'
     py_scp_to_remote('', master_ip, 'new_hostfile', glob.REMOTE_PATH + '/new_hostfile')
     print 'Setting up Passwordless SSH...'
-    py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/add_public_key_script.sh ' + glob.REMOTE_PATH + ' ' + glob.PEM_PATH)
+    #Delete this on reimage
+    #py_scp_to_remote('', master_ip, 'add_public_key_script.sh', glob.REMOTE_PATH + '/add_public_key_script.sh')
+    # py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/add_public_key_script.sh ' + glob.REMOTE_PATH + ' ' 
+    #         + glob.PEM_PATH + ' ' + master_ip + ' ' + master_port + ' ' + str(up))
     print 'Finished Passwordless SSH'
     return
+
 
 def add_ssh_key_to_master(master_ip):
     py_ssh('', master_ip, 'source ' + glob.REMOTE_PATH + '/create_ssh_keygen.sh')
@@ -251,7 +257,7 @@ def main():
     inst_ids = check_instance_status('ids', 'all')
     inst_ips = check_instance_status('ips', 'all')
     terminate_instances(inst_ids, inst_ips)
-    force_uncache('m3.2xlarge')
+    create_image('m3.2xlarge')
 
 
 if __name__ == "__main__":
