@@ -21,7 +21,7 @@ def covert_file(path, num_feats):
                 print feat
                 print count
                 print '\n\n'
-        array.append(cols[0])
+        array.insert(0, cols[0])
         fp2.write(','.join(array) + '\n')
 
 
@@ -56,9 +56,9 @@ def change_classes_to_0_idx(path, new_path):
             data_arr[0] = '0' if data_arr[0] == '-1' else '1' #str(int(data_arr[0]) - 1)
         else:
             data_arr[0] = str(int(data_arr[0]) - 1)
-        # for i, feat in enumerate(data_arr[1:]):
-        #     feature_vec = feat.split(':')
-        #     data_arr[i+1] = str(int(feature_vec[0]) - 1) + ':' + feature_vec[1]
+        for i, feat in enumerate(data_arr[1:]):
+            feature_vec = feat.split(':')
+            data_arr[i+1] = feature_vec[0]+ ':' + str(int(float(feature_vec[1])))
         f2.write(' '.join(data_arr) + '\n')
     f.close()
     f2.close()

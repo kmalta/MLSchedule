@@ -1,49 +1,40 @@
 import urllib
 import sys
-
-def remove_html_tags(string):
-    return string.split('>')[1].split('<')[0]
+import ast
 
 
-def parse_bid(string):
-    splat = string.split('$')[1].split('(')
-    if 'none' not in splat[0]:
-        return [float(splat[0].strip()), float(splat[1].split(')')[0])]
-    else:
-        return ['none', 'none']
-
-def parse_duration(string):
-    splat = string.split()
-    if 'none' not in splat[2]:
-        return [float(splat[0]), float(splat[2].split('(')[1].split(')')[0])]
-    else:
-        return ['none', 'none']
 
 def get_bid(inst_type, region):
-    url = 'http://128.111.84.183/by-inst.html'
+    url = 'http://128.111.84.183/' + region + '-' + inst_type + '.html'
     f = urllib.urlopen(url)
     data = f.readlines()
-    first_idx = -1
+    script_index = -1
     for i, line in enumerate(data):
-        if '<h2>' in line:
-            if remove_html_tags(line) == inst_type:
-                first_idx = i
+        if '<script>' in line:
+            script_index = i
+            break
 
-    value_to_parse = ''
-    time_to_parse = ''
-    for i, line in enumerate(data[first_idx:]):
-        if '<td>' in line:
-            if remove_html_tags(line) == region:
-                value_to_parse = remove_html_tags(data[first_idx:][i+2])
-                time_to_parse = remove_html_tags(data[first_idx:][i+3])
-                break
+    time_line = data[script_index + 2]
+    cost_line = data[script_index + 3]
+
+
+    times = ast.literal_eval('[' + time_line.split('[')[1].split(']')[0] + ']')
+    costs = ast.literal_eval('[' + cost_line.split('[')[1].split(']')[0] + ']')
+
+    first_hour_cliff_index = -1
+    for i, elem in enumerate(times):
+        if int(elem) >= 1:
+            first_hour_cliff_index = i
+            break
+
+    time = float(times[i])
+    price = float(costs[i])
 
     ret_dict = {}
     ret_dict['inst_type'] = inst_type
     ret_dict['region'] = region
-    ret_dict['bid'] = parse_bid(value_to_parse)
-    ret_dict['duration'] = parse_duration(time_to_parse)
-    print repr(ret_dict)
+    ret_dict['bid'] = price
+    ret_dict['duration'] = time
     return ret_dict
 
 
