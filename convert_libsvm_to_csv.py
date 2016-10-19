@@ -1,4 +1,5 @@
 import sys
+import os
 
 
 def covert_file(path, num_feats):
@@ -42,7 +43,7 @@ def convert_classes(path):
     #os.system('mv temp ' + path)
 
 
-def change_classes_to_0_idx(path, new_path):
+def change_classes_to_0_idx(path, new_path, local):
     f = open(path, 'r')
     f2 = open(new_path, 'w')
 
@@ -56,12 +57,32 @@ def change_classes_to_0_idx(path, new_path):
             data_arr[0] = '0' if data_arr[0] == '-1' else '1' #str(int(data_arr[0]) - 1)
         else:
             data_arr[0] = str(int(data_arr[0]) - 1)
-        for i, feat in enumerate(data_arr[1:]):
-            feature_vec = feat.split(':')
-            data_arr[i+1] = feature_vec[0]+ ':' + str(int(float(feature_vec[1])))
+        #for i, feat in enumerate(data_arr[1:]):
+            #feature_vec = feat.split(':')
+            #data_arr[i+1] = feature_vec[0]+ ':' + str(float(feature_vec[1]))
         f2.write(' '.join(data_arr) + '\n')
     f.close()
     f2.close()
+    if local == 'remote':
+        os.system('rm ' + path)
+
+def get_column_max(path):
+    f = open(path, 'r')
+
+    column_max = 0
+    column_min = 10
+    count = 0
+    for line in f:
+        count += 1
+        if count % 10000 == 0:
+            print 'Processing Line:', str(count)
+        data_arr = line.split()
+        column_max = max(int(data_arr[-1].split(':')[0]), column_max)
+        column_min = min(int(data_arr[1].split(':')[0]), column_min)
+    f.close()
+
+    print 'Column max is:', str(column_max)
+    print 'Column min is:', str(column_min)
 
 
 def main():
@@ -70,13 +91,15 @@ def main():
     path = clp[1]
     try:
         new_path = clp[2]
+        local = clp[3]
     except:
         1
     #num_features = int(clp[2])
     #num_features = 54
     #covert_file(path, num_features)
     #convert_classes(path)
-    change_classes_to_0_idx(path, new_path)
+    #get_column_max(path)
+    change_classes_to_0_idx(path, new_path, local)
 
 
 if __name__ == "__main__":

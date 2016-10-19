@@ -53,6 +53,7 @@ def get_all_hosts(master_ip, ips):
     nodes_info = []
     master_host, master_priv_ip = get_host(master_ip)
     nodes_info.append([master_ip, master_host, master_priv_ip])
+    ips.remove(master_ip)
     for ip in ips:
         host, priv_ip = get_host(ip)
         nodes_info.append([ip, host, priv_ip])
@@ -97,11 +98,6 @@ def create_etc_hosts_file(nodes_info, idx):
     f.close()
     os.system('cat hosts_file_beginning hosts_file_end > all_hosts_file')
 
-def create_master_hdfs_site_file():
-    1
-
-def create_slave_hdfs_site_file():
-    1
 
 def setup_passwordless_ssh(nodes_info, master_port):
     py_ssh('', nodes_info[0][0], 'source /home/ubuntu/scripts/master_passwordless_ssh.sh '
@@ -137,16 +133,6 @@ def hadoop_configs(nodes_info, up):
     if int(up) <= 5:
         configure_master_node(nodes_info)
 
-
-def start_hadoop(master_ip):
-    #remove on reimage
-    py_scp_to_remote('', master_ip, 'scripts/start_hadoop.sh', 'scripts/start_hadoop.sh')
-    py_ssh('', master_ip, 'source scripts/start_hadoop.sh')
-
-def stop_hadoop(master_ip):
-    #remove on reimages
-    py_scp_to_remote('', master_ip, 'scripts/stop_hadoop.sh', 'scripts/stop_hadoop.sh')
-    py_ssh('', master_ip, 'source scripts/stop_hadoop.sh')
 
 
 
@@ -189,19 +175,26 @@ def start_spark(nodes_info):
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/start-all.sh')
 
 def stop_spark(nodes_info):
-    py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-all.sh')
+    #remove on reimage
+    py_scp_to_remote('', nodes_info[0][0], 'scripts/kill_spark.sh', 'scripts/kill_spark.sh')
+
+    py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-slaves.sh')
+    py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-master.sh')
+    #py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-all.sh; source scripts/kill_spark.sh')
 
 def scala_send_spark_job(nodes_info, jar_path):
     for node in nodes_info:
         py_scp_to_remote('', node[0], jar_path, 'jars/' + jar_path.split('/')[-1])
 
-def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, jar, algorithm, num_features):
+def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, jar, algorithm, num_features, iterations):
     #NON-YARN
     run_str = ['/home/ubuntu/spark-2.0.0/bin/spark-submit --verbose --master ' + 
                'spark://' + nodes_info[0][1] + ':7077' + ' --deploy-mode client ' + 
-               ' file:///home/ubuntu/jars/'+ jar + ' cluster ' + str(num_features) + 
-               ' ' + nodes_info[0][1] + ' ' + str(hadoop_master_port) + ' ' + 
-               file_name + ' ' + ' ' +  algorithm]
+               #' --driver-memory 3g
+               ' --num-executors ' + str(len(nodes_info[1:])) + 
+               ' file:///home/ubuntu/jars/'+ jar + ' cluster ' + 
+               str(num_features) + ' ' + nodes_info[0][1] + ' ' + str(hadoop_master_port) + 
+               ' ' + file_name + ' ' + ' ' +  algorithm + ' ' + str(iterations)]
 
     #YARN
     # run_str = ['/home/ubuntu/spark-2.0.0/bin/spark-submit --verbose --master yarn' + 
@@ -212,98 +205,6 @@ def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, 
     print "@@@@@@@@@@@@@@@" + run_str[0]
     py_ssh('', nodes_info[0][0], run_str[0])
 
-
-
-
-def run():
-
-    clp = sys.argv
-
-    up = clp[1]
-    glob.set_globals()
-
-    if int(up) == 0:
-        inst_ids = check_instance_status('ids', 'all')
-        inst_ips = check_instance_status('ips', 'all')
-        if len(inst_ips) != 0:
-            terminate_instances(inst_ids, inst_ips)
-
-        master_ip, master_id = set_up_master(master_type)
-        add_swapfile(master_ip, master_ram)
-        f = open('host_master', 'w')
-        f.write(master_ip + '\n')
-        f.close()
-
-
-    if int(up) <= 1:
-
-        set_up_slaves(4, worker_type)
-        inst_ips = check_instance_status('ips', 'all')
-        inst_ips.remove(master_ip)
-        for ip in inst_ips:
-            add_swapfile(ip, worker_ram)
-        f = open('hostfile', 'w')
-        for ip in inst_ips:
-            f.write(ip + '\n')
-        f.close()
-
-
-
-    inst_ips = check_instance_status('ips', 'all')
-
-    f = open('host_master', 'r')
-    master_ip = f.readlines()[0].split()[0]
-    f.close()
-
-    inst_ips.remove(master_ip)
-
-    nodes_info = get_all_hosts(master_ip, inst_ips)
-
-
-    if int(up) <= 6:
-        hadoop_configs(nodes_info, up)
-
-    if int(up) <= 7:
-        stop_hadoop(master_ip)
-        if int(up) > 0:
-            py_ssh('', nodes_info[0][0], 'sudo rm -rf /tmp/*;/usr/local/hadoop/hadoop_data/hdfs/namenode/*')
-            for node in nodes_info[1:]:
-                py_ssh('', node[0], 'sudo rm -rf /tmp/*;sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs/datanode/*')
-        start_hadoop(master_ip)
-
-
-    #sys.exit('We out!')
-    if int(up) <= 8:
-        py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /mnt')
-        #py_scp_to_remote('', master_ip, 'experiment_data/covtype/covtype_0', '/mnt/covtype_0')
-        #print "@#@$#$@#$ ", glob.S3CMD_CFG_PATH
-        #print 's3cmd -c ' + glob.S3CMD_CFG_PATH + ' get s3://' + bucket_name + '/' + data_set + ' /mnt/' + data_set
-        py_ssh('', master_ip, 's3cmd -c ' + glob.S3CMD_CFG_PATH + ' get s3://' + bucket_name + '/' + data_set + ' /mnt/' + data_set )
-        py_scp_to_remote('', master_ip, 'convert_libsvm_to_csv.py', 'convert_libsvm_to_csv.py')
-        py_ssh('', master_ip, 'python convert_libsvm_to_csv.py /mnt/' + data_set + ' /mnt/' + data_set + '_0')
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
-
-        #py_ssh('', master_ip, 'source .profile; hdfs distcp s3://mybucket/myfile /root/myfile')
-    if int(up) <= 9:
-        spark_config(nodes_info, up)
-
-    if int(up) <= 10:
-        stop_spark(nodes_info, up)
-        start_spark(nodes_info, up)
-
-    if int(up) <= 11:
-        scala_send_spark_job(nodes_info, up)
-
-    if int(up) <= 12:
-        scala_run_spark_job(nodes_info, 7077, file_name, 9000, local_jar_path[0].split('/')[-1])
-
-    if int(up) <= 13:
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/scalaSVMWithSGDModel /; /usr/local/hadoop/bin/hdfs dfs -ls /')
-
-    if int(up) <= 14:
-        if int(up) > 11:
-            scala_send_spark_job(nodes_info, up)
-        scala_run_spark_job(nodes_info, 7077, file_name, 9000, local_jar_path[1].split('/')[-1])
 
 ########################################################################################################
 ########################################################################################################
@@ -336,11 +237,12 @@ def configure_experiment_machines(experiment, inst_type, master_ip, master_id, s
     data_set = s3url.split('/')[-1]
 
     py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /mnt')
-    py_ssh('', master_ip, 's3cmd -c ' + glob.S3CMD_CFG_PATH + ' get ' + s3url +' /mnt/' + data_set )
-    py_scp_to_remote('', master_ip, 'convert_libsvm_to_csv.py', 'convert_libsvm_to_csv.py')
-    py_ssh('', master_ip, 'python convert_libsvm_to_csv.py /mnt/' + data_set + ' /mnt/' + data_set + '_0')
+    py_ssh('', master_ip, 's3cmd -c ' + glob.S3CMD_CFG_PATH + ' get ' + s3url + '_0' +' /mnt/' + data_set + '_0' )
+    #py_scp_to_remote('', master_ip, 'convert_libsvm_to_csv.py', 'convert_libsvm_to_csv.py')
+    #py_ssh('', master_ip, 'python convert_libsvm_to_csv.py /mnt/' + data_set + ' /mnt/' + data_set + '_0 remote')
 
     #ADDS FILES NOT ADDED TO IMAGE YET
+    py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.py', 'scripts/get_percentage_of_file.py')
     py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.sh', 'scripts/get_percentage_of_file.sh')
 
 
@@ -356,8 +258,46 @@ def configure_experiment_machines(experiment, inst_type, master_ip, master_id, s
         f.write(ip + '\n')
     f.close()
 
+def assert_datanodes_liveness(nodes_info):
+    nodes_are_alive = 0
+    flag = 0
+
+    while nodes_are_alive == 0:
+        py_ssh('', nodes_info[0][0], 'source scripts/restart_hadoop.sh ; source scripts/check_hdfs_cluster_status.sh')
+        py_scp_to_local('', nodes_info[0][0], 'dfsadmin_report', 'dfsadmin_report')
+        f = open('dfsadmin_report', 'r')
+        for line in f:
+            if 'Live datanodes' in line:
+                live_nodes = int(line.split()[2].split(')')[0].split('(')[1])
+                if live_nodes == len(nodes_info) - 1:
+                    nodes_are_alive = 1
+                    break
+                else:
+                    break
+
+def create_hdfs_site_file(nodes_info, replication, tempdir_path, idx):
+    #seriously delete on reimage
+    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_beginning.xml', 'hadoop_xml_files/hdfs_site_beginning.xml')
+    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_middle_1.xml', 'hadoop_xml_files/hdfs_site_middle_1.xml')
+    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_middle_2.xml', 'hadoop_xml_files/hdfs_site_middel_2.xml')
+    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_ending.xml', 'hadoop_xml_files/hdfs_site_ending.xml')
+
+
+    py_ssh('', nodes_info[idx][0], "echo -ne " + str(replication) + " > replication_tmp; " + 
+                                   "echo -ne file://" + tempdir_path + "/namenode > namenode_path; " + 
+                                   "echo -ne file://" + tempdir_path + "/datanode > datanode_path")
+    cat_arg = ['cat hadoop_xml_files/hdfs_site_beginning.xml replication_tmp ' + 
+               'hadoop_xml_files/hdfs_site_middle_1.xml namenode_path ' + 
+               'hadoop_xml_files/hdfs_site_middle_1.xml datanode_path hadoop_xml_files/hdfs_site_ending.xml ' + 
+               '> hadoop_xml_files/hdfs-site.xml']
+    py_ssh('', nodes_info[idx][0], cat_arg[0])
+
 
 def configure_hadoop(nodes_info):
+
+    #PARAMS FOR HADOOP
+    replication = 1
+    tempdir_path = '/mnt'
 
     f = open('hostfile', 'w')
     for node in nodes_info[1:]:
@@ -367,14 +307,12 @@ def configure_hadoop(nodes_info):
     create_masters_file(nodes_info)
     create_slaves_file(nodes_info)
 
-    create_master_hdfs_site_file()
-    create_slave_hdfs_site_file()
-
 
     i = 0
     for node in nodes_info:
         create_yarn_site_file(nodes_info, i)
         create_core_site_file(nodes_info, i)
+        create_hdfs_site_file(nodes_info, replication, tempdir_path, i)
 
         py_scp_to_remote('', node[0], 'hostfile', 'hostfile')
         create_etc_hosts_file(nodes_info, i)
@@ -409,46 +347,55 @@ def read_job_time(master_ip):
         return None
 
 
-def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experiment, nodes_info, s3url, jar_path, algorithm):
+def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experiment, nodes_info, s3url, jar_path, algorithm, iterations, first, prev_exp_percent):
     master_ip = nodes_info[0][0]
 
+    #remove on reimage
+    py_scp_to_remote('-r', master_ip, 'scripts', '')
+
     stop_spark(nodes_info)
-    stop_hadoop(master_ip)
-    py_ssh('', master_ip, 'sudo rm -rf /tmp/*; sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs/namenode/*')
-    for node in nodes_info[1:]:
-        py_ssh('', node[0], 'sudo rm -rf /tmp/*; sudo rm -rf /usr/local/hadoop/hadoop_data/hdfs/datanode/*')
-
-    #Do I need this line??
-    py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /tmp')
-
-    configure_hadoop(nodes_info)
-    start_hadoop(master_ip)
 
     data_set = s3url.split('/')[-1]
 
-    if exp_or_actual == 'actual':
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
+    suffix = ''
 
-        spark_config(nodes_info)
-        start_spark(nodes_info)
+    print "FIRST:", repr(first)
+    if first == True:
+        configure_hadoop(nodes_info)
+        assert_datanodes_liveness(nodes_info)
 
-        scala_send_spark_job(nodes_info, jar_path)
+        #Do I need this line??
+        py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /tmp')
 
-        jar = jar_path.split('/')[-1]
+        
+        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0 /; /usr/local/hadoop/bin/hdfs dfs -ls /')
 
-        scala_run_spark_job(nodes_info, 7077, data_set + '_0', 9000, jar, algorithm, num_features)
+        py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.py', 'scripts/get_percentage_of_file.py')
+
+
+        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm -f /' + data_set + '_0_exp; /usr/local/hadoop/bin/hdfs dfs -ls /')
+        py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
+        #py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; source scripts/get_percentage_of_file.sh ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
+        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
+        suffix = '_0_exp '
     else:
-        py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; source scripts/get_percentage_of_file.sh ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
+        suffix = '_0_exp '
 
-        spark_config(nodes_info)
-        start_spark(nodes_info)
 
-        scala_send_spark_job(nodes_info, jar_path)
+    spark_config(nodes_info)
+    start_spark(nodes_info)
 
-        jar = jar_path.split('/')[-1]
+    scala_send_spark_job(nodes_info, jar_path)
 
-        scala_run_spark_job(nodes_info, 7077, data_set + '_0_exp', 9000, jar, algorithm, num_features)
+    jar = jar_path.split('/')[-1]
+
+    scala_run_spark_job(nodes_info, 7077, data_set + suffix, 9000, jar, algorithm, num_features, iterations)
+
+
+    # if exp_or_actual == 'actual':
+    #     scala_run_spark_job(nodes_info, 7077, data_set + '_0', 9000, jar, algorithm, num_features, iterations)
+    # else:
+    #     scala_run_spark_job(nodes_info, 7077, data_set + '_0_exp', 9000, jar, algorithm, num_features, iterations)
 
     # py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/scalaSVMWithSGDModel /; /usr/local/hadoop/bin/hdfs dfs -ls /')
 
