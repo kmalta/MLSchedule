@@ -12,7 +12,7 @@ from boto.ec2.regioninfo import RegionInfo
 import boto.s3.connection
 
 #GLOBALS
-master_type='m3.2xlarge'
+#master_type='cr1.8xlarge'
 worker_type='m3.2xlarge'
 master_ram=4096
 worker_ram=4096
@@ -190,7 +190,7 @@ def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, 
     #NON-YARN
     run_str = ['/home/ubuntu/spark-2.0.0/bin/spark-submit --verbose --master ' + 
                'spark://' + nodes_info[0][1] + ':7077' + ' --deploy-mode client ' + 
-               #' --driver-memory 3g
+               ' --driver-memory 7g ' + #' --executor-memory 2g' + 
                ' --num-executors ' + str(len(nodes_info[1:])) + 
                ' file:///home/ubuntu/jars/'+ jar + ' cluster ' + 
                str(num_features) + ' ' + nodes_info[0][1] + ' ' + str(hadoop_master_port) + 
@@ -236,7 +236,7 @@ def configure_experiment_machines(experiment, inst_type, master_ip, master_id, s
 
     data_set = s3url.split('/')[-1]
 
-    py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /mnt')
+    py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /mnt; mkdir namenode')
     py_ssh('', master_ip, 's3cmd -c ' + glob.S3CMD_CFG_PATH + ' get ' + s3url + '_0' +' /mnt/' + data_set + '_0' )
     #py_scp_to_remote('', master_ip, 'convert_libsvm_to_csv.py', 'convert_libsvm_to_csv.py')
     #py_ssh('', master_ip, 'python convert_libsvm_to_csv.py /mnt/' + data_set + ' /mnt/' + data_set + '_0 remote')
@@ -256,6 +256,7 @@ def configure_experiment_machines(experiment, inst_type, master_ip, master_id, s
     f = open('hostfile', 'w')
     for ip in inst_ips:
         f.write(ip + '\n')
+        py_ssh('', ip, 'sudo chown ubuntu:ubuntu /mnt;mkdir /mnt/datanode')
     f.close()
 
 def assert_datanodes_liveness(nodes_info):
@@ -372,9 +373,11 @@ def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experim
 
         py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.py', 'scripts/get_percentage_of_file.py')
 
-
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm -f /' + data_set + '_0_exp; /usr/local/hadoop/bin/hdfs dfs -ls /')
-        py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
+        if experiment[0] == 100:
+            py_ssh('', master_ip, 'mv /mnt/' + data_set + '_0 /mnt/' + data_set + '_0_exp')
+        else:
+            py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm -f /' + data_set + '_0_exp; /usr/local/hadoop/bin/hdfs dfs -ls /')
+            py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
         #py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; source scripts/get_percentage_of_file.sh ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
         py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
         suffix = '_0_exp '

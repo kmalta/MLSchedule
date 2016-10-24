@@ -69,7 +69,7 @@ def init(s3url, num_features, budget, duration, training_budget, duration_budget
     # f.write(repr(all_actual_times) + '\n')
     # f.close()
 
-def fixed_design_init(s3url, num_features, budget, duration, training_budget, duration_budget, jar_path, algorithm, init_time_str, exps_array):
+def fixed_design_init(master_type, part_way, s3url, num_features, budget, duration, training_budget, duration_budget, jar_path, algorithm, init_time_str, exps_array):
     
     experiments = exps_array#kevin_experiment_methodology(budget, training_budget)
     #sys.exit('We out!')
@@ -90,8 +90,9 @@ def fixed_design_init(s3url, num_features, budget, duration, training_budget, du
     prev_exp = None
     second_prev = None
     prev_exp_percent = 0
-    os.system('mkdir init_experiments/experiment' + init_time_str)
-    os.system('echo ' + s3url + ' >> init_experiments/experiment' + init_time_str + '/experiment_times')
+    if part_way == False:
+        os.system('mkdir init_experiments/experiment' + init_time_str)
+        os.system('echo ' + s3url + ' >> init_experiments/experiment' + init_time_str + '/experiment_times')
     for exp in experiments:
         print "\n\n#######################################################"
         print "#######################################################\n\n"
@@ -327,50 +328,178 @@ def predict_poly_model(x1, x2, degrees):
 
 
 
+def run_suite_of_exps(s3url, features, master_type, large_iter_range, large_iter_only):
+    if large_iter_only == False:
+        for i in range(1,2):
+            init_time_str = time_str()
+            exps_array = [[12.5,1,1] for i in range(30)]
+            #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+            fixed_design_init(master_type, False, s3url, features, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machines_1_epoch_30_trials', exps_array)
+            # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+            #print coeffs
+
+        for i in range(1,2):
+            init_time_str = time_str()
+            exps_array = [[12.5,1,30] for i in range(30)]
+            #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+            fixed_design_init(master_type, False, s3url, features, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machine_30_epochs_30_trials', exps_array)
+            # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+            #print coeffs
+
+
+
+        for i in range(1,2):
+            init_time_str = time_str()
+            exps_array = [[25,2,1] for i in range(30)]
+            #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+            fixed_design_init(master_type, False, s3url, features, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_4_machines_1_epoch_30_trials', exps_array)
+            # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+            #print coeffs
+
+        for i in range(1,2):
+            init_time_str = time_str()
+            exps_array = [[25,2,30] for i in range(30)]
+            #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+            fixed_design_init(master_type, False, s3url, features, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_4_machines_30_epochs_30_trials', exps_array)
+            # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+            #print coeffs
+
+    for i in range(1,2):
+        init_time_str = time_str()
+        exps_array = [[100,4,500] for i in range(large_iter_range)]
+        #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+        fixed_design_init(master_type, False, s3url, features, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_16_machine_30_epochs_30_trials', exps_array)
+        # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+        #print coeffs
+
+
+
 def main():
     glob.set_globals()
 
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[100,4,500] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 18, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_16_machine_30_epochs_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[100,4,500] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_16_machine_30_epochs_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
 
 
-    for i in range(1,2):
-        init_time_str = time_str()
-        exps_array = [[12.5,1,30] for i in range(29)]
-        #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
-        fixed_design_init('s3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machine_30_epochs_30_trials', exps_array)
-        # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
-        #print coeffs
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[25,2,5] for i in range(1)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://url-combined-data/url_combined', 3231961, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_4_machines_1_epoch_1_trial', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
 
-    for i in range(1,2):
-        init_time_str = time_str()
-        exps_array = [[6.25,0,30] for i in range(30)]
-        #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
-        fixed_design_init('s3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_1_machine_30_epochs_30_trials', exps_array)
-        # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
-        #print coeffs
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[12.5,1,5] for i in range(1)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://webspam-data/webspam', 16609143, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machines_1_epoch_1_trial', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
 
-    for i in range(1,2):
-        init_time_str = time_str()
-        exps_array = [[100,4,500] for i in range(3)]
-        #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
-        fixed_design_init('s3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_16_machine_30_epochs_2_trials', exps_array)
-        # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
-        #print coeffs
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[25,2,5] for i in range(1)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://url-combined-data/url_combined', 3231961, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_4_machines_1_epoch_1_trial', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
 
-    for i in range(1,2):
-        init_time_str = time_str()
-        exps_array = [[12.5,1,1] for i in range(30)]
-        #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
-        fixed_design_init('s3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machine_1_epochs_30_trials', exps_array)
-        # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
-        #print coeffs
+    #run_suite_of_exps('s3://20-gb-synth-data/20_gb_synth', 10, 'm3.2xlarge', 3)
+    run_suite_of_exps('s3://susy-data/susy', 18, 'm3.2xlarge', 12, True)
+    run_suite_of_exps('s3://30-gb-synth-data/30_gb_synth', 100000, 'm2.4xlarge', 3, False)
 
-    for i in range(1,2):
-        init_time_str = time_str()
-        exps_array = [[6.25,0,1] for i in range(30)]
-        #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
-        fixed_design_init('s3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_1_machine_1_epochs_30_trials', exps_array)
-        # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
-        #print coeffs
+    # run_suite_of_exps('s3://higgs-data/higgs', 28, 'm3.2xlarge')
+    # run_suite_of_exps('s3://url-combined-data/url_combined', 3231961, 'hi1.4xlarge')
+    # run_suite_of_exps('s3://kdda-data/kdda', 20216830, 'cr1.8xlarge')
+    # run_suite_of_exps('s3://kddb-data/kddb', 29890095, 'cr1.8xlarge')
+    # run_suite_of_exps('s3://webspam-data/webspam', 16609143, 'cr1.8xlarge')
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[12.5,1,1] for i in range(1)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machine_1_epoch_1_trial', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[6.25,0,1] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_1_machine_1_epoch_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[100,4,500] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 18, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_16_machine_30_epochs_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[12.5,1,1] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 18, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machine_1_epoch_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[6.25,0,30] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://higgs-data/higgs', 28, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_1_machine_30_epochs_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[12.5,1,30] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 18, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_2_machine_30_epochs_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[25,2,1] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 18, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_4_machines_1_epoch_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+    # for i in range(1,2):
+    #     init_time_str = time_str()
+    #     exps_array = [[25,2,30] for i in range(30)]
+    #     #init('s3://url-combined-data/url_combined', 3231961, 10, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression')
+    #     fixed_design_init(False, 's3://susy-data/susy', 18, 20, 1, .1, .2, 'spark_test/target/scala-2.11/ml-test_2.11-1.0.jar', 'logistic_regression', init_time_str + '_4_machines_30_epochs_30_trials', exps_array)
+    #     # coeffs = list(fit_model([[9, 0], [9, 2], [9, 4], [10, 1], [10, 3]], [26.0001, 28.0901, 30.0203, 26.1923, 28.1294])[0])
+    #     #print coeffs
+
+    # #####
+
 
 
     #os.system('s3cmd -c euca00/euca00-s3cfg put generated_higgs_0 s3://higgs-data/generated_higgs_0')
