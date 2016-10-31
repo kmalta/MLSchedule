@@ -13,7 +13,8 @@ import boto.s3.connection
 
 #GLOBALS
 #master_type='cr1.8xlarge'
-worker_type='m3.2xlarge'
+#worker_type='m3.2xlarge'
+worker_type='hi1.4xlarge'
 master_ram=4096
 worker_ram=4096
 local_jar_path=['/Users/Kevin/MLSchedule/spark_dataframe_test/target/scala-2.11/ml-dataframe-test_2.11-1.0.jar', 
@@ -64,8 +65,8 @@ def create_core_site_file(nodes_info, idx):
 
 def create_yarn_site_file(nodes_info, idx):
     port = 9000
-    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/yarn_site_beginning.xml', 'hadoop_xml_files/yarn_site_beginning.xml')
-    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/yarn_site_ending.xml', 'hadoop_xml_files/yarn_site_ending.xml')
+
+
     py_ssh('', nodes_info[idx][0], "echo -ne " + str(nodes_info[0][1]) + " > host_master_tmp; " + 
                                    "echo -ne : > colon; " + 
                                    "echo -ne " + str(port) + " > host_port_tmp")
@@ -175,35 +176,45 @@ def start_spark(nodes_info):
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/start-all.sh')
 
 def stop_spark(nodes_info):
-    #remove on reimage
-    py_scp_to_remote('', nodes_info[0][0], 'scripts/kill_spark.sh', 'scripts/kill_spark.sh')
 
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-slaves.sh')
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-master.sh')
-    #py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-all.sh; source scripts/kill_spark.sh')
 
 def scala_send_spark_job(nodes_info, jar_path):
     for node in nodes_info:
         py_scp_to_remote('', node[0], jar_path, 'jars/' + jar_path.split('/')[-1])
 
-def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, jar, algorithm, num_features, iterations):
+def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, jar, algorithm, num_features, iterations, log_path):
     #NON-YARN
+    driver_mem = ''
+    executor_mem = ''
+    spark_max_result = ''
+
+    if 'kddb' in file_name or 'kdda' in file_name:
+        driver_mem = '12500m'
+        executor_mem = '12500m'
+        spark_max_result = ' --conf spark.driver.maxResultSize=4g'
+    else:
+        driver_mem = '4000m'
+        executor_mem = '4000m'
+    # elif 'url' in file_name:
+    #     driver_mem = '4000m'
+    #     executor_mem = '2500m'
+    # else:
+    #     driver_mem = '2500m'
+    #     executor_mem = '2500m'
     run_str = ['/home/ubuntu/spark-2.0.0/bin/spark-submit --verbose --master ' + 
                'spark://' + nodes_info[0][1] + ':7077' + ' --deploy-mode client ' + 
-               ' --driver-memory 7g ' + #' --executor-memory 2g' + 
+               ' --driver-memory ' + driver_mem + ' --executor-memory ' + executor_mem + ' --conf spark.shuffle.spill=false' + spark_max_result + 
                ' --num-executors ' + str(len(nodes_info[1:])) + 
                ' file:///home/ubuntu/jars/'+ jar + ' cluster ' + 
                str(num_features) + ' ' + nodes_info[0][1] + ' ' + str(hadoop_master_port) + 
                ' ' + file_name + ' ' + ' ' +  algorithm + ' ' + str(iterations)]
 
-    #YARN
-    # run_str = ['/home/ubuntu/spark-2.0.0/bin/spark-submit --verbose --master yarn' + 
-    #            ' --deploy-mode cluster ' + ' file:///home/ubuntu/jars/'+ jar + ' cluster '
-    #            + nodes_info[0][1] + ' ' + str(hadoop_master_port) + ' ' + file_name + ' ' +
-    #            ' ' +  algorithm]
 
     print "@@@@@@@@@@@@@@@" + run_str[0]
-    py_ssh('', nodes_info[0][0], run_str[0])
+    py_ssh_to_log('', nodes_info[0][0], run_str[0], log_path)
+
 
 
 ########################################################################################################
@@ -229,7 +240,6 @@ def configure_experiment_machines(experiment, inst_type, master_ip, master_id, s
     if len(inst_ips) != 0:
         terminate_instances(inst_ids, inst_ips)
 
-    #add_swapfile(master_ip, master_ram)
     f = open('host_master', 'w')
     f.write(master_ip + '\n')
     f.close()
@@ -237,13 +247,19 @@ def configure_experiment_machines(experiment, inst_type, master_ip, master_id, s
     data_set = s3url.split('/')[-1]
 
     py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /mnt; mkdir namenode')
-    py_ssh('', master_ip, 's3cmd -c ' + glob.S3CMD_CFG_PATH + ' get ' + s3url + '_0' +' /mnt/' + data_set + '_0' )
-    #py_scp_to_remote('', master_ip, 'convert_libsvm_to_csv.py', 'convert_libsvm_to_csv.py')
-    #py_ssh('', master_ip, 'python convert_libsvm_to_csv.py /mnt/' + data_set + ' /mnt/' + data_set + '_0 remote')
+    get_data = 's3cmd -d -v -c ~/' + glob.S3CMD_CFG_PATH + ' get ' + s3url + '_0' +' /mnt/' + data_set + '_0'
 
-    #ADDS FILES NOT ADDED TO IMAGE YET
-    py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.py', 'scripts/get_percentage_of_file.py')
-    py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.sh', 'scripts/get_percentage_of_file.sh')
+    while(1):
+        os.system('rm s3_log')
+        py_ssh_to_log('', master_ip, 'sudo chown ubuntu:ubuntu /mnt; ' +  get_data, 's3_log')
+        sleep(3)
+        f = open('s3_log', 'r')
+        if '403' not in f.read():
+            break
+
+    #remove on reimage
+    py_scp_to_remote('', master_ip, 'scripts/usage.sh', 'scripts/usage.sh')
+
 
 
     slave_count = 2**max(map(lambda x: x[1], experiment))
@@ -277,12 +293,6 @@ def assert_datanodes_liveness(nodes_info):
                     break
 
 def create_hdfs_site_file(nodes_info, replication, tempdir_path, idx):
-    #seriously delete on reimage
-    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_beginning.xml', 'hadoop_xml_files/hdfs_site_beginning.xml')
-    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_middle_1.xml', 'hadoop_xml_files/hdfs_site_middle_1.xml')
-    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_middle_2.xml', 'hadoop_xml_files/hdfs_site_middel_2.xml')
-    py_scp_to_remote('', nodes_info[idx][0], 'hadoop_xml_files/hdfs_site_ending.xml', 'hadoop_xml_files/hdfs_site_ending.xml')
-
 
     py_ssh('', nodes_info[idx][0], "echo -ne " + str(replication) + " > replication_tmp; " + 
                                    "echo -ne file://" + tempdir_path + "/namenode > namenode_path; " + 
@@ -294,11 +304,17 @@ def create_hdfs_site_file(nodes_info, replication, tempdir_path, idx):
     py_ssh('', nodes_info[idx][0], cat_arg[0])
 
 
-def configure_hadoop(nodes_info):
+def configure_hadoop(nodes_info, replication, experiment):
 
     #PARAMS FOR HADOOP
-    replication = 1
     tempdir_path = '/mnt'
+
+    machs = 2**experiment[1]
+
+    junk_chunks = 1
+    if machs < replication:
+        junk_chunks = float(replication - machs)/machs
+        replication = machs
 
     f = open('hostfile', 'w')
     for node in nodes_info[1:]:
@@ -311,6 +327,8 @@ def configure_hadoop(nodes_info):
 
     i = 0
     for node in nodes_info:
+        py_ssh('', node[0], 'sudo chown ubuntu:ubuntu /')
+        py_scp_to_remote('', node[0], 'scripts/usage.sh', 'scripts/usage.sh')
         create_yarn_site_file(nodes_info, i)
         create_core_site_file(nodes_info, i)
         create_hdfs_site_file(nodes_info, replication, tempdir_path, i)
@@ -324,11 +342,10 @@ def configure_hadoop(nodes_info):
         configure_slave_node(nodes_info, idx + 1)
 
     configure_master_node(nodes_info)
+    return junk_chunks
 
 
 def read_job_time(master_ip):
-    #remove on reimage
-    py_scp_to_remote('', master_ip, 'scripts/check_if_exists.sh', 'scripts/check_if_exists.sh')
 
     exists = 0
     while exists == 0:
@@ -342,17 +359,14 @@ def read_job_time(master_ip):
     py_ssh('', master_ip, 'rm time_file')
     f = open('time_file', 'r')
     try:
-        return float(f.readlines()[0].strip())
+        return map(lambda x: float(x.strip()), f.readlines())
     except:
         print 'We could not read the time file.  Something happened.  Get off your lazy ass and figure it out'
         return None
 
 
-def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experiment, nodes_info, s3url, jar_path, algorithm, iterations, first, prev_exp_percent):
+def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experiment, nodes_info, s3url, jar_path, algorithm, iterations, first, prev_exp_percent, replication, log_path):
     master_ip = nodes_info[0][0]
-
-    #remove on reimage
-    py_scp_to_remote('-r', master_ip, 'scripts', '')
 
     stop_spark(nodes_info)
 
@@ -362,24 +376,24 @@ def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experim
 
     print "FIRST:", repr(first)
     if first == True:
-        configure_hadoop(nodes_info)
+        junk_chunks = configure_hadoop(nodes_info, replication, experiment)
         assert_datanodes_liveness(nodes_info)
 
         #Do I need this line??
         py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /tmp')
 
-        
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0 /; /usr/local/hadoop/bin/hdfs dfs -ls /')
-
-        py_scp_to_remote('', master_ip, 'scripts/get_percentage_of_file.py', 'scripts/get_percentage_of_file.py')
 
         if experiment[0] == 100:
             py_ssh('', master_ip, 'mv /mnt/' + data_set + '_0 /mnt/' + data_set + '_0_exp')
+            py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
         else:
             py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm -f /' + data_set + '_0_exp; /usr/local/hadoop/bin/hdfs dfs -ls /')
             py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
-        #py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; source scripts/get_percentage_of_file.sh ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
-        py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
+            py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
+            py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0*junk_chunks))
+            py_ssh('', master_ip, 'mv /mnt/' + data_set + '_0_exp /mnt/junk_data;/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/junk_data /; /usr/local/hadoop/bin/hdfs dfs -ls /')
+
+
         suffix = '_0_exp '
     else:
         suffix = '_0_exp '
@@ -392,17 +406,9 @@ def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experim
 
     jar = jar_path.split('/')[-1]
 
-    scala_run_spark_job(nodes_info, 7077, data_set + suffix, 9000, jar, algorithm, num_features, iterations)
+    scala_run_spark_job(nodes_info, 7077, data_set + suffix, 9000, jar, algorithm, num_features, iterations, log_path)
 
 
-    # if exp_or_actual == 'actual':
-    #     scala_run_spark_job(nodes_info, 7077, data_set + '_0', 9000, jar, algorithm, num_features, iterations)
-    # else:
-    #     scala_run_spark_job(nodes_info, 7077, data_set + '_0_exp', 9000, jar, algorithm, num_features, iterations)
-
-    # py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/scalaSVMWithSGDModel /; /usr/local/hadoop/bin/hdfs dfs -ls /')
-
-    # scala_send_spark_job(nodes_info)
 
 
 ########################################################################################################
