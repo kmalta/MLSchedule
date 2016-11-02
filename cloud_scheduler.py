@@ -30,9 +30,15 @@ def fixed_design_init(master_type, s3url, num_features, jar_path, algorithm, ini
         os.system('mkdir aristotle_all_in_one_exps/experiment' + init_time_str)
         os.system('echo ' + s3url + ' >> aristotle_all_in_one_exps/experiment' + init_time_str + '/experiment')
         os.system('echo ' + repr(experiments[0]) + ' >> aristotle_all_in_one_exps/experiment' + init_time_str + '/experiment')
+        log_idx = 0
     else:
+        master_ip, master_id = start_master_node(master_type)
+        configure_experiment_machines(experiments, worker_type, master_ip, master_id, s3url)
         f = open('host_master', 'r')
         master_ip = f.read().strip()
+        f.close()
+        f = open('aristotle_all_in_one_exps/experiment' + init_time_str + '/all_iters', 'r')
+        log_idx = len(f.readlines())
         f.close()
 
 
@@ -42,9 +48,8 @@ def fixed_design_init(master_type, s3url, num_features, jar_path, algorithm, ini
     second_prev = None
     prev_exp_percent = 0
 
-    log_path = 'aristotle_all_in_one_exps/experiment' + init_time_str + '/temp_log'
 
-    f2 = open('aristotle_all_in_one_exps/experiment' + init_time_str + '/log_metrics_file', 'w')
+    f2 = open('aristotle_all_in_one_exps/experiment' + init_time_str + '/log_metrics_file', 'a')
     meaning_array = [
                      'first at GeneralizedLinearAlgorithm.scala:246', 
                      'count at DataValidators.scala:40', 
@@ -54,9 +59,12 @@ def fixed_design_init(master_type, s3url, num_features, jar_path, algorithm, ini
     f2.write('\t'.join(meaning_array) + '\n')
     f2.close()
 
+    os.system('mkdir aristotle_all_in_one_exps/experiment' + init_time_str + '/logs')
+    for k, exp in enumerate(experiments):
+        log_path = 'aristotle_all_in_one_exps/experiment' + init_time_str + '/logs/log_trial_' + str(k + log_idx)
+        if os.path.isfile(log_path):
+            os.system('rm ' + log_path)
 
-    for exp in experiments:
-        os.system('rm ' + log_path)
         print "\n\n#######################################################"
         print "#######################################################\n\n"
         print "@@EXPERIMENT", repr(exp)
@@ -70,7 +78,7 @@ def fixed_design_init(master_type, s3url, num_features, jar_path, algorithm, ini
         except:
             prev_exp_percent = 0
         
-        if prev_exp == None and part_way == False:
+        if prev_exp == None:
             configure_and_run_experiment_frameworks('experiment', num_features, exp, sub_nodes_info, s3url, jar_path, algorithm, exp[2], True, prev_exp_percent, replication, log_path)
         else:
             configure_and_run_experiment_frameworks('experiment', num_features, exp, sub_nodes_info, s3url, jar_path, algorithm, exp[2], False, prev_exp_percent, replication, log_path)
@@ -91,7 +99,7 @@ def fixed_design_init(master_type, s3url, num_features, jar_path, algorithm, ini
         os.system('echo ' + str(metrics[2]) + ' >> aristotle_all_in_one_exps/experiment' + init_time_str + '/init_vector')
         os.system('echo ' + str(metrics[3]) + ' >> aristotle_all_in_one_exps/experiment' + init_time_str + '/model_setup')
         os.system('echo ' + str(metrics[4]) + ' >> aristotle_all_in_one_exps/experiment' + init_time_str + '/all_iters')
-        os.system('python parse_spark_log_for_times.py aristotle_all_in_one_exps/experiment' + init_time_str)
+        os.system('python parse_spark_log_for_times.py aristotle_all_in_one_exps/experiment' + init_time_str + ' ' + str(k))
         second_prev = prev_exp
         prev_exp = exp
 
@@ -233,7 +241,6 @@ def run_suite_of_exps(s3url, features, master_type, first, second, algorithm, re
         for i in range(1,2):
             suffix = time_str() + '_' + s3url.split('/')[-1] +  '_2_machines_500_epochs_30_trials'
             num_exps, suffix = check_part_way(part_way, suffix)
-            
             print 'Num Exps:', str(num_exps)
             print 'Suffix:', suffix
             exps_array = [[12.5,1,500] for i in range(num_exps)]
@@ -321,11 +328,11 @@ def main():
         run_suite_of_exps('s3://kdda-data/kdda', 20216830, 'm1.large', one_mach_exp[4], two_mach_exp[4], 'classification', 3, 'm1.large', partial[4], skip[4], False)
 
     else:
-        run_suite_of_exps('s3://higgs-data/higgs', 28, 'cg1.4xlarge', True, True, 'classification', 3, 'cg1.4xlarge', False, False, False)
-        run_suite_of_exps('s3://susy-data/susy', 18, 'cg1.4xlarge', True, True, 'classification', 3, 'cg1.4xlarge', False, False, False)
+        # run_suite_of_exps('s3://higgs-data/higgs', 28, 'cg1.4xlarge', True, True, 'classification', 3, 'cg1.4xlarge', False, False, False)
+        # run_suite_of_exps('s3://susy-data/susy', 18, 'cg1.4xlarge', True, True, 'classification', 3, 'cg1.4xlarge', False, False, False)
         run_suite_of_exps('s3://url-combined-data/url_combined', 3231961, 'cg1.4xlarge', True, True, 'classification', 3, 'cg1.4xlarge', False, False, False)
-        run_suite_of_exps('s3://kddb-data/kddb', 29890095, 'm1.large', True, True, 'classification', 3, 'm1.large', False, False, False)
-        run_suite_of_exps('s3://kdda-data/kdda', 20216830, 'm1.large', True, True, 'classification', 3, 'm1.large', False, False, False)
+        # run_suite_of_exps('s3://kddb-data/kddb', 29890095, 'm1.large', True, True, 'classification', 3, 'm1.large', False, False, False)
+        #run_suite_of_exps('s3://kdda-data/kdda', 20216830, 'm1.large', True, True, 'classification', 3, 'm1.large', False, False, False)
 
 
 

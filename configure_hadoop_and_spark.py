@@ -191,8 +191,8 @@ def scala_run_spark_job(nodes_info, master_port, file_name, hadoop_master_port, 
     spark_max_result = ''
 
     if 'kddb' in file_name or 'kdda' in file_name:
-        driver_mem = '12500m'
-        executor_mem = '12500m'
+        driver_mem = '11500m'
+        executor_mem = '11500m'
         spark_max_result = ' --conf spark.driver.maxResultSize=4g'
     else:
         driver_mem = '4000m'
