@@ -1,0 +1,1385 @@
+Using properties file: /home/ubuntu/spark-2.0.0/conf/spark-defaults.conf
+Adding default property: spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+Adding default property: spark.driver.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+Parsed arguments:
+  master                  spark://euca-10-1-2-55:7077
+  deployMode              client
+  executorMemory          11500m
+  executorCores           null
+  totalExecutorCores      null
+  propertiesFile          /home/ubuntu/spark-2.0.0/conf/spark-defaults.conf
+  driverMemory            11500m
+  driverCores             null
+  driverExtraClassPath    null
+  driverExtraLibraryPath  null
+  driverExtraJavaOptions  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+  supervise               false
+  queue                   null
+  numExecutors            2
+  files                   null
+  pyFiles                 null
+  archives                null
+  mainClass               LogRegExplicitParallelism
+  primaryResource         file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar
+  name                    LogRegExplicitParallelism
+  childArgs               [cluster 20216830 euca-10-1-2-55 9000 kdda_0_exp 5 8]
+  jars                    null
+  packages                null
+  packagesExclusions      null
+  repositories            null
+  verbose                 true
+
+Spark properties used, including those specified through
+ --conf and those from the properties file /home/ubuntu/spark-2.0.0/conf/spark-defaults.conf:
+  spark.default.parallelism -> 8
+  spark.driver.memory -> 11500m
+  spark.executor.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+  spark.driver.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+  spark.shuffle.spill -> false
+  spark.driver.maxResultSize -> 5g
+
+    
+Main class:
+LogRegExplicitParallelism
+Arguments:
+cluster
+20216830
+euca-10-1-2-55
+9000
+kdda_0_exp
+5
+8
+System properties:
+spark.default.parallelism -> 8
+spark.executor.memory -> 11500m
+spark.driver.memory -> 11500m
+SPARK_SUBMIT -> true
+spark.executor.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+spark.app.name -> LogRegExplicitParallelism
+spark.shuffle.spill -> false
+spark.driver.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms11500m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+spark.jars -> file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar
+spark.submit.deployMode -> client
+spark.driver.maxResultSize -> 5g
+spark.master -> spark://euca-10-1-2-55:7077
+Classpath elements:
+file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar
+
+
+17/02/09 12:10:50,859 INFO SparkContext: Running Spark version 2.0.0
+17/02/09 12:10:51,192 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+17/02/09 12:10:51,355 INFO SecurityManager: Changing view acls to: ubuntu
+17/02/09 12:10:51,355 INFO SecurityManager: Changing modify acls to: ubuntu
+17/02/09 12:10:51,356 INFO SecurityManager: Changing view acls groups to: 
+17/02/09 12:10:51,357 INFO SecurityManager: Changing modify acls groups to: 
+17/02/09 12:10:51,357 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ubuntu); groups with view permissions: Set(); users  with modify permissions: Set(ubuntu); groups with modify permissions: Set()
+17/02/09 12:10:51,665 INFO Utils: Successfully started service 'sparkDriver' on port 34885.
+17/02/09 12:10:51,683 INFO SparkEnv: Registering MapOutputTracker
+17/02/09 12:10:51,688 WARN SortShuffleManager: spark.shuffle.spill was set to false, but this configuration is ignored as of Spark 1.6+. Shuffle will continue to spill to disk when necessary.
+17/02/09 12:10:51,699 INFO SparkEnv: Registering BlockManagerMaster
+17/02/09 12:10:51,711 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-8f2db03c-2368-41fe-a590-3b3dc788bd92
+17/02/09 12:10:51,729 INFO MemoryStore: MemoryStore started with capacity 6.3 GB
+17/02/09 12:10:51,781 INFO SparkEnv: Registering OutputCommitCoordinator
+17/02/09 12:10:51,978 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+17/02/09 12:10:51,980 INFO SparkUI: Bound SparkUI to 10.1.2.55, and started at http://10.1.2.55:4040
+17/02/09 12:10:52,021 INFO SparkContext: Added JAR file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar at spark://10.1.2.55:34885/jars/log-reg-explicit-parallelism_2.11-1.0.jar with timestamp 1486642252021
+17/02/09 12:10:52,102 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://euca-10-1-2-55:7077...
+17/02/09 12:10:52,162 INFO TransportClientFactory: Successfully created connection to euca-10-1-2-55/10.1.2.55:7077 after 25 ms (0 ms spent in bootstraps)
+17/02/09 12:10:52,291 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20170209121052-0000
+17/02/09 12:10:52,297 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 37184.
+17/02/09 12:10:52,297 INFO NettyBlockTransferService: Server created on 10.1.2.55:37184
+17/02/09 12:10:52,299 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 10.1.2.55, 37184)
+17/02/09 12:10:52,301 INFO BlockManagerMasterEndpoint: Registering block manager 10.1.2.55:37184 with 6.3 GB RAM, BlockManagerId(driver, 10.1.2.55, 37184)
+17/02/09 12:10:52,303 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 10.1.2.55, 37184)
+17/02/09 12:10:52,313 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20170209121052-0000/0 on worker-20170209121042-10.1.2.117-43119 (10.1.2.117:43119) with 4 cores
+17/02/09 12:10:52,314 INFO StandaloneSchedulerBackend: Granted executor ID app-20170209121052-0000/0 on hostPort 10.1.2.117:43119 with 4 cores, 11.2 GB RAM
+17/02/09 12:10:52,316 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20170209121052-0000/1 on worker-20170209121042-10.1.2.122-34415 (10.1.2.122:34415) with 4 cores
+17/02/09 12:10:52,316 INFO StandaloneSchedulerBackend: Granted executor ID app-20170209121052-0000/1 on hostPort 10.1.2.122:34415 with 4 cores, 11.2 GB RAM
+17/02/09 12:10:52,372 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20170209121052-0000/0 is now RUNNING
+17/02/09 12:10:52,373 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20170209121052-0000/1 is now RUNNING
+17/02/09 12:10:52,477 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+17/02/09 12:10:52,823 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 130.8 KB, free 6.3 GB)
+17/02/09 12:10:52,893 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 16.5 KB, free 6.3 GB)
+17/02/09 12:10:52,895 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 10.1.2.55:37184 (size: 16.5 KB, free: 6.3 GB)
+17/02/09 12:10:52,906 INFO SparkContext: Created broadcast 0 from textFile at MLUtils.scala:99
+17/02/09 12:10:53,513 INFO FileInputFormat: Total input paths to process : 1
+17/02/09 12:10:53,578 INFO SparkContext: Starting job: first at GeneralizedLinearAlgorithm.scala:246
+17/02/09 12:10:53,589 INFO DAGScheduler: Got job 0 (first at GeneralizedLinearAlgorithm.scala:246) with 1 output partitions
+17/02/09 12:10:53,589 INFO DAGScheduler: Final stage: ResultStage 0 (first at GeneralizedLinearAlgorithm.scala:246)
+17/02/09 12:10:53,589 INFO DAGScheduler: Parents of final stage: List()
+17/02/09 12:10:53,594 INFO DAGScheduler: Missing parents: List()
+17/02/09 12:10:53,602 INFO DAGScheduler: Submitting ResultStage 0 (MapPartitionsRDD[6] at map at GeneralizedLinearAlgorithm.scala:246), which has no missing parents
+17/02/09 12:10:53,627 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 4.2 KB, free 6.3 GB)
+17/02/09 12:10:53,629 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 2.4 KB, free 6.3 GB)
+17/02/09 12:10:53,629 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 10.1.2.55:37184 (size: 2.4 KB, free: 6.3 GB)
+17/02/09 12:10:53,631 INFO SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:10:53,633 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[6] at map at GeneralizedLinearAlgorithm.scala:246)
+17/02/09 12:10:53,634 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks
+17/02/09 12:10:54,132 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Registered executor NettyRpcEndpointRef(null) (10.1.2.122:45806) with ID 1
+17/02/09 12:10:54,158 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, 10.1.2.122, partition 0, ANY, 5453 bytes)
+17/02/09 12:10:54,163 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 0 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:10:54,166 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Registered executor NettyRpcEndpointRef(null) (10.1.2.117:41674) with ID 0
+17/02/09 12:10:54,186 INFO BlockManagerMasterEndpoint: Registering block manager 10.1.2.122:46235 with 6.3 GB RAM, BlockManagerId(1, 10.1.2.122, 46235)
+17/02/09 12:10:54,206 INFO BlockManagerMasterEndpoint: Registering block manager 10.1.2.117:36210 with 6.3 GB RAM, BlockManagerId(0, 10.1.2.117, 36210)
+17/02/09 12:10:54,446 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 10.1.2.122:46235 (size: 2.4 KB, free: 6.3 GB)
+17/02/09 12:10:54,605 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 10.1.2.122:46235 (size: 16.5 KB, free: 6.3 GB)
+17/02/09 12:11:01,025 INFO BlockManagerInfo: Added rdd_5_0 in memory on 10.1.2.122:46235 (size: 217.8 MB, free: 6.1 GB)
+17/02/09 12:11:01,075 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 6936 ms on 10.1.2.122 (1/1)
+17/02/09 12:11:01,076 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+17/02/09 12:11:01,080 INFO DAGScheduler: ResultStage 0 (first at GeneralizedLinearAlgorithm.scala:246) finished in 7.435 s
+17/02/09 12:11:01,084 INFO DAGScheduler: Job 0 finished: first at GeneralizedLinearAlgorithm.scala:246, took 7.505985 s
+17/02/09 12:11:01,095 INFO SparkContext: Starting job: count at DataValidators.scala:40
+17/02/09 12:11:01,096 INFO DAGScheduler: Got job 1 (count at DataValidators.scala:40) with 20 output partitions
+17/02/09 12:11:01,096 INFO DAGScheduler: Final stage: ResultStage 1 (count at DataValidators.scala:40)
+17/02/09 12:11:01,096 INFO DAGScheduler: Parents of final stage: List()
+17/02/09 12:11:01,098 INFO DAGScheduler: Missing parents: List()
+17/02/09 12:11:01,099 INFO DAGScheduler: Submitting ResultStage 1 (MapPartitionsRDD[7] at filter at DataValidators.scala:40), which has no missing parents
+17/02/09 12:11:01,109 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 3.9 KB, free 6.3 GB)
+17/02/09 12:11:01,111 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 2.2 KB, free 6.3 GB)
+17/02/09 12:11:01,111 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 10.1.2.55:37184 (size: 2.2 KB, free: 6.3 GB)
+17/02/09 12:11:01,112 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:01,113 INFO DAGScheduler: Submitting 20 missing tasks from ResultStage 1 (MapPartitionsRDD[7] at filter at DataValidators.scala:40)
+17/02/09 12:11:01,113 INFO TaskSchedulerImpl: Adding task set 1.0 with 20 tasks
+17/02/09 12:11:01,118 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 1, 10.1.2.122, partition 0, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:01,119 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 1 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:01,141 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 10.1.2.122:46235 (size: 2.2 KB, free: 6.1 GB)
+17/02/09 12:11:01,221 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 1) in 104 ms on 10.1.2.122 (1/20)
+17/02/09 12:11:05,094 INFO TaskSetManager: Starting task 1.0 in stage 1.0 (TID 2, 10.1.2.117, partition 1, ANY, 5371 bytes)
+17/02/09 12:11:05,096 INFO TaskSetManager: Starting task 2.0 in stage 1.0 (TID 3, 10.1.2.122, partition 2, ANY, 5371 bytes)
+17/02/09 12:11:05,098 INFO TaskSetManager: Starting task 3.0 in stage 1.0 (TID 4, 10.1.2.117, partition 3, ANY, 5371 bytes)
+17/02/09 12:11:05,101 INFO TaskSetManager: Starting task 4.0 in stage 1.0 (TID 5, 10.1.2.122, partition 4, ANY, 5371 bytes)
+17/02/09 12:11:05,103 INFO TaskSetManager: Starting task 5.0 in stage 1.0 (TID 6, 10.1.2.117, partition 5, ANY, 5371 bytes)
+17/02/09 12:11:05,105 INFO TaskSetManager: Starting task 6.0 in stage 1.0 (TID 7, 10.1.2.122, partition 6, ANY, 5371 bytes)
+17/02/09 12:11:05,107 INFO TaskSetManager: Starting task 7.0 in stage 1.0 (TID 8, 10.1.2.117, partition 7, ANY, 5371 bytes)
+17/02/09 12:11:05,109 INFO TaskSetManager: Starting task 8.0 in stage 1.0 (TID 9, 10.1.2.122, partition 8, ANY, 5371 bytes)
+17/02/09 12:11:05,109 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 2 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:05,110 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 4 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:05,111 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 6 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:05,112 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 8 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:05,112 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 3 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:05,113 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 5 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:05,114 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 7 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:05,114 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 9 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:05,436 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 10.1.2.117:36210 (size: 2.2 KB, free: 6.3 GB)
+17/02/09 12:11:05,667 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 10.1.2.117:36210 (size: 16.5 KB, free: 6.3 GB)
+17/02/09 12:11:11,616 INFO BlockManagerInfo: Added rdd_5_8 in memory on 10.1.2.122:46235 (size: 206.9 MB, free: 5.9 GB)
+17/02/09 12:11:11,707 INFO BlockManagerInfo: Added rdd_5_6 in memory on 10.1.2.122:46235 (size: 212.0 MB, free: 5.7 GB)
+17/02/09 12:11:11,711 INFO TaskSetManager: Starting task 9.0 in stage 1.0 (TID 10, 10.1.2.122, partition 9, ANY, 5371 bytes)
+17/02/09 12:11:11,712 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 10 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:11,712 INFO TaskSetManager: Finished task 8.0 in stage 1.0 (TID 9) in 6605 ms on 10.1.2.122 (2/20)
+17/02/09 12:11:11,774 INFO TaskSetManager: Starting task 10.0 in stage 1.0 (TID 11, 10.1.2.122, partition 10, ANY, 5371 bytes)
+17/02/09 12:11:11,774 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 11 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:11,774 INFO TaskSetManager: Finished task 6.0 in stage 1.0 (TID 7) in 6670 ms on 10.1.2.122 (3/20)
+17/02/09 12:11:11,785 INFO BlockManagerInfo: Added rdd_5_2 in memory on 10.1.2.122:46235 (size: 209.9 MB, free: 5.5 GB)
+17/02/09 12:11:11,818 INFO BlockManagerInfo: Added rdd_5_4 in memory on 10.1.2.122:46235 (size: 214.2 MB, free: 5.2 GB)
+17/02/09 12:11:11,845 INFO TaskSetManager: Starting task 11.0 in stage 1.0 (TID 12, 10.1.2.122, partition 11, ANY, 5371 bytes)
+17/02/09 12:11:11,845 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 12 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:11,845 INFO TaskSetManager: Finished task 2.0 in stage 1.0 (TID 3) in 6751 ms on 10.1.2.122 (4/20)
+17/02/09 12:11:11,863 INFO TaskSetManager: Starting task 12.0 in stage 1.0 (TID 13, 10.1.2.122, partition 12, ANY, 5371 bytes)
+17/02/09 12:11:11,863 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 13 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:11,863 INFO TaskSetManager: Finished task 4.0 in stage 1.0 (TID 5) in 6764 ms on 10.1.2.122 (5/20)
+17/02/09 12:11:13,043 INFO BlockManagerInfo: Added rdd_5_1 in memory on 10.1.2.117:36210 (size: 210.8 MB, free: 6.1 GB)
+17/02/09 12:11:13,159 INFO TaskSetManager: Starting task 13.0 in stage 1.0 (TID 14, 10.1.2.117, partition 13, ANY, 5371 bytes)
+17/02/09 12:11:13,159 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 14 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:13,161 INFO TaskSetManager: Finished task 1.0 in stage 1.0 (TID 2) in 8069 ms on 10.1.2.117 (6/20)
+17/02/09 12:11:13,221 INFO BlockManagerInfo: Added rdd_5_7 in memory on 10.1.2.117:36210 (size: 217.0 MB, free: 5.9 GB)
+17/02/09 12:11:13,230 INFO BlockManagerInfo: Added rdd_5_5 in memory on 10.1.2.117:36210 (size: 208.1 MB, free: 5.7 GB)
+17/02/09 12:11:13,272 INFO TaskSetManager: Starting task 14.0 in stage 1.0 (TID 15, 10.1.2.117, partition 14, ANY, 5371 bytes)
+17/02/09 12:11:13,273 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 15 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:13,273 INFO TaskSetManager: Finished task 5.0 in stage 1.0 (TID 6) in 8172 ms on 10.1.2.117 (7/20)
+17/02/09 12:11:13,296 INFO TaskSetManager: Starting task 15.0 in stage 1.0 (TID 16, 10.1.2.117, partition 15, ANY, 5371 bytes)
+17/02/09 12:11:13,297 INFO TaskSetManager: Finished task 7.0 in stage 1.0 (TID 8) in 8192 ms on 10.1.2.117 (8/20)
+17/02/09 12:11:13,298 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 16 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:13,393 INFO BlockManagerInfo: Added rdd_5_3 in memory on 10.1.2.117:36210 (size: 213.0 MB, free: 5.5 GB)
+17/02/09 12:11:13,435 INFO TaskSetManager: Starting task 16.0 in stage 1.0 (TID 17, 10.1.2.117, partition 16, ANY, 5371 bytes)
+17/02/09 12:11:13,435 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 17 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:13,437 INFO TaskSetManager: Finished task 3.0 in stage 1.0 (TID 4) in 8340 ms on 10.1.2.117 (9/20)
+17/02/09 12:11:17,358 INFO BlockManagerInfo: Added rdd_5_9 in memory on 10.1.2.122:46235 (size: 205.4 MB, free: 5.0 GB)
+17/02/09 12:11:17,382 INFO BlockManagerInfo: Added rdd_5_10 in memory on 10.1.2.122:46235 (size: 200.2 MB, free: 4.8 GB)
+17/02/09 12:11:17,405 INFO TaskSetManager: Starting task 17.0 in stage 1.0 (TID 18, 10.1.2.122, partition 17, ANY, 5371 bytes)
+17/02/09 12:11:17,405 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 18 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:17,406 INFO TaskSetManager: Finished task 9.0 in stage 1.0 (TID 10) in 5696 ms on 10.1.2.122 (10/20)
+17/02/09 12:11:17,430 INFO TaskSetManager: Starting task 18.0 in stage 1.0 (TID 19, 10.1.2.122, partition 18, ANY, 5371 bytes)
+17/02/09 12:11:17,430 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 19 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:17,431 INFO TaskSetManager: Finished task 10.0 in stage 1.0 (TID 11) in 5659 ms on 10.1.2.122 (11/20)
+17/02/09 12:11:17,442 INFO BlockManagerInfo: Added rdd_5_11 in memory on 10.1.2.122:46235 (size: 198.9 MB, free: 4.7 GB)
+17/02/09 12:11:17,462 INFO BlockManagerInfo: Added rdd_5_12 in memory on 10.1.2.122:46235 (size: 206.5 MB, free: 4.5 GB)
+17/02/09 12:11:17,488 INFO TaskSetManager: Starting task 19.0 in stage 1.0 (TID 20, 10.1.2.122, partition 19, ANY, 5371 bytes)
+17/02/09 12:11:17,488 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 20 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:17,491 INFO TaskSetManager: Finished task 11.0 in stage 1.0 (TID 12) in 5648 ms on 10.1.2.122 (12/20)
+17/02/09 12:11:17,505 INFO TaskSetManager: Finished task 12.0 in stage 1.0 (TID 13) in 5643 ms on 10.1.2.122 (13/20)
+17/02/09 12:11:18,780 INFO BlockManagerInfo: Added rdd_5_15 in memory on 10.1.2.117:36210 (size: 204.1 MB, free: 5.3 GB)
+17/02/09 12:11:18,824 INFO TaskSetManager: Finished task 15.0 in stage 1.0 (TID 16) in 5529 ms on 10.1.2.117 (14/20)
+17/02/09 12:11:18,906 INFO BlockManagerInfo: Added rdd_5_14 in memory on 10.1.2.117:36210 (size: 206.1 MB, free: 5.1 GB)
+17/02/09 12:11:18,947 INFO TaskSetManager: Finished task 14.0 in stage 1.0 (TID 15) in 5676 ms on 10.1.2.117 (15/20)
+17/02/09 12:11:19,017 INFO BlockManagerInfo: Added rdd_5_13 in memory on 10.1.2.117:36210 (size: 195.9 MB, free: 4.9 GB)
+17/02/09 12:11:19,052 INFO TaskSetManager: Finished task 13.0 in stage 1.0 (TID 14) in 5894 ms on 10.1.2.117 (16/20)
+17/02/09 12:11:19,202 INFO BlockManagerInfo: Added rdd_5_16 in memory on 10.1.2.117:36210 (size: 208.3 MB, free: 4.7 GB)
+17/02/09 12:11:19,237 INFO TaskSetManager: Finished task 16.0 in stage 1.0 (TID 17) in 5803 ms on 10.1.2.117 (17/20)
+17/02/09 12:11:22,146 INFO BlockManagerInfo: Added rdd_5_19 in memory on 10.1.2.122:46235 (size: 179.1 MB, free: 4.3 GB)
+17/02/09 12:11:22,192 INFO TaskSetManager: Finished task 19.0 in stage 1.0 (TID 20) in 4704 ms on 10.1.2.122 (18/20)
+17/02/09 12:11:22,560 INFO BlockManagerInfo: Added rdd_5_17 in memory on 10.1.2.122:46235 (size: 200.1 MB, free: 4.1 GB)
+17/02/09 12:11:22,598 INFO TaskSetManager: Finished task 17.0 in stage 1.0 (TID 18) in 5196 ms on 10.1.2.122 (19/20)
+17/02/09 12:11:22,689 INFO BlockManagerInfo: Added rdd_5_18 in memory on 10.1.2.122:46235 (size: 207.1 MB, free: 3.9 GB)
+17/02/09 12:11:22,724 INFO TaskSetManager: Finished task 18.0 in stage 1.0 (TID 19) in 5295 ms on 10.1.2.122 (20/20)
+17/02/09 12:11:22,724 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+17/02/09 12:11:22,725 INFO DAGScheduler: ResultStage 1 (count at DataValidators.scala:40) finished in 21.605 s
+17/02/09 12:11:22,725 INFO DAGScheduler: Job 1 finished: count at DataValidators.scala:40, took 21.630057 s
+17/02/09 12:11:22,735 INFO SparkContext: Starting job: count at GradientDescent.scala:209
+17/02/09 12:11:22,736 INFO DAGScheduler: Got job 2 (count at GradientDescent.scala:209) with 20 output partitions
+17/02/09 12:11:22,736 INFO DAGScheduler: Final stage: ResultStage 2 (count at GradientDescent.scala:209)
+17/02/09 12:11:22,736 INFO DAGScheduler: Parents of final stage: List()
+17/02/09 12:11:22,738 INFO DAGScheduler: Missing parents: List()
+17/02/09 12:11:22,738 INFO DAGScheduler: Submitting ResultStage 2 (MapPartitionsRDD[8] at map at GeneralizedLinearAlgorithm.scala:297), which has no missing parents
+17/02/09 12:11:22,742 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 3.9 KB, free 6.3 GB)
+17/02/09 12:11:22,744 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 2.2 KB, free 6.3 GB)
+17/02/09 12:11:22,745 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 10.1.2.55:37184 (size: 2.2 KB, free: 6.3 GB)
+17/02/09 12:11:22,746 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:22,746 INFO DAGScheduler: Submitting 20 missing tasks from ResultStage 2 (MapPartitionsRDD[8] at map at GeneralizedLinearAlgorithm.scala:297)
+17/02/09 12:11:22,747 INFO TaskSchedulerImpl: Adding task set 2.0 with 20 tasks
+17/02/09 12:11:22,750 INFO TaskSetManager: Starting task 0.0 in stage 2.0 (TID 21, 10.1.2.122, partition 0, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,751 INFO TaskSetManager: Starting task 1.0 in stage 2.0 (TID 22, 10.1.2.117, partition 1, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,753 INFO TaskSetManager: Starting task 2.0 in stage 2.0 (TID 23, 10.1.2.122, partition 2, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,754 INFO TaskSetManager: Starting task 3.0 in stage 2.0 (TID 24, 10.1.2.117, partition 3, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,756 INFO TaskSetManager: Starting task 4.0 in stage 2.0 (TID 25, 10.1.2.122, partition 4, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,758 INFO TaskSetManager: Starting task 5.0 in stage 2.0 (TID 26, 10.1.2.117, partition 5, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,759 INFO TaskSetManager: Starting task 6.0 in stage 2.0 (TID 27, 10.1.2.122, partition 6, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,761 INFO TaskSetManager: Starting task 7.0 in stage 2.0 (TID 28, 10.1.2.117, partition 7, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,761 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 21 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,762 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 23 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,763 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 25 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,764 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 27 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,764 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 22 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:22,765 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 24 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:22,765 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 26 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:22,766 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 28 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:22,882 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 10.1.2.122:46235 (size: 2.2 KB, free: 3.9 GB)
+17/02/09 12:11:22,919 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 10.1.2.117:36210 (size: 2.2 KB, free: 4.7 GB)
+17/02/09 12:11:22,937 INFO TaskSetManager: Finished task 0.0 in stage 2.0 (TID 21) in 189 ms on 10.1.2.122 (1/20)
+17/02/09 12:11:22,939 INFO TaskSetManager: Starting task 8.0 in stage 2.0 (TID 29, 10.1.2.122, partition 8, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,939 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 29 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,943 INFO TaskSetManager: Starting task 9.0 in stage 2.0 (TID 30, 10.1.2.122, partition 9, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,943 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 30 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,943 INFO TaskSetManager: Finished task 2.0 in stage 2.0 (TID 23) in 192 ms on 10.1.2.122 (2/20)
+17/02/09 12:11:22,957 INFO TaskSetManager: Starting task 10.0 in stage 2.0 (TID 31, 10.1.2.122, partition 10, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,957 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 31 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,957 INFO TaskSetManager: Finished task 4.0 in stage 2.0 (TID 25) in 202 ms on 10.1.2.122 (3/20)
+17/02/09 12:11:22,960 INFO TaskSetManager: Starting task 11.0 in stage 2.0 (TID 32, 10.1.2.122, partition 11, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,961 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 32 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,961 INFO TaskSetManager: Finished task 6.0 in stage 2.0 (TID 27) in 203 ms on 10.1.2.122 (4/20)
+17/02/09 12:11:22,983 INFO TaskSetManager: Starting task 13.0 in stage 2.0 (TID 33, 10.1.2.117, partition 13, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,984 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 33 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:22,984 INFO TaskSetManager: Finished task 3.0 in stage 2.0 (TID 24) in 231 ms on 10.1.2.117 (5/20)
+17/02/09 12:11:22,990 INFO TaskSetManager: Starting task 14.0 in stage 2.0 (TID 34, 10.1.2.117, partition 14, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,990 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 34 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:22,990 INFO TaskSetManager: Finished task 7.0 in stage 2.0 (TID 28) in 231 ms on 10.1.2.117 (6/20)
+17/02/09 12:11:22,992 INFO TaskSetManager: Finished task 9.0 in stage 2.0 (TID 30) in 51 ms on 10.1.2.122 (7/20)
+17/02/09 12:11:22,994 INFO TaskSetManager: Starting task 12.0 in stage 2.0 (TID 35, 10.1.2.122, partition 12, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,995 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 35 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:22,997 INFO TaskSetManager: Starting task 17.0 in stage 2.0 (TID 36, 10.1.2.122, partition 17, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:22,998 INFO TaskSetManager: Finished task 8.0 in stage 2.0 (TID 29) in 60 ms on 10.1.2.122 (8/20)
+17/02/09 12:11:22,998 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 36 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:23,003 INFO TaskSetManager: Starting task 15.0 in stage 2.0 (TID 37, 10.1.2.117, partition 15, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:23,004 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 37 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:23,004 INFO TaskSetManager: Finished task 1.0 in stage 2.0 (TID 22) in 254 ms on 10.1.2.117 (9/20)
+17/02/09 12:11:23,009 INFO TaskSetManager: Starting task 16.0 in stage 2.0 (TID 38, 10.1.2.117, partition 16, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:23,010 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 38 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:23,010 INFO TaskSetManager: Finished task 5.0 in stage 2.0 (TID 26) in 254 ms on 10.1.2.117 (10/20)
+17/02/09 12:11:23,014 INFO TaskSetManager: Starting task 18.0 in stage 2.0 (TID 39, 10.1.2.122, partition 18, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:23,015 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 39 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:23,015 INFO TaskSetManager: Finished task 10.0 in stage 2.0 (TID 31) in 60 ms on 10.1.2.122 (11/20)
+17/02/09 12:11:23,016 INFO TaskSetManager: Finished task 11.0 in stage 2.0 (TID 32) in 57 ms on 10.1.2.122 (12/20)
+17/02/09 12:11:23,019 INFO TaskSetManager: Starting task 19.0 in stage 2.0 (TID 40, 10.1.2.122, partition 19, PROCESS_LOCAL, 5371 bytes)
+17/02/09 12:11:23,019 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 40 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:23,031 INFO TaskSetManager: Finished task 13.0 in stage 2.0 (TID 33) in 48 ms on 10.1.2.117 (13/20)
+17/02/09 12:11:23,040 INFO TaskSetManager: Finished task 14.0 in stage 2.0 (TID 34) in 52 ms on 10.1.2.117 (14/20)
+17/02/09 12:11:23,050 INFO TaskSetManager: Finished task 17.0 in stage 2.0 (TID 36) in 55 ms on 10.1.2.122 (15/20)
+17/02/09 12:11:23,052 INFO TaskSetManager: Finished task 15.0 in stage 2.0 (TID 37) in 50 ms on 10.1.2.117 (16/20)
+17/02/09 12:11:23,054 INFO TaskSetManager: Finished task 12.0 in stage 2.0 (TID 35) in 61 ms on 10.1.2.122 (17/20)
+17/02/09 12:11:23,056 INFO TaskSetManager: Finished task 16.0 in stage 2.0 (TID 38) in 48 ms on 10.1.2.117 (18/20)
+17/02/09 12:11:23,060 INFO TaskSetManager: Finished task 18.0 in stage 2.0 (TID 39) in 47 ms on 10.1.2.122 (19/20)
+17/02/09 12:11:23,079 INFO TaskSetManager: Finished task 19.0 in stage 2.0 (TID 40) in 62 ms on 10.1.2.122 (20/20)
+17/02/09 12:11:23,079 INFO TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+17/02/09 12:11:23,080 INFO DAGScheduler: ResultStage 2 (count at GradientDescent.scala:209) finished in 0.332 s
+17/02/09 12:11:23,080 INFO DAGScheduler: Job 2 finished: count at GradientDescent.scala:209, took 0.345549 s
+17/02/09 12:11:23,406 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeSystemBLAS
+17/02/09 12:11:23,406 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeRefBLAS
+33.300: [GC [PSYoungGen: 2944512K->478520K(3435008K)] 2944512K->794416K(11286016K), 0.1782250 secs] [Times: user=0.26 sys=0.14, real=0.18 secs] 
+17/02/09 12:11:23,758 INFO BlockManagerInfo: Removed broadcast_3_piece0 on 10.1.2.122:46235 in memory (size: 2.2 KB, free: 3.9 GB)
+17/02/09 12:11:23,759 INFO BlockManagerInfo: Removed broadcast_3_piece0 on 10.1.2.117:36210 in memory (size: 2.2 KB, free: 4.7 GB)
+17/02/09 12:11:23,761 INFO BlockManagerInfo: Removed broadcast_3_piece0 on 10.1.2.55:37184 in memory (size: 2.2 KB, free: 6.3 GB)
+17/02/09 12:11:23,767 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 10.1.2.55:37184 in memory (size: 2.4 KB, free: 6.3 GB)
+17/02/09 12:11:23,769 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 10.1.2.122:46235 in memory (size: 2.4 KB, free: 3.9 GB)
+17/02/09 12:11:23,773 INFO BlockManagerInfo: Removed broadcast_2_piece0 on 10.1.2.55:37184 in memory (size: 2.2 KB, free: 6.3 GB)
+17/02/09 12:11:23,775 INFO BlockManagerInfo: Removed broadcast_2_piece0 on 10.1.2.117:36210 in memory (size: 2.2 KB, free: 4.7 GB)
+17/02/09 12:11:23,781 INFO BlockManagerInfo: Removed broadcast_2_piece0 on 10.1.2.122:46235 in memory (size: 2.2 KB, free: 3.9 GB)
+17/02/09 12:11:24,157 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 154.2 MB, free 6.1 GB)
+17/02/09 12:11:24,375 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 771.3 KB, free 6.1 GB)
+17/02/09 12:11:24,376 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 10.1.2.55:37184 (size: 771.3 KB, free: 6.3 GB)
+17/02/09 12:11:24,377 INFO SparkContext: Created broadcast 4 from broadcast at GradientDescent.scala:235
+17/02/09 12:11:24,745 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/02/09 12:11:24,751 INFO DAGScheduler: Registering RDD 11 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:24,758 INFO DAGScheduler: Got job 3 (treeAggregate at GradientDescent.scala:239) with 4 output partitions
+17/02/09 12:11:24,758 INFO DAGScheduler: Final stage: ResultStage 4 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:24,759 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 3)
+17/02/09 12:11:24,759 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 3)
+17/02/09 12:11:24,762 INFO DAGScheduler: Submitting ShuffleMapStage 3 (MapPartitionsRDD[11] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:25,136 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 154.2 MB, free 6.0 GB)
+17/02/09 12:11:25,225 INFO MemoryStore: Block broadcast_5_piece0 stored as bytes in memory (estimated size 775.1 KB, free 6.0 GB)
+17/02/09 12:11:25,226 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 10.1.2.55:37184 (size: 775.1 KB, free: 6.3 GB)
+17/02/09 12:11:25,226 INFO SparkContext: Created broadcast 5 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:25,229 INFO DAGScheduler: Submitting 20 missing tasks from ShuffleMapStage 3 (MapPartitionsRDD[11] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:25,229 INFO TaskSchedulerImpl: Adding task set 3.0 with 20 tasks
+17/02/09 12:11:25,233 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 41, 10.1.2.122, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,234 INFO TaskSetManager: Starting task 1.0 in stage 3.0 (TID 42, 10.1.2.117, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,235 INFO TaskSetManager: Starting task 2.0 in stage 3.0 (TID 43, 10.1.2.122, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,237 INFO TaskSetManager: Starting task 3.0 in stage 3.0 (TID 44, 10.1.2.117, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,238 INFO TaskSetManager: Starting task 4.0 in stage 3.0 (TID 45, 10.1.2.122, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,239 INFO TaskSetManager: Starting task 5.0 in stage 3.0 (TID 46, 10.1.2.117, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,240 INFO TaskSetManager: Starting task 6.0 in stage 3.0 (TID 47, 10.1.2.122, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,241 INFO TaskSetManager: Starting task 7.0 in stage 3.0 (TID 48, 10.1.2.117, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:25,241 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 41 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:25,241 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 43 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:25,242 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 45 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:25,242 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 47 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:25,242 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 42 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:25,243 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 44 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:25,243 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 46 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:25,243 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 48 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:25,274 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 10.1.2.122:46235 (size: 775.1 KB, free: 3.9 GB)
+17/02/09 12:11:25,278 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 10.1.2.117:36210 (size: 775.1 KB, free: 4.7 GB)
+17/02/09 12:11:25,900 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 10.1.2.117:36210 (size: 771.3 KB, free: 4.7 GB)
+17/02/09 12:11:25,961 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 10.1.2.122:46235 (size: 771.3 KB, free: 3.9 GB)
+17/02/09 12:11:26,678 INFO TaskSetManager: Starting task 13.0 in stage 3.0 (TID 49, 10.1.2.117, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,679 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 49 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:26,680 INFO TaskSetManager: Starting task 14.0 in stage 3.0 (TID 50, 10.1.2.117, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,681 INFO TaskSetManager: Finished task 3.0 in stage 3.0 (TID 44) in 1445 ms on 10.1.2.117 (1/20)
+17/02/09 12:11:26,682 INFO TaskSetManager: Finished task 1.0 in stage 3.0 (TID 42) in 1447 ms on 10.1.2.117 (2/20)
+17/02/09 12:11:26,683 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 50 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:26,712 INFO TaskSetManager: Starting task 8.0 in stage 3.0 (TID 51, 10.1.2.122, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,712 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 51 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:26,713 INFO TaskSetManager: Finished task 4.0 in stage 3.0 (TID 45) in 1475 ms on 10.1.2.122 (3/20)
+36.489: [GC [PSYoungGen: 3423032K->444899K(3435008K)] 3738928K->1076691K(11286016K), 0.1090570 secs] [Times: user=0.26 sys=0.09, real=0.11 secs] 
+17/02/09 12:11:26,825 INFO TaskSetManager: Starting task 9.0 in stage 3.0 (TID 52, 10.1.2.122, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,825 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 52 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:26,826 INFO TaskSetManager: Starting task 15.0 in stage 3.0 (TID 53, 10.1.2.117, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,826 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 53 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:26,827 INFO TaskSetManager: Finished task 2.0 in stage 3.0 (TID 43) in 1592 ms on 10.1.2.122 (4/20)
+17/02/09 12:11:26,829 INFO TaskSetManager: Starting task 10.0 in stage 3.0 (TID 54, 10.1.2.122, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,829 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 54 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:26,829 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 41) in 1599 ms on 10.1.2.122 (5/20)
+17/02/09 12:11:26,830 INFO TaskSetManager: Finished task 7.0 in stage 3.0 (TID 48) in 1590 ms on 10.1.2.117 (6/20)
+17/02/09 12:11:26,833 INFO TaskSetManager: Starting task 16.0 in stage 3.0 (TID 55, 10.1.2.117, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,834 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 55 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:26,834 INFO TaskSetManager: Finished task 5.0 in stage 3.0 (TID 46) in 1596 ms on 10.1.2.117 (7/20)
+17/02/09 12:11:26,836 INFO TaskSetManager: Starting task 11.0 in stage 3.0 (TID 56, 10.1.2.122, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:26,836 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 56 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:26,837 INFO TaskSetManager: Finished task 6.0 in stage 3.0 (TID 47) in 1597 ms on 10.1.2.122 (8/20)
+17/02/09 12:11:27,244 INFO TaskSetManager: Finished task 14.0 in stage 3.0 (TID 50) in 565 ms on 10.1.2.117 (9/20)
+17/02/09 12:11:27,285 INFO TaskSetManager: Finished task 13.0 in stage 3.0 (TID 49) in 608 ms on 10.1.2.117 (10/20)
+17/02/09 12:11:27,405 INFO TaskSetManager: Finished task 15.0 in stage 3.0 (TID 53) in 580 ms on 10.1.2.117 (11/20)
+17/02/09 12:11:27,411 INFO TaskSetManager: Finished task 16.0 in stage 3.0 (TID 55) in 577 ms on 10.1.2.117 (12/20)
+17/02/09 12:11:27,419 INFO TaskSetManager: Finished task 9.0 in stage 3.0 (TID 52) in 595 ms on 10.1.2.122 (13/20)
+17/02/09 12:11:27,420 INFO TaskSetManager: Starting task 12.0 in stage 3.0 (TID 57, 10.1.2.122, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:27,420 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 57 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:27,428 INFO TaskSetManager: Starting task 17.0 in stage 3.0 (TID 58, 10.1.2.122, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:27,428 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 58 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:27,428 INFO TaskSetManager: Finished task 11.0 in stage 3.0 (TID 56) in 593 ms on 10.1.2.122 (14/20)
+17/02/09 12:11:27,474 INFO TaskSetManager: Starting task 18.0 in stage 3.0 (TID 59, 10.1.2.122, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:27,474 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 59 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:27,474 INFO TaskSetManager: Finished task 10.0 in stage 3.0 (TID 54) in 646 ms on 10.1.2.122 (15/20)
+17/02/09 12:11:27,480 INFO TaskSetManager: Starting task 19.0 in stage 3.0 (TID 60, 10.1.2.122, partition 19, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:27,481 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 60 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:27,482 INFO TaskSetManager: Finished task 8.0 in stage 3.0 (TID 51) in 771 ms on 10.1.2.122 (16/20)
+17/02/09 12:11:27,938 INFO TaskSetManager: Finished task 12.0 in stage 3.0 (TID 57) in 519 ms on 10.1.2.122 (17/20)
+17/02/09 12:11:27,957 INFO TaskSetManager: Finished task 17.0 in stage 3.0 (TID 58) in 530 ms on 10.1.2.122 (18/20)
+17/02/09 12:11:28,062 INFO TaskSetManager: Finished task 19.0 in stage 3.0 (TID 60) in 582 ms on 10.1.2.122 (19/20)
+17/02/09 12:11:28,120 INFO TaskSetManager: Finished task 18.0 in stage 3.0 (TID 59) in 647 ms on 10.1.2.122 (20/20)
+17/02/09 12:11:28,120 INFO TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
+17/02/09 12:11:28,120 INFO DAGScheduler: ShuffleMapStage 3 (treeAggregate at GradientDescent.scala:239) finished in 2.890 s
+17/02/09 12:11:28,121 INFO DAGScheduler: looking for newly runnable stages
+17/02/09 12:11:28,122 INFO DAGScheduler: running: Set()
+17/02/09 12:11:28,122 INFO DAGScheduler: waiting: Set(ResultStage 4)
+17/02/09 12:11:28,123 INFO DAGScheduler: failed: Set()
+17/02/09 12:11:28,124 INFO DAGScheduler: Submitting ResultStage 4 (MapPartitionsRDD[13] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:28,132 INFO MemoryStore: Block broadcast_6 stored as values in memory (estimated size 3.1 KB, free 6.0 GB)
+17/02/09 12:11:28,133 INFO MemoryStore: Block broadcast_6_piece0 stored as bytes in memory (estimated size 1893.0 B, free 6.0 GB)
+17/02/09 12:11:28,134 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 10.1.2.55:37184 (size: 1893.0 B, free: 6.3 GB)
+17/02/09 12:11:28,135 INFO SparkContext: Created broadcast 6 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:28,135 INFO DAGScheduler: Submitting 4 missing tasks from ResultStage 4 (MapPartitionsRDD[13] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:28,135 INFO TaskSchedulerImpl: Adding task set 4.0 with 4 tasks
+17/02/09 12:11:28,138 INFO TaskSetManager: Starting task 0.0 in stage 4.0 (TID 61, 10.1.2.122, partition 0, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:28,138 INFO TaskSetManager: Starting task 1.0 in stage 4.0 (TID 62, 10.1.2.117, partition 1, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:28,139 INFO TaskSetManager: Starting task 2.0 in stage 4.0 (TID 63, 10.1.2.122, partition 2, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:28,140 INFO TaskSetManager: Starting task 3.0 in stage 4.0 (TID 64, 10.1.2.117, partition 3, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:28,140 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 61 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:28,141 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 63 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:28,141 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 62 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:28,142 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 64 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:28,157 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 10.1.2.122:46235 (size: 1893.0 B, free: 3.9 GB)
+17/02/09 12:11:28,160 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 10.1.2.117:36210 (size: 1893.0 B, free: 4.7 GB)
+17/02/09 12:11:28,174 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 10.1.2.122:45806
+17/02/09 12:11:28,178 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 0 is 223 bytes
+17/02/09 12:11:28,187 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 10.1.2.117:41674
+17/02/09 12:11:30,053 INFO BlockManagerInfo: Added taskresult_61 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.7 GB)
+17/02/09 12:11:30,063 INFO BlockManagerInfo: Added taskresult_63 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.6 GB)
+17/02/09 12:11:30,072 INFO TransportClientFactory: Successfully created connection to /10.1.2.122:46235 after 1 ms (0 ms spent in bootstraps)
+17/02/09 12:11:30,110 INFO BlockManagerInfo: Added taskresult_62 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.5 GB)
+17/02/09 12:11:30,116 INFO BlockManagerInfo: Added taskresult_64 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.4 GB)
+17/02/09 12:11:30,134 INFO TransportClientFactory: Successfully created connection to /10.1.2.117:36210 after 15 ms (0 ms spent in bootstraps)
+17/02/09 12:11:30,690 INFO BlockManagerInfo: Removed taskresult_64 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.5 GB)
+17/02/09 12:11:30,724 INFO BlockManagerInfo: Removed taskresult_63 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.7 GB)
+17/02/09 12:11:30,882 INFO TaskSetManager: Finished task 3.0 in stage 4.0 (TID 64) in 2545 ms on 10.1.2.117 (1/4)
+17/02/09 12:11:31,076 INFO TaskSetManager: Finished task 2.0 in stage 4.0 (TID 63) in 2750 ms on 10.1.2.122 (2/4)
+17/02/09 12:11:31,147 INFO BlockManagerInfo: Removed taskresult_61 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.9 GB)
+17/02/09 12:11:31,179 INFO BlockManagerInfo: Removed taskresult_62 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.7 GB)
+17/02/09 12:11:31,311 INFO TaskSetManager: Finished task 0.0 in stage 4.0 (TID 61) in 3008 ms on 10.1.2.122 (3/4)
+41.090: [GC [PSYoungGen: 3313676K->479624K(3435008K)] 3945468K->1585263K(11286016K), 0.1121780 secs] [Times: user=0.32 sys=0.08, real=0.11 secs] 
+17/02/09 12:11:31,457 INFO BlockManagerInfo: Removed broadcast_5_piece0 on 10.1.2.55:37184 in memory (size: 775.1 KB, free: 6.3 GB)
+17/02/09 12:11:31,457 INFO BlockManagerInfo: Removed broadcast_5_piece0 on 10.1.2.117:36210 in memory (size: 775.1 KB, free: 4.7 GB)
+17/02/09 12:11:31,521 INFO BlockManagerInfo: Removed broadcast_5_piece0 on 10.1.2.122:46235 in memory (size: 775.1 KB, free: 3.9 GB)
+17/02/09 12:11:31,599 INFO TaskSetManager: Finished task 1.0 in stage 4.0 (TID 62) in 3174 ms on 10.1.2.117 (4/4)
+17/02/09 12:11:31,599 INFO TaskSchedulerImpl: Removed TaskSet 4.0, whose tasks have all completed, from pool 
+17/02/09 12:11:31,600 INFO DAGScheduler: ResultStage 4 (treeAggregate at GradientDescent.scala:239) finished in 3.464 s
+17/02/09 12:11:31,639 INFO DAGScheduler: Job 3 finished: treeAggregate at GradientDescent.scala:239, took 6.893057 s
+17/02/09 12:11:32,202 INFO MemoryStore: Block broadcast_7 stored as values in memory (estimated size 154.2 MB, free 6.0 GB)
+17/02/09 12:11:32,537 INFO MemoryStore: Block broadcast_7_piece0 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:32,538 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:32,539 INFO MemoryStore: Block broadcast_7_piece1 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:32,540 INFO BlockManagerInfo: Added broadcast_7_piece1 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:32,540 INFO MemoryStore: Block broadcast_7_piece2 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:32,541 INFO BlockManagerInfo: Added broadcast_7_piece2 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:32,542 INFO MemoryStore: Block broadcast_7_piece3 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:32,542 INFO BlockManagerInfo: Added broadcast_7_piece3 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:32,543 INFO MemoryStore: Block broadcast_7_piece4 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:32,544 INFO BlockManagerInfo: Added broadcast_7_piece4 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:32,544 INFO MemoryStore: Block broadcast_7_piece5 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:32,545 INFO BlockManagerInfo: Added broadcast_7_piece5 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:32,546 INFO MemoryStore: Block broadcast_7_piece6 stored as bytes in memory (estimated size 564.4 KB, free 6.0 GB)
+17/02/09 12:11:32,546 INFO BlockManagerInfo: Added broadcast_7_piece6 in memory on 10.1.2.55:37184 (size: 564.4 KB, free: 6.3 GB)
+17/02/09 12:11:32,547 INFO SparkContext: Created broadcast 7 from broadcast at GradientDescent.scala:235
+17/02/09 12:11:32,856 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/02/09 12:11:32,858 INFO DAGScheduler: Registering RDD 16 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:32,859 INFO DAGScheduler: Got job 4 (treeAggregate at GradientDescent.scala:239) with 4 output partitions
+17/02/09 12:11:32,859 INFO DAGScheduler: Final stage: ResultStage 6 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:32,859 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 5)
+17/02/09 12:11:32,859 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 5)
+17/02/09 12:11:32,861 INFO DAGScheduler: Submitting ShuffleMapStage 5 (MapPartitionsRDD[16] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+42.832: [GC [PSYoungGen: 3195940K->485002K(3435008K)] 4301579K->1906529K(11286016K), 0.1131690 secs] [Times: user=0.35 sys=0.06, real=0.11 secs] 
+17/02/09 12:11:33,226 INFO BlockManagerInfo: Removed broadcast_4_piece0 on 10.1.2.117:36210 in memory (size: 771.3 KB, free: 4.7 GB)
+17/02/09 12:11:33,227 INFO BlockManagerInfo: Removed broadcast_4_piece0 on 10.1.2.122:46235 in memory (size: 771.3 KB, free: 3.9 GB)
+17/02/09 12:11:33,228 INFO BlockManagerInfo: Removed broadcast_4_piece0 on 10.1.2.55:37184 in memory (size: 771.3 KB, free: 6.3 GB)
+17/02/09 12:11:33,241 INFO ContextCleaner: Cleaned shuffle 0
+17/02/09 12:11:33,247 INFO BlockManagerInfo: Removed broadcast_6_piece0 on 10.1.2.55:37184 in memory (size: 1893.0 B, free: 6.3 GB)
+17/02/09 12:11:33,248 INFO BlockManagerInfo: Removed broadcast_6_piece0 on 10.1.2.122:46235 in memory (size: 1893.0 B, free: 3.9 GB)
+17/02/09 12:11:33,249 INFO BlockManagerInfo: Removed broadcast_6_piece0 on 10.1.2.117:36210 in memory (size: 1893.0 B, free: 4.7 GB)
+17/02/09 12:11:33,304 INFO MemoryStore: Block broadcast_8 stored as values in memory (estimated size 154.2 MB, free 6.0 GB)
+17/02/09 12:11:33,380 INFO MemoryStore: Block broadcast_8_piece0 stored as bytes in memory (estimated size 775.1 KB, free 6.0 GB)
+17/02/09 12:11:33,381 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 10.1.2.55:37184 (size: 775.1 KB, free: 6.3 GB)
+17/02/09 12:11:33,382 INFO SparkContext: Created broadcast 8 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:33,383 INFO DAGScheduler: Submitting 20 missing tasks from ShuffleMapStage 5 (MapPartitionsRDD[16] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:33,383 INFO TaskSchedulerImpl: Adding task set 5.0 with 20 tasks
+17/02/09 12:11:33,385 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 65, 10.1.2.122, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,386 INFO TaskSetManager: Starting task 1.0 in stage 5.0 (TID 66, 10.1.2.117, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,386 INFO TaskSetManager: Starting task 2.0 in stage 5.0 (TID 67, 10.1.2.122, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,387 INFO TaskSetManager: Starting task 3.0 in stage 5.0 (TID 68, 10.1.2.117, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,387 INFO TaskSetManager: Starting task 4.0 in stage 5.0 (TID 69, 10.1.2.122, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,388 INFO TaskSetManager: Starting task 5.0 in stage 5.0 (TID 70, 10.1.2.117, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,389 INFO TaskSetManager: Starting task 6.0 in stage 5.0 (TID 71, 10.1.2.122, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,389 INFO TaskSetManager: Starting task 7.0 in stage 5.0 (TID 72, 10.1.2.117, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:33,389 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 65 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:33,390 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 67 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:33,391 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 69 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:33,391 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 71 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:33,392 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 66 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:33,392 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 68 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:33,393 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 70 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:33,393 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 72 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:33,410 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 10.1.2.122:46235 (size: 775.1 KB, free: 3.9 GB)
+17/02/09 12:11:33,411 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 10.1.2.117:36210 (size: 775.1 KB, free: 4.7 GB)
+17/02/09 12:11:33,728 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:33,743 INFO BlockManagerInfo: Added broadcast_7_piece5 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:33,753 INFO BlockManagerInfo: Added broadcast_7_piece2 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.7 GB)
+17/02/09 12:11:33,754 INFO BlockManagerInfo: Added broadcast_7_piece6 in memory on 10.1.2.122:46235 (size: 564.4 KB, free: 3.9 GB)
+17/02/09 12:11:33,771 INFO BlockManagerInfo: Added broadcast_7_piece1 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:33,771 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:33,787 INFO BlockManagerInfo: Added broadcast_7_piece4 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:33,789 INFO BlockManagerInfo: Added broadcast_7_piece1 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:33,804 INFO BlockManagerInfo: Added broadcast_7_piece3 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:33,807 INFO BlockManagerInfo: Added broadcast_7_piece4 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:33,821 INFO BlockManagerInfo: Added broadcast_7_piece2 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:33,824 INFO BlockManagerInfo: Added broadcast_7_piece3 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:33,840 INFO BlockManagerInfo: Added broadcast_7_piece5 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:33,850 INFO BlockManagerInfo: Added broadcast_7_piece6 in memory on 10.1.2.117:36210 (size: 564.4 KB, free: 4.6 GB)
+17/02/09 12:11:34,522 INFO TaskSetManager: Starting task 13.0 in stage 5.0 (TID 73, 10.1.2.117, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,522 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 73 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:34,523 INFO TaskSetManager: Finished task 1.0 in stage 5.0 (TID 66) in 1137 ms on 10.1.2.117 (1/20)
+17/02/09 12:11:34,523 INFO TaskSetManager: Starting task 14.0 in stage 5.0 (TID 74, 10.1.2.117, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,524 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 74 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:34,524 INFO TaskSetManager: Finished task 7.0 in stage 5.0 (TID 72) in 1135 ms on 10.1.2.117 (2/20)
+17/02/09 12:11:34,526 INFO TaskSetManager: Starting task 8.0 in stage 5.0 (TID 75, 10.1.2.122, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,526 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 75 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:34,527 INFO TaskSetManager: Finished task 6.0 in stage 5.0 (TID 71) in 1139 ms on 10.1.2.122 (3/20)
+17/02/09 12:11:34,554 INFO TaskSetManager: Starting task 15.0 in stage 5.0 (TID 76, 10.1.2.117, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,554 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 76 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:34,554 INFO TaskSetManager: Finished task 5.0 in stage 5.0 (TID 70) in 1166 ms on 10.1.2.117 (4/20)
+17/02/09 12:11:34,555 INFO TaskSetManager: Starting task 9.0 in stage 5.0 (TID 77, 10.1.2.122, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,556 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 77 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:34,556 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 65) in 1172 ms on 10.1.2.122 (5/20)
+17/02/09 12:11:34,557 INFO TaskSetManager: Starting task 10.0 in stage 5.0 (TID 78, 10.1.2.122, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,557 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 78 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:34,558 INFO TaskSetManager: Finished task 2.0 in stage 5.0 (TID 67) in 1171 ms on 10.1.2.122 (6/20)
+17/02/09 12:11:34,561 INFO TaskSetManager: Starting task 11.0 in stage 5.0 (TID 79, 10.1.2.122, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,561 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 79 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:34,562 INFO TaskSetManager: Finished task 4.0 in stage 5.0 (TID 69) in 1175 ms on 10.1.2.122 (7/20)
+17/02/09 12:11:34,608 INFO TaskSetManager: Starting task 16.0 in stage 5.0 (TID 80, 10.1.2.117, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:34,608 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 80 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:34,608 INFO TaskSetManager: Finished task 3.0 in stage 5.0 (TID 68) in 1222 ms on 10.1.2.117 (8/20)
+17/02/09 12:11:35,093 INFO TaskSetManager: Finished task 13.0 in stage 5.0 (TID 73) in 572 ms on 10.1.2.117 (9/20)
+17/02/09 12:11:35,099 INFO TaskSetManager: Finished task 14.0 in stage 5.0 (TID 74) in 576 ms on 10.1.2.117 (10/20)
+17/02/09 12:11:35,115 INFO TaskSetManager: Starting task 12.0 in stage 5.0 (TID 81, 10.1.2.122, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:35,116 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 81 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:35,116 INFO TaskSetManager: Finished task 8.0 in stage 5.0 (TID 75) in 590 ms on 10.1.2.122 (11/20)
+17/02/09 12:11:35,117 INFO TaskSetManager: Finished task 15.0 in stage 5.0 (TID 76) in 564 ms on 10.1.2.117 (12/20)
+17/02/09 12:11:35,118 INFO TaskSetManager: Starting task 17.0 in stage 5.0 (TID 82, 10.1.2.122, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:35,119 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 82 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:35,119 INFO TaskSetManager: Finished task 9.0 in stage 5.0 (TID 77) in 564 ms on 10.1.2.122 (13/20)
+17/02/09 12:11:35,138 INFO TaskSetManager: Starting task 18.0 in stage 5.0 (TID 83, 10.1.2.122, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:35,138 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 83 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:35,139 INFO TaskSetManager: Finished task 11.0 in stage 5.0 (TID 79) in 577 ms on 10.1.2.122 (14/20)
+17/02/09 12:11:35,162 INFO TaskSetManager: Starting task 19.0 in stage 5.0 (TID 84, 10.1.2.122, partition 19, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:35,162 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 84 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:35,162 INFO TaskSetManager: Finished task 10.0 in stage 5.0 (TID 78) in 605 ms on 10.1.2.122 (15/20)
+17/02/09 12:11:35,166 INFO TaskSetManager: Finished task 16.0 in stage 5.0 (TID 80) in 559 ms on 10.1.2.117 (16/20)
+17/02/09 12:11:35,665 INFO TaskSetManager: Finished task 12.0 in stage 5.0 (TID 81) in 550 ms on 10.1.2.122 (17/20)
+17/02/09 12:11:35,683 INFO TaskSetManager: Finished task 17.0 in stage 5.0 (TID 82) in 565 ms on 10.1.2.122 (18/20)
+17/02/09 12:11:35,709 INFO TaskSetManager: Finished task 18.0 in stage 5.0 (TID 83) in 571 ms on 10.1.2.122 (19/20)
+17/02/09 12:11:35,730 INFO TaskSetManager: Finished task 19.0 in stage 5.0 (TID 84) in 568 ms on 10.1.2.122 (20/20)
+17/02/09 12:11:35,730 INFO TaskSchedulerImpl: Removed TaskSet 5.0, whose tasks have all completed, from pool 
+17/02/09 12:11:35,730 INFO DAGScheduler: ShuffleMapStage 5 (treeAggregate at GradientDescent.scala:239) finished in 2.346 s
+17/02/09 12:11:35,731 INFO DAGScheduler: looking for newly runnable stages
+17/02/09 12:11:35,731 INFO DAGScheduler: running: Set()
+17/02/09 12:11:35,731 INFO DAGScheduler: waiting: Set(ResultStage 6)
+17/02/09 12:11:35,731 INFO DAGScheduler: failed: Set()
+17/02/09 12:11:35,731 INFO DAGScheduler: Submitting ResultStage 6 (MapPartitionsRDD[18] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:35,734 INFO MemoryStore: Block broadcast_9 stored as values in memory (estimated size 3.1 KB, free 6.0 GB)
+17/02/09 12:11:35,735 INFO MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 1892.0 B, free 6.0 GB)
+17/02/09 12:11:35,736 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 10.1.2.55:37184 (size: 1892.0 B, free: 6.3 GB)
+17/02/09 12:11:35,737 INFO SparkContext: Created broadcast 9 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:35,737 INFO DAGScheduler: Submitting 4 missing tasks from ResultStage 6 (MapPartitionsRDD[18] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:35,737 INFO TaskSchedulerImpl: Adding task set 6.0 with 4 tasks
+17/02/09 12:11:35,739 INFO TaskSetManager: Starting task 0.0 in stage 6.0 (TID 85, 10.1.2.122, partition 0, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:35,739 INFO TaskSetManager: Starting task 1.0 in stage 6.0 (TID 86, 10.1.2.117, partition 1, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:35,740 INFO TaskSetManager: Starting task 2.0 in stage 6.0 (TID 87, 10.1.2.122, partition 2, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:35,740 INFO TaskSetManager: Starting task 3.0 in stage 6.0 (TID 88, 10.1.2.117, partition 3, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:35,741 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 85 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:35,741 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 87 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:35,741 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 86 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:35,742 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 88 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:35,752 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 10.1.2.122:46235 (size: 1892.0 B, free: 3.9 GB)
+17/02/09 12:11:35,755 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 10.1.2.117:36210 (size: 1892.0 B, free: 4.6 GB)
+17/02/09 12:11:35,757 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 10.1.2.122:45806
+17/02/09 12:11:35,758 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 1 is 207 bytes
+17/02/09 12:11:35,761 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 10.1.2.117:41674
+17/02/09 12:11:37,556 INFO BlockManagerInfo: Added taskresult_85 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.7 GB)
+17/02/09 12:11:37,636 INFO BlockManagerInfo: Added taskresult_88 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.5 GB)
+17/02/09 12:11:37,638 INFO BlockManagerInfo: Added taskresult_86 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.3 GB)
+17/02/09 12:11:37,643 INFO BlockManagerInfo: Added taskresult_87 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.6 GB)
+17/02/09 12:11:38,036 INFO BlockManagerInfo: Removed taskresult_85 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.7 GB)
+17/02/09 12:11:38,123 INFO BlockManagerInfo: Removed taskresult_88 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.5 GB)
+17/02/09 12:11:38,217 INFO TaskSetManager: Finished task 0.0 in stage 6.0 (TID 85) in 2291 ms on 10.1.2.122 (1/4)
+17/02/09 12:11:38,402 INFO TaskSetManager: Finished task 3.0 in stage 6.0 (TID 88) in 2477 ms on 10.1.2.117 (2/4)
+48.259: [GC [PSYoungGen: 3306662K->488799K(3433472K)] 4728189K->2877485K(11284480K), 0.1633060 secs] [Times: user=0.43 sys=0.19, real=0.16 secs] 
+17/02/09 12:11:38,673 INFO BlockManagerInfo: Removed broadcast_8_piece0 on 10.1.2.122:46235 in memory (size: 775.1 KB, free: 3.7 GB)
+17/02/09 12:11:38,674 INFO BlockManagerInfo: Removed broadcast_8_piece0 on 10.1.2.117:36210 in memory (size: 775.1 KB, free: 4.5 GB)
+17/02/09 12:11:38,675 INFO BlockManagerInfo: Removed broadcast_8_piece0 on 10.1.2.55:37184 in memory (size: 775.1 KB, free: 6.3 GB)
+17/02/09 12:11:38,692 INFO BlockManagerInfo: Removed taskresult_87 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.9 GB)
+17/02/09 12:11:38,725 INFO BlockManagerInfo: Removed taskresult_86 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.6 GB)
+17/02/09 12:11:38,850 INFO TaskSetManager: Finished task 2.0 in stage 6.0 (TID 87) in 2950 ms on 10.1.2.122 (3/4)
+17/02/09 12:11:39,014 INFO TaskSetManager: Finished task 1.0 in stage 6.0 (TID 86) in 3111 ms on 10.1.2.117 (4/4)
+17/02/09 12:11:39,015 INFO TaskSchedulerImpl: Removed TaskSet 6.0, whose tasks have all completed, from pool 
+17/02/09 12:11:39,015 INFO DAGScheduler: ResultStage 6 (treeAggregate at GradientDescent.scala:239) finished in 3.277 s
+17/02/09 12:11:39,053 INFO DAGScheduler: Job 4 finished: treeAggregate at GradientDescent.scala:239, took 6.195970 s
+49.840: [GC [PSYoungGen: 3433311K->487847K(3396608K)] 5821997K->3192421K(11247616K), 0.1173720 secs] [Times: user=0.31 sys=0.06, real=0.12 secs] 
+17/02/09 12:11:40,185 INFO ContextCleaner: Cleaned shuffle 1
+17/02/09 12:11:40,187 INFO BlockManagerInfo: Removed broadcast_9_piece0 on 10.1.2.55:37184 in memory (size: 1892.0 B, free: 6.3 GB)
+17/02/09 12:11:40,191 INFO BlockManagerInfo: Removed broadcast_9_piece0 on 10.1.2.122:46235 in memory (size: 1892.0 B, free: 3.9 GB)
+17/02/09 12:11:40,192 INFO BlockManagerInfo: Removed broadcast_9_piece0 on 10.1.2.117:36210 in memory (size: 1892.0 B, free: 4.6 GB)
+17/02/09 12:11:40,390 INFO MemoryStore: Block broadcast_10 stored as values in memory (estimated size 154.2 MB, free 6.0 GB)
+17/02/09 12:11:40,816 INFO MemoryStore: Block broadcast_10_piece0 stored as bytes in memory (estimated size 4.0 MB, free 6.0 GB)
+17/02/09 12:11:40,816 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:40,817 INFO MemoryStore: Block broadcast_10_piece1 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,818 INFO BlockManagerInfo: Added broadcast_10_piece1 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.3 GB)
+17/02/09 12:11:40,819 INFO MemoryStore: Block broadcast_10_piece2 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,819 INFO BlockManagerInfo: Added broadcast_10_piece2 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,820 INFO MemoryStore: Block broadcast_10_piece3 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,821 INFO BlockManagerInfo: Added broadcast_10_piece3 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,821 INFO MemoryStore: Block broadcast_10_piece4 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,822 INFO BlockManagerInfo: Added broadcast_10_piece4 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,823 INFO MemoryStore: Block broadcast_10_piece5 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,823 INFO BlockManagerInfo: Added broadcast_10_piece5 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,824 INFO MemoryStore: Block broadcast_10_piece6 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,824 INFO BlockManagerInfo: Added broadcast_10_piece6 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,825 INFO MemoryStore: Block broadcast_10_piece7 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,825 INFO BlockManagerInfo: Added broadcast_10_piece7 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,826 INFO MemoryStore: Block broadcast_10_piece8 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,827 INFO BlockManagerInfo: Added broadcast_10_piece8 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,827 INFO MemoryStore: Block broadcast_10_piece9 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,828 INFO BlockManagerInfo: Added broadcast_10_piece9 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,828 INFO MemoryStore: Block broadcast_10_piece10 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,829 INFO BlockManagerInfo: Added broadcast_10_piece10 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,830 INFO MemoryStore: Block broadcast_10_piece11 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,830 INFO BlockManagerInfo: Added broadcast_10_piece11 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,831 INFO MemoryStore: Block broadcast_10_piece12 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,831 INFO BlockManagerInfo: Added broadcast_10_piece12 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,832 INFO MemoryStore: Block broadcast_10_piece13 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,832 INFO BlockManagerInfo: Added broadcast_10_piece13 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,833 INFO MemoryStore: Block broadcast_10_piece14 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,833 INFO BlockManagerInfo: Added broadcast_10_piece14 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,834 INFO MemoryStore: Block broadcast_10_piece15 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,835 INFO BlockManagerInfo: Added broadcast_10_piece15 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,835 INFO MemoryStore: Block broadcast_10_piece16 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,836 INFO BlockManagerInfo: Added broadcast_10_piece16 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,836 INFO MemoryStore: Block broadcast_10_piece17 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,837 INFO BlockManagerInfo: Added broadcast_10_piece17 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,837 INFO MemoryStore: Block broadcast_10_piece18 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,838 INFO BlockManagerInfo: Added broadcast_10_piece18 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,838 INFO MemoryStore: Block broadcast_10_piece19 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,839 INFO BlockManagerInfo: Added broadcast_10_piece19 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,839 INFO MemoryStore: Block broadcast_10_piece20 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,840 INFO BlockManagerInfo: Added broadcast_10_piece20 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,840 INFO MemoryStore: Block broadcast_10_piece21 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,841 INFO BlockManagerInfo: Added broadcast_10_piece21 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,841 INFO MemoryStore: Block broadcast_10_piece22 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:40,842 INFO BlockManagerInfo: Added broadcast_10_piece22 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:40,843 INFO MemoryStore: Block broadcast_10_piece23 stored as bytes in memory (estimated size 372.9 KB, free 5.9 GB)
+17/02/09 12:11:40,843 INFO BlockManagerInfo: Added broadcast_10_piece23 in memory on 10.1.2.55:37184 (size: 372.9 KB, free: 6.2 GB)
+17/02/09 12:11:40,844 INFO SparkContext: Created broadcast 10 from broadcast at GradientDescent.scala:235
+17/02/09 12:11:41,149 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/02/09 12:11:41,151 INFO DAGScheduler: Registering RDD 21 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:41,151 INFO DAGScheduler: Got job 5 (treeAggregate at GradientDescent.scala:239) with 4 output partitions
+17/02/09 12:11:41,151 INFO DAGScheduler: Final stage: ResultStage 8 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:41,151 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 7)
+17/02/09 12:11:41,151 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 7)
+17/02/09 12:11:41,153 INFO DAGScheduler: Submitting ShuffleMapStage 7 (MapPartitionsRDD[21] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:41,470 INFO MemoryStore: Block broadcast_11 stored as values in memory (estimated size 154.2 MB, free 5.7 GB)
+17/02/09 12:11:41,544 INFO MemoryStore: Block broadcast_11_piece0 stored as bytes in memory (estimated size 775.1 KB, free 5.7 GB)
+17/02/09 12:11:41,544 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 10.1.2.55:37184 (size: 775.1 KB, free: 6.2 GB)
+17/02/09 12:11:41,545 INFO SparkContext: Created broadcast 11 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:41,546 INFO DAGScheduler: Submitting 20 missing tasks from ShuffleMapStage 7 (MapPartitionsRDD[21] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:41,546 INFO TaskSchedulerImpl: Adding task set 7.0 with 20 tasks
+17/02/09 12:11:41,548 INFO TaskSetManager: Starting task 1.0 in stage 7.0 (TID 89, 10.1.2.117, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,549 INFO TaskSetManager: Starting task 0.0 in stage 7.0 (TID 90, 10.1.2.122, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,549 INFO TaskSetManager: Starting task 3.0 in stage 7.0 (TID 91, 10.1.2.117, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,550 INFO TaskSetManager: Starting task 2.0 in stage 7.0 (TID 92, 10.1.2.122, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,550 INFO TaskSetManager: Starting task 5.0 in stage 7.0 (TID 93, 10.1.2.117, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,551 INFO TaskSetManager: Starting task 4.0 in stage 7.0 (TID 94, 10.1.2.122, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,551 INFO TaskSetManager: Starting task 7.0 in stage 7.0 (TID 95, 10.1.2.117, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,552 INFO TaskSetManager: Starting task 6.0 in stage 7.0 (TID 96, 10.1.2.122, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:41,552 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 89 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:41,552 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 91 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:41,553 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 93 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:41,553 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 95 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:41,554 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 90 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:41,554 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 92 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:41,554 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 94 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:41,554 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 96 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:41,570 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 10.1.2.117:36210 (size: 775.1 KB, free: 4.6 GB)
+17/02/09 12:11:41,576 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 10.1.2.122:46235 (size: 775.1 KB, free: 3.9 GB)
+17/02/09 12:11:41,885 INFO BlockManagerInfo: Added broadcast_10_piece2 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:41,902 INFO BlockManagerInfo: Added broadcast_10_piece3 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:41,922 INFO BlockManagerInfo: Added broadcast_10_piece9 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:41,938 INFO BlockManagerInfo: Added broadcast_10_piece10 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:41,956 INFO BlockManagerInfo: Added broadcast_10_piece18 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:41,964 INFO BlockManagerInfo: Added broadcast_10_piece4 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:41,971 INFO BlockManagerInfo: Added broadcast_10_piece16 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:41,988 INFO BlockManagerInfo: Added broadcast_10_piece14 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:41,990 INFO BlockManagerInfo: Added broadcast_10_piece1 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,009 INFO BlockManagerInfo: Added broadcast_10_piece4 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,013 INFO BlockManagerInfo: Added broadcast_10_piece14 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,024 INFO BlockManagerInfo: Added broadcast_10_piece6 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,035 INFO BlockManagerInfo: Added broadcast_10_piece21 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,039 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,052 INFO BlockManagerInfo: Added broadcast_10_piece22 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,056 INFO BlockManagerInfo: Added broadcast_10_piece21 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,066 INFO BlockManagerInfo: Added broadcast_10_piece17 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,076 INFO BlockManagerInfo: Added broadcast_10_piece15 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,081 INFO BlockManagerInfo: Added broadcast_10_piece9 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,091 INFO BlockManagerInfo: Added broadcast_10_piece19 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,098 INFO BlockManagerInfo: Added broadcast_10_piece5 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,105 INFO BlockManagerInfo: Added broadcast_10_piece5 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,118 INFO BlockManagerInfo: Added broadcast_10_piece8 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,123 INFO BlockManagerInfo: Added broadcast_10_piece11 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,134 INFO BlockManagerInfo: Added broadcast_10_piece22 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,144 INFO BlockManagerInfo: Added broadcast_10_piece2 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,149 INFO BlockManagerInfo: Added broadcast_10_piece1 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,158 INFO BlockManagerInfo: Added broadcast_10_piece23 in memory on 10.1.2.122:46235 (size: 372.9 KB, free: 3.8 GB)
+17/02/09 12:11:42,160 INFO BlockManagerInfo: Added broadcast_10_piece10 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,175 INFO BlockManagerInfo: Added broadcast_10_piece12 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,177 INFO BlockManagerInfo: Added broadcast_10_piece15 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,191 INFO BlockManagerInfo: Added broadcast_10_piece7 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,194 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,207 INFO BlockManagerInfo: Added broadcast_10_piece13 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,213 INFO BlockManagerInfo: Added broadcast_10_piece18 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,225 INFO BlockManagerInfo: Added broadcast_10_piece20 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,230 INFO BlockManagerInfo: Added broadcast_10_piece12 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,239 INFO BlockManagerInfo: Added broadcast_10_piece23 in memory on 10.1.2.117:36210 (size: 372.9 KB, free: 4.6 GB)
+17/02/09 12:11:42,240 INFO BlockManagerInfo: Added broadcast_10_piece17 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,256 INFO BlockManagerInfo: Added broadcast_10_piece3 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,260 INFO BlockManagerInfo: Added broadcast_10_piece11 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:42,273 INFO BlockManagerInfo: Added broadcast_10_piece19 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,289 INFO BlockManagerInfo: Added broadcast_10_piece7 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,307 INFO BlockManagerInfo: Added broadcast_10_piece13 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,323 INFO BlockManagerInfo: Added broadcast_10_piece6 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,337 INFO BlockManagerInfo: Added broadcast_10_piece8 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:42,353 INFO BlockManagerInfo: Added broadcast_10_piece20 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:11:42,369 INFO BlockManagerInfo: Added broadcast_10_piece16 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:11:43,026 INFO TaskSetManager: Starting task 13.0 in stage 7.0 (TID 97, 10.1.2.117, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,026 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 97 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:43,027 INFO TaskSetManager: Finished task 3.0 in stage 7.0 (TID 91) in 1477 ms on 10.1.2.117 (1/20)
+17/02/09 12:11:43,048 INFO TaskSetManager: Starting task 8.0 in stage 7.0 (TID 98, 10.1.2.122, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,048 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 98 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,048 INFO TaskSetManager: Finished task 0.0 in stage 7.0 (TID 90) in 1500 ms on 10.1.2.122 (2/20)
+17/02/09 12:11:43,052 INFO TaskSetManager: Starting task 14.0 in stage 7.0 (TID 99, 10.1.2.117, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,053 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 99 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:43,053 INFO TaskSetManager: Finished task 1.0 in stage 7.0 (TID 89) in 1506 ms on 10.1.2.117 (3/20)
+17/02/09 12:11:43,061 INFO TaskSetManager: Starting task 9.0 in stage 7.0 (TID 100, 10.1.2.122, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,061 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 100 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,061 INFO TaskSetManager: Finished task 2.0 in stage 7.0 (TID 92) in 1512 ms on 10.1.2.122 (4/20)
+17/02/09 12:11:43,069 INFO TaskSetManager: Starting task 15.0 in stage 7.0 (TID 101, 10.1.2.117, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,069 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 101 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:43,070 INFO TaskSetManager: Finished task 5.0 in stage 7.0 (TID 93) in 1519 ms on 10.1.2.117 (5/20)
+17/02/09 12:11:43,080 INFO TaskSetManager: Starting task 10.0 in stage 7.0 (TID 102, 10.1.2.122, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,080 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 102 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,080 INFO TaskSetManager: Finished task 4.0 in stage 7.0 (TID 94) in 1530 ms on 10.1.2.122 (6/20)
+17/02/09 12:11:43,092 INFO TaskSetManager: Starting task 11.0 in stage 7.0 (TID 103, 10.1.2.122, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,092 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 103 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,092 INFO TaskSetManager: Finished task 6.0 in stage 7.0 (TID 96) in 1541 ms on 10.1.2.122 (7/20)
+17/02/09 12:11:43,097 INFO TaskSetManager: Starting task 16.0 in stage 7.0 (TID 104, 10.1.2.117, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,098 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 104 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:43,098 INFO TaskSetManager: Finished task 7.0 in stage 7.0 (TID 95) in 1547 ms on 10.1.2.117 (8/20)
+17/02/09 12:11:43,608 INFO TaskSetManager: Finished task 13.0 in stage 7.0 (TID 97) in 583 ms on 10.1.2.117 (9/20)
+17/02/09 12:11:43,609 INFO TaskSetManager: Starting task 12.0 in stage 7.0 (TID 105, 10.1.2.122, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,610 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 105 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,610 INFO TaskSetManager: Finished task 9.0 in stage 7.0 (TID 100) in 549 ms on 10.1.2.122 (10/20)
+17/02/09 12:11:43,613 INFO TaskSetManager: Finished task 14.0 in stage 7.0 (TID 99) in 561 ms on 10.1.2.117 (11/20)
+17/02/09 12:11:43,632 INFO TaskSetManager: Starting task 17.0 in stage 7.0 (TID 106, 10.1.2.122, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,632 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 106 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,633 INFO TaskSetManager: Finished task 10.0 in stage 7.0 (TID 102) in 552 ms on 10.1.2.122 (12/20)
+17/02/09 12:11:43,633 INFO TaskSetManager: Starting task 18.0 in stage 7.0 (TID 107, 10.1.2.122, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,633 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 107 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,634 INFO TaskSetManager: Finished task 11.0 in stage 7.0 (TID 103) in 542 ms on 10.1.2.122 (13/20)
+17/02/09 12:11:43,637 INFO TaskSetManager: Starting task 19.0 in stage 7.0 (TID 108, 10.1.2.122, partition 19, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:43,637 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 108 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:43,638 INFO TaskSetManager: Finished task 8.0 in stage 7.0 (TID 98) in 591 ms on 10.1.2.122 (14/20)
+17/02/09 12:11:43,640 INFO TaskSetManager: Finished task 15.0 in stage 7.0 (TID 101) in 572 ms on 10.1.2.117 (15/20)
+17/02/09 12:11:43,658 INFO TaskSetManager: Finished task 16.0 in stage 7.0 (TID 104) in 561 ms on 10.1.2.117 (16/20)
+17/02/09 12:11:44,201 INFO TaskSetManager: Finished task 19.0 in stage 7.0 (TID 108) in 565 ms on 10.1.2.122 (17/20)
+17/02/09 12:11:44,202 INFO TaskSetManager: Finished task 17.0 in stage 7.0 (TID 106) in 570 ms on 10.1.2.122 (18/20)
+17/02/09 12:11:44,212 INFO TaskSetManager: Finished task 12.0 in stage 7.0 (TID 105) in 603 ms on 10.1.2.122 (19/20)
+17/02/09 12:11:44,234 INFO TaskSetManager: Finished task 18.0 in stage 7.0 (TID 107) in 600 ms on 10.1.2.122 (20/20)
+17/02/09 12:11:44,234 INFO TaskSchedulerImpl: Removed TaskSet 7.0, whose tasks have all completed, from pool 
+17/02/09 12:11:44,234 INFO DAGScheduler: ShuffleMapStage 7 (treeAggregate at GradientDescent.scala:239) finished in 2.687 s
+17/02/09 12:11:44,235 INFO DAGScheduler: looking for newly runnable stages
+17/02/09 12:11:44,235 INFO DAGScheduler: running: Set()
+17/02/09 12:11:44,235 INFO DAGScheduler: waiting: Set(ResultStage 8)
+17/02/09 12:11:44,235 INFO DAGScheduler: failed: Set()
+17/02/09 12:11:44,235 INFO DAGScheduler: Submitting ResultStage 8 (MapPartitionsRDD[23] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:44,238 INFO MemoryStore: Block broadcast_12 stored as values in memory (estimated size 3.1 KB, free 5.7 GB)
+17/02/09 12:11:44,239 INFO MemoryStore: Block broadcast_12_piece0 stored as bytes in memory (estimated size 1894.0 B, free 5.7 GB)
+17/02/09 12:11:44,240 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 10.1.2.55:37184 (size: 1894.0 B, free: 6.2 GB)
+17/02/09 12:11:44,241 INFO SparkContext: Created broadcast 12 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:44,241 INFO DAGScheduler: Submitting 4 missing tasks from ResultStage 8 (MapPartitionsRDD[23] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:44,241 INFO TaskSchedulerImpl: Adding task set 8.0 with 4 tasks
+17/02/09 12:11:44,243 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 109, 10.1.2.122, partition 0, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:44,243 INFO TaskSetManager: Starting task 1.0 in stage 8.0 (TID 110, 10.1.2.117, partition 1, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:44,244 INFO TaskSetManager: Starting task 2.0 in stage 8.0 (TID 111, 10.1.2.122, partition 2, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:44,244 INFO TaskSetManager: Starting task 3.0 in stage 8.0 (TID 112, 10.1.2.117, partition 3, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:44,244 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 109 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:44,245 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 111 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:44,245 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 110 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:44,245 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 112 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:44,256 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 10.1.2.117:36210 (size: 1894.0 B, free: 4.5 GB)
+17/02/09 12:11:44,258 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 10.1.2.122:46235 (size: 1894.0 B, free: 3.8 GB)
+17/02/09 12:11:44,261 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 2 to 10.1.2.117:41674
+17/02/09 12:11:44,262 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 2 is 211 bytes
+17/02/09 12:11:44,264 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 2 to 10.1.2.122:45806
+17/02/09 12:11:46,044 INFO BlockManagerInfo: Added taskresult_110 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.4 GB)
+17/02/09 12:11:46,066 INFO BlockManagerInfo: Added taskresult_112 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.2 GB)
+17/02/09 12:11:46,103 INFO BlockManagerInfo: Added taskresult_109 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.6 GB)
+17/02/09 12:11:46,109 INFO BlockManagerInfo: Added taskresult_111 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.5 GB)
+56.296: [GC [PSYoungGen: 3295713K->510462K(3415040K)] 6000286K->3763940K(11266048K), 0.1426530 secs] [Times: user=0.35 sys=0.07, real=0.14 secs] 
+17/02/09 12:11:46,692 INFO BlockManagerInfo: Removed broadcast_7_piece4 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.2 GB)
+17/02/09 12:11:46,695 INFO BlockManagerInfo: Removed broadcast_7_piece4 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:46,695 INFO BlockManagerInfo: Removed broadcast_7_piece1 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.2 GB)
+17/02/09 12:11:46,696 INFO BlockManagerInfo: Removed broadcast_7_piece1 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:46,697 INFO BlockManagerInfo: Removed broadcast_7_piece4 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.5 GB)
+17/02/09 12:11:46,698 INFO BlockManagerInfo: Removed broadcast_7_piece0 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:46,701 INFO BlockManagerInfo: Removed broadcast_7_piece3 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:46,701 INFO BlockManagerInfo: Removed broadcast_7_piece0 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.3 GB)
+17/02/09 12:11:46,703 INFO BlockManagerInfo: Removed broadcast_7_piece6 on 10.1.2.55:37184 in memory (size: 564.4 KB, free: 6.2 GB)
+17/02/09 12:11:46,703 INFO BlockManagerInfo: Removed broadcast_7_piece1 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.5 GB)
+17/02/09 12:11:46,704 INFO BlockManagerInfo: Removed broadcast_7_piece5 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:46,705 INFO BlockManagerInfo: Removed broadcast_7_piece2 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:46,706 INFO BlockManagerInfo: Removed broadcast_7_piece3 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.3 GB)
+17/02/09 12:11:46,707 INFO BlockManagerInfo: Removed broadcast_7_piece0 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.5 GB)
+17/02/09 12:11:46,709 INFO BlockManagerInfo: Removed broadcast_7_piece6 on 10.1.2.117:36210 in memory (size: 564.4 KB, free: 4.3 GB)
+17/02/09 12:11:46,712 INFO BlockManagerInfo: Removed broadcast_7_piece3 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.5 GB)
+17/02/09 12:11:46,713 INFO BlockManagerInfo: Removed broadcast_7_piece5 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.3 GB)
+17/02/09 12:11:46,714 INFO BlockManagerInfo: Removed broadcast_7_piece6 on 10.1.2.122:46235 in memory (size: 564.4 KB, free: 3.5 GB)
+17/02/09 12:11:46,715 INFO BlockManagerInfo: Removed broadcast_7_piece2 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.3 GB)
+17/02/09 12:11:46,717 INFO BlockManagerInfo: Removed broadcast_7_piece5 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.5 GB)
+17/02/09 12:11:46,719 INFO BlockManagerInfo: Removed broadcast_7_piece2 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.5 GB)
+17/02/09 12:11:46,722 INFO BlockManagerInfo: Removed broadcast_11_piece0 on 10.1.2.55:37184 in memory (size: 775.1 KB, free: 6.2 GB)
+17/02/09 12:11:46,726 INFO BlockManagerInfo: Removed broadcast_11_piece0 on 10.1.2.117:36210 in memory (size: 775.1 KB, free: 4.3 GB)
+17/02/09 12:11:46,726 INFO BlockManagerInfo: Removed broadcast_11_piece0 on 10.1.2.122:46235 in memory (size: 775.1 KB, free: 3.5 GB)
+17/02/09 12:11:46,748 INFO BlockManagerInfo: Removed taskresult_109 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.6 GB)
+17/02/09 12:11:46,853 INFO BlockManagerInfo: Removed taskresult_110 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.4 GB)
+17/02/09 12:11:46,969 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 109) in 2504 ms on 10.1.2.122 (1/4)
+17/02/09 12:11:47,166 INFO TaskSetManager: Finished task 1.0 in stage 8.0 (TID 110) in 2726 ms on 10.1.2.117 (2/4)
+17/02/09 12:11:47,248 INFO BlockManagerInfo: Removed taskresult_112 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.6 GB)
+17/02/09 12:11:47,262 INFO BlockManagerInfo: Removed taskresult_111 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.8 GB)
+17/02/09 12:11:47,407 INFO TaskSetManager: Finished task 3.0 in stage 8.0 (TID 112) in 3002 ms on 10.1.2.117 (3/4)
+17/02/09 12:11:47,567 INFO TaskSetManager: Finished task 2.0 in stage 8.0 (TID 111) in 3164 ms on 10.1.2.122 (4/4)
+17/02/09 12:11:47,567 INFO TaskSchedulerImpl: Removed TaskSet 8.0, whose tasks have all completed, from pool 
+17/02/09 12:11:47,568 INFO DAGScheduler: ResultStage 8 (treeAggregate at GradientDescent.scala:239) finished in 3.326 s
+17/02/09 12:11:47,607 INFO DAGScheduler: Job 5 finished: treeAggregate at GradientDescent.scala:239, took 6.457202 s
+57.790: [GC [PSYoungGen: 3415038K->476525K(2865152K)] 6668516K->4238624K(10716160K), 0.1195620 secs] [Times: user=0.31 sys=0.08, real=0.12 secs] 
+17/02/09 12:11:48,138 INFO BlockManagerInfo: Removed broadcast_12_piece0 on 10.1.2.55:37184 in memory (size: 1894.0 B, free: 6.2 GB)
+17/02/09 12:11:48,140 INFO BlockManagerInfo: Removed broadcast_12_piece0 on 10.1.2.122:46235 in memory (size: 1894.0 B, free: 3.8 GB)
+17/02/09 12:11:48,140 INFO BlockManagerInfo: Removed broadcast_12_piece0 on 10.1.2.117:36210 in memory (size: 1894.0 B, free: 4.6 GB)
+17/02/09 12:11:48,143 INFO ContextCleaner: Cleaned shuffle 2
+17/02/09 12:11:48,883 INFO MemoryStore: Block broadcast_13 stored as values in memory (estimated size 154.2 MB, free 5.9 GB)
+17/02/09 12:11:49,307 INFO MemoryStore: Block broadcast_13_piece0 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,308 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,309 INFO MemoryStore: Block broadcast_13_piece1 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,309 INFO BlockManagerInfo: Added broadcast_13_piece1 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,310 INFO MemoryStore: Block broadcast_13_piece2 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,310 INFO BlockManagerInfo: Added broadcast_13_piece2 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,311 INFO MemoryStore: Block broadcast_13_piece3 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,311 INFO BlockManagerInfo: Added broadcast_13_piece3 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,312 INFO MemoryStore: Block broadcast_13_piece4 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,313 INFO BlockManagerInfo: Added broadcast_13_piece4 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,313 INFO MemoryStore: Block broadcast_13_piece5 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,314 INFO BlockManagerInfo: Added broadcast_13_piece5 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,314 INFO MemoryStore: Block broadcast_13_piece6 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,315 INFO BlockManagerInfo: Added broadcast_13_piece6 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,315 INFO MemoryStore: Block broadcast_13_piece7 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,316 INFO BlockManagerInfo: Added broadcast_13_piece7 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,316 INFO MemoryStore: Block broadcast_13_piece8 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,317 INFO BlockManagerInfo: Added broadcast_13_piece8 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,317 INFO MemoryStore: Block broadcast_13_piece9 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:49,318 INFO BlockManagerInfo: Added broadcast_13_piece9 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,318 INFO MemoryStore: Block broadcast_13_piece10 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,318 INFO BlockManagerInfo: Added broadcast_13_piece10 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,319 INFO MemoryStore: Block broadcast_13_piece11 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,319 INFO BlockManagerInfo: Added broadcast_13_piece11 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,320 INFO MemoryStore: Block broadcast_13_piece12 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,320 INFO BlockManagerInfo: Added broadcast_13_piece12 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,321 INFO MemoryStore: Block broadcast_13_piece13 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,321 INFO BlockManagerInfo: Added broadcast_13_piece13 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,322 INFO MemoryStore: Block broadcast_13_piece14 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,322 INFO BlockManagerInfo: Added broadcast_13_piece14 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,323 INFO MemoryStore: Block broadcast_13_piece15 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,323 INFO BlockManagerInfo: Added broadcast_13_piece15 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,323 INFO MemoryStore: Block broadcast_13_piece16 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,324 INFO BlockManagerInfo: Added broadcast_13_piece16 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,324 INFO MemoryStore: Block broadcast_13_piece17 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,325 INFO BlockManagerInfo: Added broadcast_13_piece17 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,325 INFO MemoryStore: Block broadcast_13_piece18 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,326 INFO BlockManagerInfo: Added broadcast_13_piece18 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,326 INFO MemoryStore: Block broadcast_13_piece19 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,327 INFO BlockManagerInfo: Added broadcast_13_piece19 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,327 INFO MemoryStore: Block broadcast_13_piece20 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,328 INFO BlockManagerInfo: Added broadcast_13_piece20 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,328 INFO MemoryStore: Block broadcast_13_piece21 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,329 INFO BlockManagerInfo: Added broadcast_13_piece21 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,329 INFO MemoryStore: Block broadcast_13_piece22 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:49,330 INFO BlockManagerInfo: Added broadcast_13_piece22 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,330 INFO MemoryStore: Block broadcast_13_piece23 stored as bytes in memory (estimated size 565.9 KB, free 5.8 GB)
+17/02/09 12:11:49,331 INFO BlockManagerInfo: Added broadcast_13_piece23 in memory on 10.1.2.55:37184 (size: 565.9 KB, free: 6.1 GB)
+17/02/09 12:11:49,331 INFO SparkContext: Created broadcast 13 from broadcast at GradientDescent.scala:235
+59.216: [GC [PSYoungGen: 2778381K->633795K(2988544K)] 6540481K->4396423K(10839552K), 0.0829370 secs] [Times: user=0.26 sys=0.00, real=0.08 secs] 
+17/02/09 12:11:49,526 INFO BlockManagerInfo: Removed broadcast_10_piece0 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,527 INFO BlockManagerInfo: Removed broadcast_10_piece12 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,528 INFO BlockManagerInfo: Removed broadcast_10_piece9 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,528 INFO BlockManagerInfo: Removed broadcast_10_piece0 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,529 INFO BlockManagerInfo: Removed broadcast_10_piece0 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,529 INFO BlockManagerInfo: Removed broadcast_10_piece8 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,530 INFO BlockManagerInfo: Removed broadcast_10_piece20 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,530 INFO BlockManagerInfo: Removed broadcast_10_piece14 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,531 INFO BlockManagerInfo: Removed broadcast_10_piece9 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,532 INFO BlockManagerInfo: Removed broadcast_10_piece9 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,532 INFO BlockManagerInfo: Removed broadcast_10_piece2 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,533 INFO BlockManagerInfo: Removed broadcast_10_piece5 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,533 INFO BlockManagerInfo: Removed broadcast_10_piece12 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,534 INFO BlockManagerInfo: Removed broadcast_10_piece12 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,535 INFO BlockManagerInfo: Removed broadcast_10_piece17 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,536 INFO BlockManagerInfo: Removed broadcast_10_piece8 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,537 INFO BlockManagerInfo: Removed broadcast_10_piece8 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,537 INFO BlockManagerInfo: Removed broadcast_10_piece23 on 10.1.2.55:37184 in memory (size: 372.9 KB, free: 6.1 GB)
+17/02/09 12:11:49,538 INFO BlockManagerInfo: Removed broadcast_10_piece20 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,539 INFO BlockManagerInfo: Removed broadcast_10_piece11 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,540 INFO BlockManagerInfo: Removed broadcast_10_piece22 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,540 INFO BlockManagerInfo: Removed broadcast_10_piece14 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,541 INFO BlockManagerInfo: Removed broadcast_10_piece20 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,542 INFO BlockManagerInfo: Removed broadcast_10_piece19 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:49,542 INFO BlockManagerInfo: Removed broadcast_10_piece2 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,543 INFO BlockManagerInfo: Removed broadcast_10_piece10 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,543 INFO BlockManagerInfo: Removed broadcast_10_piece7 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,544 INFO BlockManagerInfo: Removed broadcast_10_piece1 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,545 INFO BlockManagerInfo: Removed broadcast_10_piece14 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,545 INFO BlockManagerInfo: Removed broadcast_10_piece5 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,546 INFO BlockManagerInfo: Removed broadcast_10_piece13 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,546 INFO BlockManagerInfo: Removed broadcast_10_piece16 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,547 INFO BlockManagerInfo: Removed broadcast_10_piece4 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,548 INFO BlockManagerInfo: Removed broadcast_10_piece2 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,548 INFO BlockManagerInfo: Removed broadcast_10_piece17 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,548 INFO BlockManagerInfo: Removed broadcast_10_piece3 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,552 INFO BlockManagerInfo: Removed broadcast_10_piece5 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,553 INFO BlockManagerInfo: Removed broadcast_10_piece21 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,554 INFO BlockManagerInfo: Removed broadcast_10_piece15 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,554 INFO BlockManagerInfo: Removed broadcast_10_piece23 on 10.1.2.122:46235 in memory (size: 372.9 KB, free: 3.8 GB)
+17/02/09 12:11:49,555 INFO BlockManagerInfo: Removed broadcast_10_piece18 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,556 INFO BlockManagerInfo: Removed broadcast_10_piece17 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,557 INFO BlockManagerInfo: Removed broadcast_10_piece6 on 10.1.2.55:37184 in memory (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:49,558 INFO BlockManagerInfo: Removed broadcast_10_piece23 on 10.1.2.117:36210 in memory (size: 372.9 KB, free: 4.6 GB)
+17/02/09 12:11:49,561 INFO BlockManagerInfo: Removed broadcast_10_piece11 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,562 INFO BlockManagerInfo: Removed broadcast_10_piece11 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,563 INFO BlockManagerInfo: Removed broadcast_10_piece22 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,564 INFO BlockManagerInfo: Removed broadcast_10_piece22 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,565 INFO BlockManagerInfo: Removed broadcast_10_piece19 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,566 INFO BlockManagerInfo: Removed broadcast_10_piece19 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,567 INFO BlockManagerInfo: Removed broadcast_10_piece10 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,568 INFO BlockManagerInfo: Removed broadcast_10_piece10 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,569 INFO BlockManagerInfo: Removed broadcast_10_piece7 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:49,570 INFO BlockManagerInfo: Removed broadcast_10_piece7 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,571 INFO BlockManagerInfo: Removed broadcast_10_piece1 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,572 INFO BlockManagerInfo: Removed broadcast_10_piece1 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,573 INFO BlockManagerInfo: Removed broadcast_10_piece13 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,574 INFO BlockManagerInfo: Removed broadcast_10_piece13 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,576 INFO BlockManagerInfo: Removed broadcast_10_piece16 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,577 INFO BlockManagerInfo: Removed broadcast_10_piece16 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,585 INFO BlockManagerInfo: Removed broadcast_10_piece4 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,586 INFO BlockManagerInfo: Removed broadcast_10_piece4 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,587 INFO BlockManagerInfo: Removed broadcast_10_piece3 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,590 INFO BlockManagerInfo: Removed broadcast_10_piece21 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,592 INFO BlockManagerInfo: Removed broadcast_10_piece15 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,593 INFO BlockManagerInfo: Removed broadcast_10_piece3 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,595 INFO BlockManagerInfo: Removed broadcast_10_piece18 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,597 INFO BlockManagerInfo: Removed broadcast_10_piece21 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:49,599 INFO BlockManagerInfo: Removed broadcast_10_piece6 on 10.1.2.122:46235 in memory (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:49,600 INFO BlockManagerInfo: Removed broadcast_10_piece15 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.7 GB)
+17/02/09 12:11:49,602 INFO BlockManagerInfo: Removed broadcast_10_piece18 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.7 GB)
+17/02/09 12:11:49,604 INFO BlockManagerInfo: Removed broadcast_10_piece6 on 10.1.2.117:36210 in memory (size: 4.0 MB, free: 4.7 GB)
+17/02/09 12:11:49,724 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/02/09 12:11:49,725 INFO DAGScheduler: Registering RDD 26 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:49,726 INFO DAGScheduler: Got job 6 (treeAggregate at GradientDescent.scala:239) with 4 output partitions
+17/02/09 12:11:49,726 INFO DAGScheduler: Final stage: ResultStage 10 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:49,726 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 9)
+17/02/09 12:11:49,726 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 9)
+17/02/09 12:11:49,728 INFO DAGScheduler: Submitting ShuffleMapStage 9 (MapPartitionsRDD[26] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:50,046 INFO MemoryStore: Block broadcast_14 stored as values in memory (estimated size 154.2 MB, free 5.9 GB)
+17/02/09 12:11:50,121 INFO MemoryStore: Block broadcast_14_piece0 stored as bytes in memory (estimated size 775.1 KB, free 5.9 GB)
+17/02/09 12:11:50,121 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 10.1.2.55:37184 (size: 775.1 KB, free: 6.2 GB)
+17/02/09 12:11:50,122 INFO SparkContext: Created broadcast 14 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:50,123 INFO DAGScheduler: Submitting 20 missing tasks from ShuffleMapStage 9 (MapPartitionsRDD[26] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:50,123 INFO TaskSchedulerImpl: Adding task set 9.0 with 20 tasks
+17/02/09 12:11:50,125 INFO TaskSetManager: Starting task 0.0 in stage 9.0 (TID 113, 10.1.2.122, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,125 INFO TaskSetManager: Starting task 1.0 in stage 9.0 (TID 114, 10.1.2.117, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,126 INFO TaskSetManager: Starting task 2.0 in stage 9.0 (TID 115, 10.1.2.122, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,126 INFO TaskSetManager: Starting task 3.0 in stage 9.0 (TID 116, 10.1.2.117, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,127 INFO TaskSetManager: Starting task 4.0 in stage 9.0 (TID 117, 10.1.2.122, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,127 INFO TaskSetManager: Starting task 5.0 in stage 9.0 (TID 118, 10.1.2.117, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,128 INFO TaskSetManager: Starting task 6.0 in stage 9.0 (TID 119, 10.1.2.122, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,128 INFO TaskSetManager: Starting task 7.0 in stage 9.0 (TID 120, 10.1.2.117, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:50,128 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 113 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:50,129 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 115 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:50,129 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 117 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:50,129 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 119 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:50,129 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 114 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:50,129 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 116 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:50,130 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 118 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:50,130 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 120 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:50,144 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 10.1.2.117:36210 (size: 775.1 KB, free: 4.7 GB)
+17/02/09 12:11:50,150 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 10.1.2.122:46235 (size: 775.1 KB, free: 3.9 GB)
+17/02/09 12:11:50,545 INFO BlockManagerInfo: Added broadcast_13_piece17 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.7 GB)
+17/02/09 12:11:50,560 INFO BlockManagerInfo: Added broadcast_13_piece20 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,574 INFO BlockManagerInfo: Added broadcast_13_piece15 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,584 INFO BlockManagerInfo: Added broadcast_13_piece3 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,592 INFO BlockManagerInfo: Added broadcast_13_piece6 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,601 INFO BlockManagerInfo: Added broadcast_13_piece11 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,609 INFO BlockManagerInfo: Added broadcast_13_piece19 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,616 INFO BlockManagerInfo: Added broadcast_13_piece4 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,623 INFO BlockManagerInfo: Added broadcast_13_piece13 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,630 INFO BlockManagerInfo: Added broadcast_13_piece14 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,638 INFO BlockManagerInfo: Added broadcast_13_piece21 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,643 INFO BlockManagerInfo: Added broadcast_13_piece21 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,652 INFO BlockManagerInfo: Added broadcast_13_piece22 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,660 INFO BlockManagerInfo: Added broadcast_13_piece15 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,667 INFO BlockManagerInfo: Added broadcast_13_piece12 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,674 INFO BlockManagerInfo: Added broadcast_13_piece5 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.9 GB)
+17/02/09 12:11:50,680 INFO BlockManagerInfo: Added broadcast_13_piece8 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,681 INFO BlockManagerInfo: Added broadcast_13_piece23 in memory on 10.1.2.122:46235 (size: 565.9 KB, free: 3.9 GB)
+17/02/09 12:11:50,696 INFO BlockManagerInfo: Added broadcast_13_piece14 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,696 INFO BlockManagerInfo: Added broadcast_13_piece13 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,711 INFO BlockManagerInfo: Added broadcast_13_piece7 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,719 INFO BlockManagerInfo: Added broadcast_13_piece6 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,724 INFO BlockManagerInfo: Added broadcast_13_piece11 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,733 INFO BlockManagerInfo: Added broadcast_13_piece12 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,741 INFO BlockManagerInfo: Added broadcast_13_piece18 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,751 INFO BlockManagerInfo: Added broadcast_13_piece1 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,754 INFO BlockManagerInfo: Added broadcast_13_piece4 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,766 INFO BlockManagerInfo: Added broadcast_13_piece7 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,769 INFO BlockManagerInfo: Added broadcast_13_piece9 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,780 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,785 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,794 INFO BlockManagerInfo: Added broadcast_13_piece9 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,800 INFO BlockManagerInfo: Added broadcast_13_piece3 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,808 INFO BlockManagerInfo: Added broadcast_13_piece23 in memory on 10.1.2.117:36210 (size: 565.9 KB, free: 4.6 GB)
+17/02/09 12:11:50,810 INFO BlockManagerInfo: Added broadcast_13_piece18 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,824 INFO BlockManagerInfo: Added broadcast_13_piece1 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,827 INFO BlockManagerInfo: Added broadcast_13_piece17 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,840 INFO BlockManagerInfo: Added broadcast_13_piece5 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,842 INFO BlockManagerInfo: Added broadcast_13_piece2 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,855 INFO BlockManagerInfo: Added broadcast_13_piece10 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,858 INFO BlockManagerInfo: Added broadcast_13_piece20 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,869 INFO BlockManagerInfo: Added broadcast_13_piece2 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,872 INFO BlockManagerInfo: Added broadcast_13_piece19 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,883 INFO BlockManagerInfo: Added broadcast_13_piece16 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:11:50,886 INFO BlockManagerInfo: Added broadcast_13_piece8 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,899 INFO BlockManagerInfo: Added broadcast_13_piece22 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,912 INFO BlockManagerInfo: Added broadcast_13_piece10 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:50,926 INFO BlockManagerInfo: Added broadcast_13_piece16 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:11:51,525 INFO TaskSetManager: Starting task 13.0 in stage 9.0 (TID 121, 10.1.2.117, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:51,526 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 121 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:51,526 INFO TaskSetManager: Finished task 1.0 in stage 9.0 (TID 114) in 1401 ms on 10.1.2.117 (1/20)
+17/02/09 12:11:51,574 INFO TaskSetManager: Starting task 14.0 in stage 9.0 (TID 122, 10.1.2.117, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:51,574 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 122 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:51,575 INFO TaskSetManager: Finished task 5.0 in stage 9.0 (TID 118) in 1448 ms on 10.1.2.117 (2/20)
+17/02/09 12:11:51,589 INFO TaskSetManager: Starting task 15.0 in stage 9.0 (TID 123, 10.1.2.117, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:51,589 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 123 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:51,589 INFO TaskSetManager: Finished task 7.0 in stage 9.0 (TID 120) in 1461 ms on 10.1.2.117 (3/20)
+17/02/09 12:11:51,591 INFO TaskSetManager: Starting task 16.0 in stage 9.0 (TID 124, 10.1.2.117, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:51,591 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 124 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:51,591 INFO TaskSetManager: Finished task 3.0 in stage 9.0 (TID 116) in 1465 ms on 10.1.2.117 (4/20)
+17/02/09 12:11:52,087 INFO TaskSetManager: Finished task 13.0 in stage 9.0 (TID 121) in 562 ms on 10.1.2.117 (5/20)
+17/02/09 12:11:52,134 INFO TaskSetManager: Finished task 15.0 in stage 9.0 (TID 123) in 545 ms on 10.1.2.117 (6/20)
+17/02/09 12:11:52,136 INFO TaskSetManager: Finished task 16.0 in stage 9.0 (TID 124) in 546 ms on 10.1.2.117 (7/20)
+17/02/09 12:11:52,149 INFO TaskSetManager: Finished task 14.0 in stage 9.0 (TID 122) in 575 ms on 10.1.2.117 (8/20)
+17/02/09 12:11:53,002 INFO TaskSetManager: Starting task 8.0 in stage 9.0 (TID 125, 10.1.2.122, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,002 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 125 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,003 INFO TaskSetManager: Finished task 0.0 in stage 9.0 (TID 113) in 2879 ms on 10.1.2.122 (9/20)
+17/02/09 12:11:53,005 INFO TaskSetManager: Starting task 9.0 in stage 9.0 (TID 126, 10.1.2.122, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,005 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 126 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,005 INFO TaskSetManager: Finished task 6.0 in stage 9.0 (TID 119) in 2878 ms on 10.1.2.122 (10/20)
+17/02/09 12:11:53,018 INFO TaskSetManager: Starting task 10.0 in stage 9.0 (TID 127, 10.1.2.122, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,018 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 127 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,018 INFO TaskSetManager: Finished task 2.0 in stage 9.0 (TID 115) in 2893 ms on 10.1.2.122 (11/20)
+17/02/09 12:11:53,025 INFO TaskSetManager: Starting task 11.0 in stage 9.0 (TID 128, 10.1.2.122, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,026 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 128 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,026 INFO TaskSetManager: Finished task 4.0 in stage 9.0 (TID 117) in 2900 ms on 10.1.2.122 (12/20)
+17/02/09 12:11:53,566 INFO TaskSetManager: Starting task 12.0 in stage 9.0 (TID 129, 10.1.2.122, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,567 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 129 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,567 INFO TaskSetManager: Finished task 9.0 in stage 9.0 (TID 126) in 562 ms on 10.1.2.122 (13/20)
+17/02/09 12:11:53,578 INFO TaskSetManager: Starting task 17.0 in stage 9.0 (TID 130, 10.1.2.122, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,578 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 130 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,579 INFO TaskSetManager: Finished task 8.0 in stage 9.0 (TID 125) in 576 ms on 10.1.2.122 (14/20)
+17/02/09 12:11:53,591 INFO TaskSetManager: Starting task 18.0 in stage 9.0 (TID 131, 10.1.2.122, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,591 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 131 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,591 INFO TaskSetManager: Finished task 10.0 in stage 9.0 (TID 127) in 574 ms on 10.1.2.122 (15/20)
+17/02/09 12:11:53,632 INFO TaskSetManager: Starting task 19.0 in stage 9.0 (TID 132, 10.1.2.122, partition 19, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:11:53,633 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 132 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:53,633 INFO TaskSetManager: Finished task 11.0 in stage 9.0 (TID 128) in 608 ms on 10.1.2.122 (16/20)
+17/02/09 12:11:54,153 INFO TaskSetManager: Finished task 12.0 in stage 9.0 (TID 129) in 587 ms on 10.1.2.122 (17/20)
+17/02/09 12:11:54,159 INFO TaskSetManager: Finished task 17.0 in stage 9.0 (TID 130) in 581 ms on 10.1.2.122 (18/20)
+17/02/09 12:11:54,187 INFO TaskSetManager: Finished task 18.0 in stage 9.0 (TID 131) in 597 ms on 10.1.2.122 (19/20)
+17/02/09 12:11:54,236 INFO TaskSetManager: Finished task 19.0 in stage 9.0 (TID 132) in 604 ms on 10.1.2.122 (20/20)
+17/02/09 12:11:54,237 INFO TaskSchedulerImpl: Removed TaskSet 9.0, whose tasks have all completed, from pool 
+17/02/09 12:11:54,237 INFO DAGScheduler: ShuffleMapStage 9 (treeAggregate at GradientDescent.scala:239) finished in 4.113 s
+17/02/09 12:11:54,237 INFO DAGScheduler: looking for newly runnable stages
+17/02/09 12:11:54,237 INFO DAGScheduler: running: Set()
+17/02/09 12:11:54,237 INFO DAGScheduler: waiting: Set(ResultStage 10)
+17/02/09 12:11:54,237 INFO DAGScheduler: failed: Set()
+17/02/09 12:11:54,238 INFO DAGScheduler: Submitting ResultStage 10 (MapPartitionsRDD[28] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:54,240 INFO MemoryStore: Block broadcast_15 stored as values in memory (estimated size 3.1 KB, free 5.9 GB)
+17/02/09 12:11:54,241 INFO MemoryStore: Block broadcast_15_piece0 stored as bytes in memory (estimated size 1894.0 B, free 5.9 GB)
+17/02/09 12:11:54,242 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 10.1.2.55:37184 (size: 1894.0 B, free: 6.2 GB)
+17/02/09 12:11:54,242 INFO SparkContext: Created broadcast 15 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:11:54,243 INFO DAGScheduler: Submitting 4 missing tasks from ResultStage 10 (MapPartitionsRDD[28] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:54,243 INFO TaskSchedulerImpl: Adding task set 10.0 with 4 tasks
+17/02/09 12:11:54,244 INFO TaskSetManager: Starting task 0.0 in stage 10.0 (TID 133, 10.1.2.122, partition 0, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:54,245 INFO TaskSetManager: Starting task 1.0 in stage 10.0 (TID 134, 10.1.2.117, partition 1, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:54,245 INFO TaskSetManager: Starting task 2.0 in stage 10.0 (TID 135, 10.1.2.122, partition 2, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:54,246 INFO TaskSetManager: Starting task 3.0 in stage 10.0 (TID 136, 10.1.2.117, partition 3, NODE_LOCAL, 5227 bytes)
+17/02/09 12:11:54,246 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 133 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:54,246 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 135 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:11:54,246 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 134 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:54,247 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 136 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:11:54,256 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 10.1.2.122:46235 (size: 1894.0 B, free: 3.8 GB)
+17/02/09 12:11:54,257 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 10.1.2.117:36210 (size: 1894.0 B, free: 4.6 GB)
+17/02/09 12:11:54,262 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 3 to 10.1.2.122:45806
+17/02/09 12:11:54,262 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 3 is 215 bytes
+17/02/09 12:11:54,263 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 3 to 10.1.2.117:41674
+17/02/09 12:11:56,144 INFO BlockManagerInfo: Added taskresult_136 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.4 GB)
+17/02/09 12:11:56,167 INFO BlockManagerInfo: Added taskresult_134 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.3 GB)
+17/02/09 12:11:56,189 INFO BlockManagerInfo: Added taskresult_133 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.6 GB)
+17/02/09 12:11:56,190 INFO BlockManagerInfo: Added taskresult_135 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.5 GB)
+17/02/09 12:11:56,637 INFO BlockManagerInfo: Removed taskresult_136 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.4 GB)
+66.524: [GC [PSYoungGen: 2849899K->728676K(3053056K)] 6770471K->5283678K(10904064K), 0.1514660 secs] [Times: user=0.44 sys=0.12, real=0.16 secs] 
+17/02/09 12:11:56,907 INFO BlockManagerInfo: Removed broadcast_14_piece0 on 10.1.2.55:37184 in memory (size: 775.1 KB, free: 6.2 GB)
+17/02/09 12:11:56,916 INFO BlockManagerInfo: Removed broadcast_14_piece0 on 10.1.2.122:46235 in memory (size: 775.1 KB, free: 3.5 GB)
+17/02/09 12:11:56,916 INFO BlockManagerInfo: Removed broadcast_14_piece0 on 10.1.2.117:36210 in memory (size: 775.1 KB, free: 4.4 GB)
+17/02/09 12:11:56,996 INFO BlockManagerInfo: Removed taskresult_133 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.6 GB)
+17/02/09 12:11:57,012 INFO TaskSetManager: Finished task 3.0 in stage 10.0 (TID 136) in 2387 ms on 10.1.2.117 (1/4)
+17/02/09 12:11:57,210 INFO TaskSetManager: Finished task 0.0 in stage 10.0 (TID 133) in 2768 ms on 10.1.2.122 (2/4)
+17/02/09 12:11:57,251 INFO BlockManagerInfo: Removed taskresult_134 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.6 GB)
+17/02/09 12:11:57,368 INFO BlockManagerInfo: Removed taskresult_135 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.8 GB)
+17/02/09 12:11:57,413 INFO TaskSetManager: Finished task 1.0 in stage 10.0 (TID 134) in 3004 ms on 10.1.2.117 (3/4)
+17/02/09 12:11:57,575 INFO TaskSetManager: Finished task 2.0 in stage 10.0 (TID 135) in 3168 ms on 10.1.2.122 (4/4)
+17/02/09 12:11:57,575 INFO TaskSchedulerImpl: Removed TaskSet 10.0, whose tasks have all completed, from pool 
+17/02/09 12:11:57,576 INFO DAGScheduler: ResultStage 10 (treeAggregate at GradientDescent.scala:239) finished in 3.332 s
+17/02/09 12:11:57,612 INFO DAGScheduler: Job 6 finished: treeAggregate at GradientDescent.scala:239, took 7.888047 s
+67.761: [GC [PSYoungGen: 2988132K->316720K(2576384K)] 7543135K->5282849K(10427392K), 0.0857230 secs] [Times: user=0.25 sys=0.06, real=0.08 secs] 
+17/02/09 12:11:58,830 INFO MemoryStore: Block broadcast_16 stored as values in memory (estimated size 154.2 MB, free 5.9 GB)
+17/02/09 12:11:59,252 INFO MemoryStore: Block broadcast_16_piece0 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,253 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,253 INFO MemoryStore: Block broadcast_16_piece1 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,254 INFO BlockManagerInfo: Added broadcast_16_piece1 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,254 INFO MemoryStore: Block broadcast_16_piece2 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,255 INFO BlockManagerInfo: Added broadcast_16_piece2 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,255 INFO MemoryStore: Block broadcast_16_piece3 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,256 INFO BlockManagerInfo: Added broadcast_16_piece3 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,256 INFO MemoryStore: Block broadcast_16_piece4 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,257 INFO BlockManagerInfo: Added broadcast_16_piece4 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,257 INFO MemoryStore: Block broadcast_16_piece5 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,258 INFO BlockManagerInfo: Added broadcast_16_piece5 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,258 INFO MemoryStore: Block broadcast_16_piece6 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,259 INFO BlockManagerInfo: Added broadcast_16_piece6 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,259 INFO MemoryStore: Block broadcast_16_piece7 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,260 INFO BlockManagerInfo: Added broadcast_16_piece7 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,260 INFO MemoryStore: Block broadcast_16_piece8 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,261 INFO BlockManagerInfo: Added broadcast_16_piece8 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,261 INFO MemoryStore: Block broadcast_16_piece9 stored as bytes in memory (estimated size 4.0 MB, free 5.9 GB)
+17/02/09 12:11:59,261 INFO BlockManagerInfo: Added broadcast_16_piece9 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.2 GB)
+17/02/09 12:11:59,262 INFO MemoryStore: Block broadcast_16_piece10 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,262 INFO BlockManagerInfo: Added broadcast_16_piece10 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,263 INFO MemoryStore: Block broadcast_16_piece11 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,263 INFO BlockManagerInfo: Added broadcast_16_piece11 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,263 INFO MemoryStore: Block broadcast_16_piece12 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,264 INFO BlockManagerInfo: Added broadcast_16_piece12 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,264 INFO MemoryStore: Block broadcast_16_piece13 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,265 INFO BlockManagerInfo: Added broadcast_16_piece13 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,265 INFO MemoryStore: Block broadcast_16_piece14 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,265 INFO BlockManagerInfo: Added broadcast_16_piece14 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,266 INFO MemoryStore: Block broadcast_16_piece15 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,266 INFO BlockManagerInfo: Added broadcast_16_piece15 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,267 INFO MemoryStore: Block broadcast_16_piece16 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,267 INFO BlockManagerInfo: Added broadcast_16_piece16 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,267 INFO MemoryStore: Block broadcast_16_piece17 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,268 INFO BlockManagerInfo: Added broadcast_16_piece17 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,272 INFO MemoryStore: Block broadcast_16_piece18 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,272 INFO BlockManagerInfo: Added broadcast_16_piece18 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,272 INFO MemoryStore: Block broadcast_16_piece19 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,273 INFO BlockManagerInfo: Added broadcast_16_piece19 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,277 INFO MemoryStore: Block broadcast_16_piece20 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,277 INFO BlockManagerInfo: Added broadcast_16_piece20 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,277 INFO MemoryStore: Block broadcast_16_piece21 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+17/02/09 12:11:59,278 INFO BlockManagerInfo: Added broadcast_16_piece21 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,278 INFO MemoryStore: Block broadcast_16_piece22 stored as bytes in memory (estimated size 4.0 MB, free 5.8 GB)
+69.056: [GC [PSYoungGen: 2446367K->95090K(2979840K)] 7412496K->5219884K(10830848K), 0.0554400 secs] [Times: user=0.13 sys=0.02, real=0.05 secs] 
+17/02/09 12:11:59,278 INFO BlockManagerInfo: Added broadcast_16_piece22 in memory on 10.1.2.55:37184 (size: 4.0 MB, free: 6.1 GB)
+17/02/09 12:11:59,279 INFO MemoryStore: Block broadcast_16_piece23 stored as bytes in memory (estimated size 753.8 KB, free 5.8 GB)
+17/02/09 12:11:59,279 INFO BlockManagerInfo: Added broadcast_16_piece23 in memory on 10.1.2.55:37184 (size: 753.8 KB, free: 6.1 GB)
+17/02/09 12:11:59,280 INFO SparkContext: Created broadcast 16 from broadcast at GradientDescent.scala:235
+17/02/09 12:11:59,626 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/02/09 12:11:59,628 INFO DAGScheduler: Registering RDD 31 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:59,628 INFO DAGScheduler: Got job 7 (treeAggregate at GradientDescent.scala:239) with 4 output partitions
+17/02/09 12:11:59,629 INFO DAGScheduler: Final stage: ResultStage 12 (treeAggregate at GradientDescent.scala:239)
+17/02/09 12:11:59,629 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 11)
+17/02/09 12:11:59,629 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 11)
+17/02/09 12:11:59,630 INFO DAGScheduler: Submitting ShuffleMapStage 11 (MapPartitionsRDD[31] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:11:59,953 INFO MemoryStore: Block broadcast_17 stored as values in memory (estimated size 154.2 MB, free 5.6 GB)
+17/02/09 12:12:00,029 INFO MemoryStore: Block broadcast_17_piece0 stored as bytes in memory (estimated size 775.1 KB, free 5.6 GB)
+17/02/09 12:12:00,029 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 10.1.2.55:37184 (size: 775.1 KB, free: 6.1 GB)
+17/02/09 12:12:00,030 INFO SparkContext: Created broadcast 17 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:12:00,030 INFO DAGScheduler: Submitting 20 missing tasks from ShuffleMapStage 11 (MapPartitionsRDD[31] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:12:00,031 INFO TaskSchedulerImpl: Adding task set 11.0 with 20 tasks
+17/02/09 12:12:00,033 INFO TaskSetManager: Starting task 1.0 in stage 11.0 (TID 137, 10.1.2.117, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,033 INFO TaskSetManager: Starting task 0.0 in stage 11.0 (TID 138, 10.1.2.122, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,034 INFO TaskSetManager: Starting task 3.0 in stage 11.0 (TID 139, 10.1.2.117, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,034 INFO TaskSetManager: Starting task 2.0 in stage 11.0 (TID 140, 10.1.2.122, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,035 INFO TaskSetManager: Starting task 5.0 in stage 11.0 (TID 141, 10.1.2.117, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,035 INFO TaskSetManager: Starting task 4.0 in stage 11.0 (TID 142, 10.1.2.122, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,036 INFO TaskSetManager: Starting task 7.0 in stage 11.0 (TID 143, 10.1.2.117, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,036 INFO TaskSetManager: Starting task 6.0 in stage 11.0 (TID 144, 10.1.2.122, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:00,037 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 137 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:00,037 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 139 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:00,037 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 141 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:00,037 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 143 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:00,037 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 138 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:00,038 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 140 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:00,038 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 142 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:00,038 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 144 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:00,051 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 10.1.2.117:36210 (size: 775.1 KB, free: 4.6 GB)
+17/02/09 12:12:00,052 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 10.1.2.122:46235 (size: 775.1 KB, free: 3.8 GB)
+17/02/09 12:12:00,372 INFO BlockManagerInfo: Added broadcast_16_piece19 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,388 INFO BlockManagerInfo: Added broadcast_16_piece14 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,405 INFO BlockManagerInfo: Added broadcast_16_piece16 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,411 INFO BlockManagerInfo: Added broadcast_16_piece19 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:12:00,420 INFO BlockManagerInfo: Added broadcast_16_piece3 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,428 INFO BlockManagerInfo: Added broadcast_16_piece8 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:12:00,437 INFO BlockManagerInfo: Added broadcast_16_piece4 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,444 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:12:00,452 INFO BlockManagerInfo: Added broadcast_16_piece6 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,464 INFO BlockManagerInfo: Added broadcast_16_piece16 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.6 GB)
+17/02/09 12:12:00,467 INFO BlockManagerInfo: Added broadcast_16_piece11 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,480 INFO BlockManagerInfo: Added broadcast_16_piece14 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,482 INFO BlockManagerInfo: Added broadcast_16_piece20 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,494 INFO BlockManagerInfo: Added broadcast_16_piece18 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,497 INFO BlockManagerInfo: Added broadcast_16_piece1 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,509 INFO BlockManagerInfo: Added broadcast_16_piece15 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,513 INFO BlockManagerInfo: Added broadcast_16_piece5 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.8 GB)
+17/02/09 12:12:00,524 INFO BlockManagerInfo: Added broadcast_16_piece13 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,529 INFO BlockManagerInfo: Added broadcast_16_piece12 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,543 INFO BlockManagerInfo: Added broadcast_16_piece12 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,546 INFO BlockManagerInfo: Added broadcast_16_piece13 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,559 INFO BlockManagerInfo: Added broadcast_16_piece17 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,567 INFO BlockManagerInfo: Added broadcast_16_piece15 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,573 INFO BlockManagerInfo: Added broadcast_16_piece20 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,577 INFO BlockManagerInfo: Added broadcast_16_piece23 in memory on 10.1.2.122:46235 (size: 753.8 KB, free: 3.7 GB)
+17/02/09 12:12:00,588 INFO BlockManagerInfo: Added broadcast_16_piece4 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,592 INFO BlockManagerInfo: Added broadcast_16_piece2 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,604 INFO BlockManagerInfo: Added broadcast_16_piece7 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,607 INFO BlockManagerInfo: Added broadcast_16_piece17 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,621 INFO BlockManagerInfo: Added broadcast_16_piece9 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,626 INFO BlockManagerInfo: Added broadcast_16_piece9 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,634 INFO BlockManagerInfo: Added broadcast_16_piece10 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,642 INFO BlockManagerInfo: Added broadcast_16_piece21 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,653 INFO BlockManagerInfo: Added broadcast_16_piece11 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,658 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,668 INFO BlockManagerInfo: Added broadcast_16_piece5 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,675 INFO BlockManagerInfo: Added broadcast_16_piece18 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,685 INFO BlockManagerInfo: Added broadcast_16_piece22 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,700 INFO BlockManagerInfo: Added broadcast_16_piece8 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,701 INFO BlockManagerInfo: Added broadcast_16_piece21 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,710 INFO BlockManagerInfo: Added broadcast_16_piece23 in memory on 10.1.2.117:36210 (size: 753.8 KB, free: 4.5 GB)
+17/02/09 12:12:00,716 INFO BlockManagerInfo: Added broadcast_16_piece22 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,727 INFO BlockManagerInfo: Added broadcast_16_piece2 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,732 INFO BlockManagerInfo: Added broadcast_16_piece7 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,742 INFO BlockManagerInfo: Added broadcast_16_piece3 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,748 INFO BlockManagerInfo: Added broadcast_16_piece10 in memory on 10.1.2.122:46235 (size: 4.0 MB, free: 3.7 GB)
+17/02/09 12:12:00,758 INFO BlockManagerInfo: Added broadcast_16_piece6 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:00,775 INFO BlockManagerInfo: Added broadcast_16_piece1 in memory on 10.1.2.117:36210 (size: 4.0 MB, free: 4.5 GB)
+17/02/09 12:12:01,551 INFO TaskSetManager: Starting task 13.0 in stage 11.0 (TID 145, 10.1.2.117, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,551 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 145 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:01,552 INFO TaskSetManager: Starting task 14.0 in stage 11.0 (TID 146, 10.1.2.117, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,552 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 146 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:01,553 INFO TaskSetManager: Finished task 3.0 in stage 11.0 (TID 139) in 1520 ms on 10.1.2.117 (1/20)
+17/02/09 12:12:01,553 INFO TaskSetManager: Finished task 1.0 in stage 11.0 (TID 137) in 1521 ms on 10.1.2.117 (2/20)
+17/02/09 12:12:01,564 INFO TaskSetManager: Starting task 15.0 in stage 11.0 (TID 147, 10.1.2.117, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,565 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 147 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:01,565 INFO TaskSetManager: Finished task 5.0 in stage 11.0 (TID 141) in 1531 ms on 10.1.2.117 (3/20)
+17/02/09 12:12:01,576 INFO TaskSetManager: Starting task 16.0 in stage 11.0 (TID 148, 10.1.2.117, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,576 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 148 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:01,576 INFO TaskSetManager: Finished task 7.0 in stage 11.0 (TID 143) in 1540 ms on 10.1.2.117 (4/20)
+17/02/09 12:12:01,609 INFO TaskSetManager: Starting task 8.0 in stage 11.0 (TID 149, 10.1.2.122, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,609 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 149 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:01,610 INFO TaskSetManager: Finished task 4.0 in stage 11.0 (TID 142) in 1575 ms on 10.1.2.122 (5/20)
+17/02/09 12:12:01,613 INFO TaskSetManager: Starting task 9.0 in stage 11.0 (TID 150, 10.1.2.122, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,613 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 150 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:01,613 INFO TaskSetManager: Finished task 2.0 in stage 11.0 (TID 140) in 1579 ms on 10.1.2.122 (6/20)
+17/02/09 12:12:01,619 INFO TaskSetManager: Starting task 10.0 in stage 11.0 (TID 151, 10.1.2.122, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,619 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 151 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:01,619 INFO TaskSetManager: Finished task 0.0 in stage 11.0 (TID 138) in 1586 ms on 10.1.2.122 (7/20)
+17/02/09 12:12:01,666 INFO TaskSetManager: Starting task 11.0 in stage 11.0 (TID 152, 10.1.2.122, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:01,666 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 152 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:01,667 INFO TaskSetManager: Finished task 6.0 in stage 11.0 (TID 144) in 1630 ms on 10.1.2.122 (8/20)
+17/02/09 12:12:02,132 INFO TaskSetManager: Finished task 13.0 in stage 11.0 (TID 145) in 582 ms on 10.1.2.117 (9/20)
+17/02/09 12:12:02,135 INFO TaskSetManager: Finished task 16.0 in stage 11.0 (TID 148) in 560 ms on 10.1.2.117 (10/20)
+17/02/09 12:12:02,139 INFO TaskSetManager: Finished task 15.0 in stage 11.0 (TID 147) in 575 ms on 10.1.2.117 (11/20)
+17/02/09 12:12:02,149 INFO TaskSetManager: Finished task 14.0 in stage 11.0 (TID 146) in 598 ms on 10.1.2.117 (12/20)
+17/02/09 12:12:02,196 INFO TaskSetManager: Starting task 12.0 in stage 11.0 (TID 153, 10.1.2.122, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:02,196 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 153 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:02,196 INFO TaskSetManager: Finished task 10.0 in stage 11.0 (TID 151) in 578 ms on 10.1.2.122 (13/20)
+17/02/09 12:12:02,206 INFO TaskSetManager: Starting task 17.0 in stage 11.0 (TID 154, 10.1.2.122, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:02,206 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 154 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:02,207 INFO TaskSetManager: Finished task 9.0 in stage 11.0 (TID 150) in 593 ms on 10.1.2.122 (14/20)
+17/02/09 12:12:02,209 INFO TaskSetManager: Starting task 18.0 in stage 11.0 (TID 155, 10.1.2.122, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:02,209 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 155 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:02,209 INFO TaskSetManager: Finished task 8.0 in stage 11.0 (TID 149) in 600 ms on 10.1.2.122 (15/20)
+17/02/09 12:12:02,286 INFO TaskSetManager: Starting task 19.0 in stage 11.0 (TID 156, 10.1.2.122, partition 19, PROCESS_LOCAL, 5560 bytes)
+17/02/09 12:12:02,286 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 156 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:02,286 INFO TaskSetManager: Finished task 11.0 in stage 11.0 (TID 152) in 620 ms on 10.1.2.122 (16/20)
+17/02/09 12:12:02,734 INFO TaskSetManager: Finished task 12.0 in stage 11.0 (TID 153) in 538 ms on 10.1.2.122 (17/20)
+17/02/09 12:12:02,763 INFO TaskSetManager: Finished task 17.0 in stage 11.0 (TID 154) in 557 ms on 10.1.2.122 (18/20)
+17/02/09 12:12:02,788 INFO TaskSetManager: Finished task 18.0 in stage 11.0 (TID 155) in 579 ms on 10.1.2.122 (19/20)
+17/02/09 12:12:02,833 INFO TaskSetManager: Finished task 19.0 in stage 11.0 (TID 156) in 547 ms on 10.1.2.122 (20/20)
+17/02/09 12:12:02,833 INFO TaskSchedulerImpl: Removed TaskSet 11.0, whose tasks have all completed, from pool 
+17/02/09 12:12:02,833 INFO DAGScheduler: ShuffleMapStage 11 (treeAggregate at GradientDescent.scala:239) finished in 2.802 s
+17/02/09 12:12:02,833 INFO DAGScheduler: looking for newly runnable stages
+17/02/09 12:12:02,833 INFO DAGScheduler: running: Set()
+17/02/09 12:12:02,833 INFO DAGScheduler: waiting: Set(ResultStage 12)
+17/02/09 12:12:02,833 INFO DAGScheduler: failed: Set()
+17/02/09 12:12:02,834 INFO DAGScheduler: Submitting ResultStage 12 (MapPartitionsRDD[33] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/02/09 12:12:02,836 INFO MemoryStore: Block broadcast_18 stored as values in memory (estimated size 3.1 KB, free 5.6 GB)
+17/02/09 12:12:02,837 INFO MemoryStore: Block broadcast_18_piece0 stored as bytes in memory (estimated size 1889.0 B, free 5.6 GB)
+17/02/09 12:12:02,838 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 10.1.2.55:37184 (size: 1889.0 B, free: 6.1 GB)
+17/02/09 12:12:02,838 INFO SparkContext: Created broadcast 18 from broadcast at DAGScheduler.scala:1012
+17/02/09 12:12:02,838 INFO DAGScheduler: Submitting 4 missing tasks from ResultStage 12 (MapPartitionsRDD[33] at treeAggregate at GradientDescent.scala:239)
+17/02/09 12:12:02,838 INFO TaskSchedulerImpl: Adding task set 12.0 with 4 tasks
+17/02/09 12:12:02,840 INFO TaskSetManager: Starting task 0.0 in stage 12.0 (TID 157, 10.1.2.122, partition 0, NODE_LOCAL, 5227 bytes)
+17/02/09 12:12:02,840 INFO TaskSetManager: Starting task 1.0 in stage 12.0 (TID 158, 10.1.2.117, partition 1, NODE_LOCAL, 5227 bytes)
+17/02/09 12:12:02,840 INFO TaskSetManager: Starting task 2.0 in stage 12.0 (TID 159, 10.1.2.122, partition 2, NODE_LOCAL, 5227 bytes)
+17/02/09 12:12:02,841 INFO TaskSetManager: Starting task 3.0 in stage 12.0 (TID 160, 10.1.2.117, partition 3, NODE_LOCAL, 5227 bytes)
+17/02/09 12:12:02,841 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 157 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:02,841 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 159 on executor id: 1 hostname: 10.1.2.122.
+17/02/09 12:12:02,842 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 158 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:02,842 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 160 on executor id: 0 hostname: 10.1.2.117.
+17/02/09 12:12:02,851 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 10.1.2.122:46235 (size: 1889.0 B, free: 3.7 GB)
+17/02/09 12:12:02,852 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 10.1.2.117:36210 (size: 1889.0 B, free: 4.5 GB)
+17/02/09 12:12:02,856 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 4 to 10.1.2.122:45806
+17/02/09 12:12:02,856 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 4 is 215 bytes
+17/02/09 12:12:02,858 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 4 to 10.1.2.117:41674
+17/02/09 12:12:04,626 INFO BlockManagerInfo: Added taskresult_160 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.3 GB)
+17/02/09 12:12:04,632 INFO BlockManagerInfo: Added taskresult_158 in memory on 10.1.2.117:36210 (size: 155.0 MB, free: 4.2 GB)
+17/02/09 12:12:04,781 INFO BlockManagerInfo: Added taskresult_157 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.5 GB)
+17/02/09 12:12:04,782 INFO BlockManagerInfo: Added taskresult_159 in memory on 10.1.2.122:46235 (size: 155.0 MB, free: 3.4 GB)
+74.858: [GC [PSYoungGen: 2204677K->793642K(2922496K)] 7329471K->6172148K(10773504K), 0.1309550 secs] [Times: user=0.39 sys=0.02, real=0.13 secs] 
+17/02/09 12:12:05,238 INFO BlockManagerInfo: Removed broadcast_17_piece0 on 10.1.2.55:37184 in memory (size: 775.1 KB, free: 6.1 GB)
+17/02/09 12:12:05,241 INFO BlockManagerInfo: Removed broadcast_17_piece0 on 10.1.2.122:46235 in memory (size: 775.1 KB, free: 3.4 GB)
+17/02/09 12:12:05,244 INFO BlockManagerInfo: Removed broadcast_17_piece0 on 10.1.2.117:36210 in memory (size: 775.1 KB, free: 4.2 GB)
+17/02/09 12:12:05,287 INFO BlockManagerInfo: Removed taskresult_160 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.3 GB)
+17/02/09 12:12:05,392 INFO BlockManagerInfo: Removed taskresult_159 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.5 GB)
+17/02/09 12:12:05,469 INFO TaskSetManager: Finished task 3.0 in stage 12.0 (TID 160) in 2439 ms on 10.1.2.117 (1/4)
+17/02/09 12:12:05,624 INFO BlockManagerInfo: Removed taskresult_158 on 10.1.2.117:36210 in memory (size: 155.0 MB, free: 4.5 GB)
+17/02/09 12:12:05,656 INFO TaskSetManager: Finished task 2.0 in stage 12.0 (TID 159) in 2629 ms on 10.1.2.122 (2/4)
+17/02/09 12:12:05,771 INFO BlockManagerInfo: Removed taskresult_157 on 10.1.2.122:46235 in memory (size: 155.0 MB, free: 3.7 GB)
+17/02/09 12:12:05,830 INFO TaskSetManager: Finished task 1.0 in stage 12.0 (TID 158) in 2817 ms on 10.1.2.117 (3/4)
+17/02/09 12:12:05,995 INFO DAGScheduler: ResultStage 12 (treeAggregate at GradientDescent.scala:239) finished in 3.156 s
+17/02/09 12:12:05,996 INFO TaskSetManager: Finished task 0.0 in stage 12.0 (TID 157) in 2991 ms on 10.1.2.122 (4/4)
+17/02/09 12:12:05,996 INFO TaskSchedulerImpl: Removed TaskSet 12.0, whose tasks have all completed, from pool 
+17/02/09 12:12:06,035 INFO DAGScheduler: Job 7 finished: treeAggregate at GradientDescent.scala:239, took 6.408375 s
+75.934: [GC [PSYoungGen: 2871641K->316848K(2966016K)] 8250147K->5853698K(10817024K), 0.0783980 secs] [Times: user=0.23 sys=0.04, real=0.08 secs] 
+76.735: [GC [PSYoungGen: 2316720K->631872K(2959360K)] 7853570K->6327531K(10810368K), 0.0921040 secs] [Times: user=0.27 sys=0.02, real=0.10 secs] 
+17/02/09 12:12:07,345 INFO GradientDescent: GradientDescent.runMiniBatchSGD finished. Last 10 stochastic losses 0.6931471805634668, 0.6518634561111151, 0.6310456479008602, 0.6172037605552256, 0.6068888970965258
+17/02/09 12:12:07,364 INFO SparkUI: Stopped Spark web UI at http://10.1.2.55:4040
+17/02/09 12:12:07,368 INFO StandaloneSchedulerBackend: Shutting down all executors
+17/02/09 12:12:07,369 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Asking each executor to shut down
+17/02/09 12:12:07,379 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+17/02/09 12:12:07,401 INFO MemoryStore: MemoryStore cleared
+17/02/09 12:12:07,401 INFO BlockManager: BlockManager stopped
+17/02/09 12:12:07,402 INFO BlockManagerMaster: BlockManagerMaster stopped
+17/02/09 12:12:07,404 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+17/02/09 12:12:07,406 INFO SparkContext: Successfully stopped SparkContext
+Heap
+ PSYoungGen      total 2959360K, used 1603420K [0x0000000710680000, 0x0000000800000000, 0x0000000800000000)
+  eden space 1999872K, 48% used [0x0000000710680000,0x000000074bb47100,0x000000078a780000)
+  from space 959488K, 65% used [0x000000078a780000,0x00000007b1090000,0x00000007c5080000)
+  to   space 959488K, 0% used [0x00000007c5700000,0x00000007c5700000,0x0000000800000000)
+ ParOldGen       total 7851008K, used 5695659K [0x0000000531380000, 0x0000000710680000, 0x0000000710680000)
+  object space 7851008K, 72% used [0x0000000531380000,0x000000068cdaad58,0x0000000710680000)
+ PSPermGen       total 55808K, used 55599K [0x0000000521380000, 0x0000000524a00000, 0x0000000531380000)
+  object space 55808K, 99% used [0x0000000521380000,0x00000005249cbd00,0x0000000524a00000)
+17/02/09 12:12:07,408 INFO ShutdownHookManager: Shutdown hook called
+17/02/09 12:12:07,409 INFO ShutdownHookManager: Deleting directory /tmp/spark-aff2c975-73fc-404d-bc27-b5a388539b0d

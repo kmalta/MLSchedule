@@ -1,0 +1,833 @@
+Using properties file: /home/ubuntu/spark-2.0.0/conf/spark-defaults.conf
+Adding default property: spark.driver.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+Adding default property: spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+Parsed arguments:
+  master                  spark://euca-10-1-2-86:7077
+  deployMode              client
+  executorMemory          4000m
+  executorCores           null
+  totalExecutorCores      null
+  propertiesFile          /home/ubuntu/spark-2.0.0/conf/spark-defaults.conf
+  driverMemory            4000m
+  driverCores             null
+  driverExtraClassPath    null
+  driverExtraLibraryPath  null
+  driverExtraJavaOptions  -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+  supervise               false
+  queue                   null
+  numExecutors            1
+  files                   null
+  pyFiles                 null
+  archives                null
+  mainClass               LogRegExplicitParallelism
+  primaryResource         file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar
+  name                    LogRegExplicitParallelism
+  childArgs               [cluster 18 euca-10-1-2-86 9000 susy_0_exp 5 4]
+  jars                    null
+  packages                null
+  packagesExclusions      null
+  repositories            null
+  verbose                 true
+
+Spark properties used, including those specified through
+ --conf and those from the properties file /home/ubuntu/spark-2.0.0/conf/spark-defaults.conf:
+  spark.default.parallelism -> 4
+  spark.driver.memory -> 4000m
+  spark.executor.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+  spark.driver.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+  spark.shuffle.spill -> false
+
+    
+Main class:
+LogRegExplicitParallelism
+Arguments:
+cluster
+18
+euca-10-1-2-86
+9000
+susy_0_exp
+5
+4
+System properties:
+spark.default.parallelism -> 4
+spark.executor.memory -> 4000m
+spark.driver.memory -> 4000m
+SPARK_SUBMIT -> true
+spark.executor.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+spark.app.name -> LogRegExplicitParallelism
+spark.shuffle.spill -> false
+spark.driver.extraJavaOptions -> -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -Xms4000m -Dlog4j.configuration=file:///home/ubuntu/spark-2.0.0/conf/log4j.properties
+spark.jars -> file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar
+spark.submit.deployMode -> client
+spark.master -> spark://euca-10-1-2-86:7077
+Classpath elements:
+file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar
+
+
+17/01/29 11:31:28,948 INFO SparkContext: Running Spark version 2.0.0
+17/01/29 11:31:29,279 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+17/01/29 11:31:29,443 INFO SecurityManager: Changing view acls to: ubuntu
+17/01/29 11:31:29,443 INFO SecurityManager: Changing modify acls to: ubuntu
+17/01/29 11:31:29,444 INFO SecurityManager: Changing view acls groups to: 
+17/01/29 11:31:29,444 INFO SecurityManager: Changing modify acls groups to: 
+17/01/29 11:31:29,445 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(ubuntu); groups with view permissions: Set(); users  with modify permissions: Set(ubuntu); groups with modify permissions: Set()
+17/01/29 11:31:29,752 INFO Utils: Successfully started service 'sparkDriver' on port 37793.
+17/01/29 11:31:29,770 INFO SparkEnv: Registering MapOutputTracker
+17/01/29 11:31:29,775 WARN SortShuffleManager: spark.shuffle.spill was set to false, but this configuration is ignored as of Spark 1.6+. Shuffle will continue to spill to disk when necessary.
+17/01/29 11:31:29,786 INFO SparkEnv: Registering BlockManagerMaster
+17/01/29 11:31:29,798 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-e668e41e-064b-4dc9-abe4-ddf234daa75c
+17/01/29 11:31:29,815 INFO MemoryStore: MemoryStore started with capacity 2.1 GB
+17/01/29 11:31:29,868 INFO SparkEnv: Registering OutputCommitCoordinator
+17/01/29 11:31:30,073 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+17/01/29 11:31:30,075 INFO SparkUI: Bound SparkUI to 10.1.2.86, and started at http://10.1.2.86:4040
+17/01/29 11:31:30,113 INFO SparkContext: Added JAR file:///home/ubuntu/jars/log-reg-explicit-parallelism_2.11-1.0.jar at spark://10.1.2.86:37793/jars/log-reg-explicit-parallelism_2.11-1.0.jar with timestamp 1485689490113
+17/01/29 11:31:30,192 INFO StandaloneAppClient$ClientEndpoint: Connecting to master spark://euca-10-1-2-86:7077...
+17/01/29 11:31:30,242 INFO TransportClientFactory: Successfully created connection to euca-10-1-2-86/10.1.2.86:7077 after 24 ms (0 ms spent in bootstraps)
+17/01/29 11:31:30,344 INFO StandaloneSchedulerBackend: Connected to Spark cluster with app ID app-20170129113130-0000
+17/01/29 11:31:30,349 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 39920.
+17/01/29 11:31:30,350 INFO NettyBlockTransferService: Server created on 10.1.2.86:39920
+17/01/29 11:31:30,352 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 10.1.2.86, 39920)
+17/01/29 11:31:30,354 INFO BlockManagerMasterEndpoint: Registering block manager 10.1.2.86:39920 with 2.1 GB RAM, BlockManagerId(driver, 10.1.2.86, 39920)
+17/01/29 11:31:30,357 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 10.1.2.86, 39920)
+17/01/29 11:31:30,366 INFO StandaloneAppClient$ClientEndpoint: Executor added: app-20170129113130-0000/0 on worker-20170129113125-10.1.2.202-39234 (10.1.2.202:39234) with 4 cores
+17/01/29 11:31:30,367 INFO StandaloneSchedulerBackend: Granted executor ID app-20170129113130-0000/0 on hostPort 10.1.2.202:39234 with 4 cores, 3.9 GB RAM
+17/01/29 11:31:30,433 INFO StandaloneAppClient$ClientEndpoint: Executor updated: app-20170129113130-0000/0 is now RUNNING
+17/01/29 11:31:30,551 INFO StandaloneSchedulerBackend: SchedulerBackend is ready for scheduling beginning after reached minRegisteredResourcesRatio: 0.0
+17/01/29 11:31:30,922 INFO MemoryStore: Block broadcast_0 stored as values in memory (estimated size 130.8 KB, free 2.1 GB)
+17/01/29 11:31:30,996 INFO MemoryStore: Block broadcast_0_piece0 stored as bytes in memory (estimated size 16.5 KB, free 2.1 GB)
+17/01/29 11:31:30,998 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 10.1.2.86:39920 (size: 16.5 KB, free: 2.1 GB)
+17/01/29 11:31:31,006 INFO SparkContext: Created broadcast 0 from textFile at MLUtils.scala:99
+17/01/29 11:31:31,612 INFO FileInputFormat: Total input paths to process : 1
+17/01/29 11:31:31,678 INFO SparkContext: Starting job: first at GeneralizedLinearAlgorithm.scala:246
+17/01/29 11:31:31,689 INFO DAGScheduler: Got job 0 (first at GeneralizedLinearAlgorithm.scala:246) with 1 output partitions
+17/01/29 11:31:31,690 INFO DAGScheduler: Final stage: ResultStage 0 (first at GeneralizedLinearAlgorithm.scala:246)
+17/01/29 11:31:31,690 INFO DAGScheduler: Parents of final stage: List()
+17/01/29 11:31:31,695 INFO DAGScheduler: Missing parents: List()
+17/01/29 11:31:31,702 INFO DAGScheduler: Submitting ResultStage 0 (MapPartitionsRDD[6] at map at GeneralizedLinearAlgorithm.scala:246), which has no missing parents
+17/01/29 11:31:31,720 INFO MemoryStore: Block broadcast_1 stored as values in memory (estimated size 4.2 KB, free 2.1 GB)
+17/01/29 11:31:31,723 INFO MemoryStore: Block broadcast_1_piece0 stored as bytes in memory (estimated size 2.4 KB, free 2.1 GB)
+17/01/29 11:31:31,723 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 10.1.2.86:39920 (size: 2.4 KB, free: 2.1 GB)
+17/01/29 11:31:31,725 INFO SparkContext: Created broadcast 1 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:31:31,727 INFO DAGScheduler: Submitting 1 missing tasks from ResultStage 0 (MapPartitionsRDD[6] at map at GeneralizedLinearAlgorithm.scala:246)
+17/01/29 11:31:31,728 INFO TaskSchedulerImpl: Adding task set 0.0 with 1 tasks
+17/01/29 11:31:35,273 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Registered executor NettyRpcEndpointRef(null) (10.1.2.202:49724) with ID 0
+17/01/29 11:31:35,305 INFO TaskSetManager: Starting task 0.0 in stage 0.0 (TID 0, 10.1.2.202, partition 0, ANY, 5453 bytes)
+17/01/29 11:31:35,310 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 0 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:31:35,324 INFO BlockManagerMasterEndpoint: Registering block manager 10.1.2.202:43645 with 2.1 GB RAM, BlockManagerId(0, 10.1.2.202, 43645)
+17/01/29 11:31:35,622 INFO BlockManagerInfo: Added broadcast_1_piece0 in memory on 10.1.2.202:43645 (size: 2.4 KB, free: 2.1 GB)
+17/01/29 11:31:35,769 INFO BlockManagerInfo: Added broadcast_0_piece0 in memory on 10.1.2.202:43645 (size: 16.5 KB, free: 2.1 GB)
+17/01/29 11:31:43,029 INFO BlockManagerInfo: Added rdd_5_0 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 2043.2 MB)
+17/01/29 11:31:43,083 INFO TaskSetManager: Finished task 0.0 in stage 0.0 (TID 0) in 7801 ms on 10.1.2.202 (1/1)
+17/01/29 11:31:43,084 INFO TaskSchedulerImpl: Removed TaskSet 0.0, whose tasks have all completed, from pool 
+17/01/29 11:31:43,087 INFO DAGScheduler: ResultStage 0 (first at GeneralizedLinearAlgorithm.scala:246) finished in 11.350 s
+17/01/29 11:31:43,092 INFO DAGScheduler: Job 0 finished: first at GeneralizedLinearAlgorithm.scala:246, took 11.413267 s
+17/01/29 11:31:43,102 INFO SparkContext: Starting job: count at DataValidators.scala:40
+17/01/29 11:31:43,104 INFO DAGScheduler: Got job 1 (count at DataValidators.scala:40) with 19 output partitions
+17/01/29 11:31:43,104 INFO DAGScheduler: Final stage: ResultStage 1 (count at DataValidators.scala:40)
+17/01/29 11:31:43,104 INFO DAGScheduler: Parents of final stage: List()
+17/01/29 11:31:43,106 INFO DAGScheduler: Missing parents: List()
+17/01/29 11:31:43,106 INFO DAGScheduler: Submitting ResultStage 1 (MapPartitionsRDD[7] at filter at DataValidators.scala:40), which has no missing parents
+17/01/29 11:31:43,117 INFO MemoryStore: Block broadcast_2 stored as values in memory (estimated size 3.9 KB, free 2.1 GB)
+17/01/29 11:31:43,118 INFO MemoryStore: Block broadcast_2_piece0 stored as bytes in memory (estimated size 2.2 KB, free 2.1 GB)
+17/01/29 11:31:43,119 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 10.1.2.86:39920 (size: 2.2 KB, free: 2.1 GB)
+17/01/29 11:31:43,120 INFO SparkContext: Created broadcast 2 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:31:43,121 INFO DAGScheduler: Submitting 19 missing tasks from ResultStage 1 (MapPartitionsRDD[7] at filter at DataValidators.scala:40)
+17/01/29 11:31:43,121 INFO TaskSchedulerImpl: Adding task set 1.0 with 19 tasks
+17/01/29 11:31:43,126 INFO TaskSetManager: Starting task 0.0 in stage 1.0 (TID 1, 10.1.2.202, partition 0, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:31:43,127 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 1 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:31:43,147 INFO BlockManagerInfo: Added broadcast_2_piece0 in memory on 10.1.2.202:43645 (size: 2.2 KB, free: 2043.2 MB)
+17/01/29 11:31:43,212 INFO TaskSetManager: Finished task 0.0 in stage 1.0 (TID 1) in 89 ms on 10.1.2.202 (1/19)
+17/01/29 11:31:46,183 INFO TaskSetManager: Starting task 1.0 in stage 1.0 (TID 2, 10.1.2.202, partition 1, ANY, 5371 bytes)
+17/01/29 11:31:46,186 INFO TaskSetManager: Starting task 2.0 in stage 1.0 (TID 3, 10.1.2.202, partition 2, ANY, 5371 bytes)
+17/01/29 11:31:46,188 INFO TaskSetManager: Starting task 3.0 in stage 1.0 (TID 4, 10.1.2.202, partition 3, ANY, 5371 bytes)
+17/01/29 11:31:46,190 INFO TaskSetManager: Starting task 4.0 in stage 1.0 (TID 5, 10.1.2.202, partition 4, ANY, 5371 bytes)
+17/01/29 11:31:46,191 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 2 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:31:46,192 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 3 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:31:46,193 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 4 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:31:46,194 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 5 on executor id: 0 hostname: 10.1.2.202.
+22.678: [GC [PSYoungGen: 1024512K->123826K(1195008K)] 1024512K->123898K(3926016K), 0.0529080 secs] [Times: user=0.08 sys=0.02, real=0.06 secs] 
+17/01/29 11:31:51,120 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 10.1.2.86:39920 in memory (size: 2.4 KB, free: 2.1 GB)
+17/01/29 11:31:51,138 INFO BlockManagerInfo: Removed broadcast_1_piece0 on 10.1.2.202:43645 in memory (size: 2.4 KB, free: 2043.2 MB)
+17/01/29 11:32:05,302 INFO BlockManagerInfo: Added rdd_5_2 in memory on 10.1.2.202:43645 (size: 77.3 MB, free: 1965.9 MB)
+17/01/29 11:32:05,338 INFO TaskSetManager: Starting task 5.0 in stage 1.0 (TID 6, 10.1.2.202, partition 5, ANY, 5371 bytes)
+17/01/29 11:32:05,338 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 6 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:05,342 INFO TaskSetManager: Finished task 2.0 in stage 1.0 (TID 3) in 19157 ms on 10.1.2.202 (2/19)
+17/01/29 11:32:05,948 INFO BlockManagerInfo: Added rdd_5_1 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1888.7 MB)
+17/01/29 11:32:05,979 INFO TaskSetManager: Starting task 6.0 in stage 1.0 (TID 7, 10.1.2.202, partition 6, ANY, 5371 bytes)
+17/01/29 11:32:05,979 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 7 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:05,983 INFO TaskSetManager: Finished task 1.0 in stage 1.0 (TID 2) in 19801 ms on 10.1.2.202 (3/19)
+17/01/29 11:32:07,366 INFO BlockManagerInfo: Added rdd_5_3 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1811.5 MB)
+17/01/29 11:32:07,430 INFO TaskSetManager: Starting task 7.0 in stage 1.0 (TID 8, 10.1.2.202, partition 7, ANY, 5371 bytes)
+17/01/29 11:32:07,433 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 8 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:07,433 INFO TaskSetManager: Finished task 3.0 in stage 1.0 (TID 4) in 21247 ms on 10.1.2.202 (4/19)
+17/01/29 11:32:08,268 INFO BlockManagerInfo: Added rdd_5_4 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1734.2 MB)
+17/01/29 11:32:08,300 INFO TaskSetManager: Starting task 8.0 in stage 1.0 (TID 9, 10.1.2.202, partition 8, ANY, 5371 bytes)
+17/01/29 11:32:08,300 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 9 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:08,302 INFO TaskSetManager: Finished task 4.0 in stage 1.0 (TID 5) in 22113 ms on 10.1.2.202 (5/19)
+17/01/29 11:32:29,045 INFO BlockManagerInfo: Added rdd_5_5 in memory on 10.1.2.202:43645 (size: 77.0 MB, free: 1657.2 MB)
+17/01/29 11:32:29,077 INFO TaskSetManager: Starting task 9.0 in stage 1.0 (TID 10, 10.1.2.202, partition 9, ANY, 5371 bytes)
+17/01/29 11:32:29,077 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 10 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:29,079 INFO TaskSetManager: Finished task 5.0 in stage 1.0 (TID 6) in 23743 ms on 10.1.2.202 (6/19)
+17/01/29 11:32:29,897 INFO BlockManagerInfo: Added rdd_5_6 in memory on 10.1.2.202:43645 (size: 77.1 MB, free: 1580.1 MB)
+17/01/29 11:32:29,929 INFO TaskSetManager: Starting task 10.0 in stage 1.0 (TID 11, 10.1.2.202, partition 10, ANY, 5371 bytes)
+17/01/29 11:32:29,931 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 11 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:29,931 INFO TaskSetManager: Finished task 6.0 in stage 1.0 (TID 7) in 23954 ms on 10.1.2.202 (7/19)
+17/01/29 11:32:29,934 INFO BlockManagerInfo: Added rdd_5_8 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1502.9 MB)
+17/01/29 11:32:29,973 INFO TaskSetManager: Starting task 11.0 in stage 1.0 (TID 12, 10.1.2.202, partition 11, ANY, 5371 bytes)
+17/01/29 11:32:29,974 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 12 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:29,974 INFO TaskSetManager: Finished task 8.0 in stage 1.0 (TID 9) in 21676 ms on 10.1.2.202 (8/19)
+17/01/29 11:32:36,046 INFO BlockManagerInfo: Added rdd_5_7 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1425.7 MB)
+17/01/29 11:32:36,075 INFO TaskSetManager: Starting task 12.0 in stage 1.0 (TID 13, 10.1.2.202, partition 12, ANY, 5371 bytes)
+17/01/29 11:32:36,076 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 13 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:36,076 INFO TaskSetManager: Finished task 7.0 in stage 1.0 (TID 8) in 28648 ms on 10.1.2.202 (9/19)
+17/01/29 11:32:50,626 INFO BlockManagerInfo: Added rdd_5_11 in memory on 10.1.2.202:43645 (size: 77.3 MB, free: 1348.4 MB)
+17/01/29 11:32:50,657 INFO TaskSetManager: Starting task 13.0 in stage 1.0 (TID 14, 10.1.2.202, partition 13, ANY, 5371 bytes)
+17/01/29 11:32:50,658 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 14 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:50,659 INFO TaskSetManager: Finished task 11.0 in stage 1.0 (TID 12) in 20688 ms on 10.1.2.202 (10/19)
+17/01/29 11:32:51,465 INFO BlockManagerInfo: Added rdd_5_9 in memory on 10.1.2.202:43645 (size: 77.3 MB, free: 1271.1 MB)
+17/01/29 11:32:51,495 INFO TaskSetManager: Starting task 14.0 in stage 1.0 (TID 15, 10.1.2.202, partition 14, ANY, 5371 bytes)
+17/01/29 11:32:51,496 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 15 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:51,496 INFO TaskSetManager: Finished task 9.0 in stage 1.0 (TID 10) in 22421 ms on 10.1.2.202 (11/19)
+17/01/29 11:32:51,853 INFO BlockManagerInfo: Added rdd_5_10 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1193.9 MB)
+17/01/29 11:32:51,907 INFO TaskSetManager: Starting task 15.0 in stage 1.0 (TID 16, 10.1.2.202, partition 15, ANY, 5371 bytes)
+17/01/29 11:32:51,907 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 16 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:32:51,912 INFO TaskSetManager: Finished task 10.0 in stage 1.0 (TID 11) in 21985 ms on 10.1.2.202 (12/19)
+17/01/29 11:32:57,946 INFO BlockManagerInfo: Added rdd_5_12 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1116.7 MB)
+17/01/29 11:32:57,986 INFO TaskSetManager: Starting task 16.0 in stage 1.0 (TID 17, 10.1.2.202, partition 16, ANY, 5371 bytes)
+17/01/29 11:32:57,987 INFO TaskSetManager: Finished task 12.0 in stage 1.0 (TID 13) in 21914 ms on 10.1.2.202 (13/19)
+17/01/29 11:32:57,988 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 17 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:13,789 INFO BlockManagerInfo: Added rdd_5_13 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 1039.6 MB)
+17/01/29 11:33:13,822 INFO TaskSetManager: Starting task 17.0 in stage 1.0 (TID 18, 10.1.2.202, partition 17, ANY, 5371 bytes)
+17/01/29 11:33:13,823 INFO TaskSetManager: Finished task 13.0 in stage 1.0 (TID 14) in 23168 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:13,823 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 18 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:14,737 INFO BlockManagerInfo: Added rdd_5_14 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 962.4 MB)
+17/01/29 11:33:14,770 INFO TaskSetManager: Starting task 18.0 in stage 1.0 (TID 19, 10.1.2.202, partition 18, ANY, 5371 bytes)
+17/01/29 11:33:14,770 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 19 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:14,771 INFO TaskSetManager: Finished task 14.0 in stage 1.0 (TID 15) in 23277 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:15,426 INFO BlockManagerInfo: Added rdd_5_15 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 885.1 MB)
+17/01/29 11:33:15,455 INFO TaskSetManager: Finished task 15.0 in stage 1.0 (TID 16) in 23550 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:18,473 INFO BlockManagerInfo: Added rdd_5_16 in memory on 10.1.2.202:43645 (size: 77.1 MB, free: 808.0 MB)
+17/01/29 11:33:18,501 INFO TaskSetManager: Finished task 16.0 in stage 1.0 (TID 17) in 20517 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:19,757 INFO BlockManagerInfo: Added rdd_5_18 in memory on 10.1.2.202:43645 (size: 30.0 MB, free: 778.0 MB)
+17/01/29 11:33:19,774 INFO TaskSetManager: Finished task 18.0 in stage 1.0 (TID 19) in 5005 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:22,880 INFO BlockManagerInfo: Added rdd_5_17 in memory on 10.1.2.202:43645 (size: 77.2 MB, free: 700.7 MB)
+17/01/29 11:33:22,909 INFO TaskSetManager: Finished task 17.0 in stage 1.0 (TID 18) in 9089 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:22,909 INFO TaskSchedulerImpl: Removed TaskSet 1.0, whose tasks have all completed, from pool 
+17/01/29 11:33:22,910 INFO DAGScheduler: ResultStage 1 (count at DataValidators.scala:40) finished in 99.787 s
+17/01/29 11:33:22,910 INFO DAGScheduler: Job 1 finished: count at DataValidators.scala:40, took 99.807975 s
+17/01/29 11:33:22,920 INFO SparkContext: Starting job: count at GradientDescent.scala:209
+17/01/29 11:33:22,922 INFO DAGScheduler: Got job 2 (count at GradientDescent.scala:209) with 19 output partitions
+17/01/29 11:33:22,922 INFO DAGScheduler: Final stage: ResultStage 2 (count at GradientDescent.scala:209)
+17/01/29 11:33:22,922 INFO DAGScheduler: Parents of final stage: List()
+17/01/29 11:33:22,923 INFO DAGScheduler: Missing parents: List()
+17/01/29 11:33:22,924 INFO DAGScheduler: Submitting ResultStage 2 (MapPartitionsRDD[8] at map at GeneralizedLinearAlgorithm.scala:297), which has no missing parents
+17/01/29 11:33:22,928 INFO MemoryStore: Block broadcast_3 stored as values in memory (estimated size 3.9 KB, free 2.1 GB)
+17/01/29 11:33:22,930 INFO MemoryStore: Block broadcast_3_piece0 stored as bytes in memory (estimated size 2.2 KB, free 2.1 GB)
+17/01/29 11:33:22,931 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 10.1.2.86:39920 (size: 2.2 KB, free: 2.1 GB)
+17/01/29 11:33:22,944 INFO SparkContext: Created broadcast 3 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:22,944 INFO DAGScheduler: Submitting 19 missing tasks from ResultStage 2 (MapPartitionsRDD[8] at map at GeneralizedLinearAlgorithm.scala:297)
+17/01/29 11:33:22,944 INFO TaskSchedulerImpl: Adding task set 2.0 with 19 tasks
+17/01/29 11:33:22,947 INFO TaskSetManager: Starting task 0.0 in stage 2.0 (TID 20, 10.1.2.202, partition 0, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:22,949 INFO TaskSetManager: Starting task 1.0 in stage 2.0 (TID 21, 10.1.2.202, partition 1, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:22,951 INFO TaskSetManager: Starting task 2.0 in stage 2.0 (TID 22, 10.1.2.202, partition 2, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:22,952 INFO TaskSetManager: Starting task 3.0 in stage 2.0 (TID 23, 10.1.2.202, partition 3, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:22,952 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 20 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:22,953 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 21 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:22,953 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 22 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:22,954 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 23 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:22,983 INFO BlockManagerInfo: Added broadcast_3_piece0 in memory on 10.1.2.202:43645 (size: 2.2 KB, free: 700.7 MB)
+17/01/29 11:33:23,022 INFO TaskSetManager: Starting task 4.0 in stage 2.0 (TID 24, 10.1.2.202, partition 4, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,023 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 24 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,023 INFO TaskSetManager: Finished task 2.0 in stage 2.0 (TID 22) in 74 ms on 10.1.2.202 (1/19)
+17/01/29 11:33:23,025 INFO TaskSetManager: Finished task 3.0 in stage 2.0 (TID 23) in 73 ms on 10.1.2.202 (2/19)
+17/01/29 11:33:23,027 INFO TaskSetManager: Starting task 5.0 in stage 2.0 (TID 25, 10.1.2.202, partition 5, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,027 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 25 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,029 INFO TaskSetManager: Finished task 0.0 in stage 2.0 (TID 20) in 84 ms on 10.1.2.202 (3/19)
+17/01/29 11:33:23,031 INFO TaskSetManager: Starting task 6.0 in stage 2.0 (TID 26, 10.1.2.202, partition 6, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,031 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 26 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,034 INFO TaskSetManager: Starting task 7.0 in stage 2.0 (TID 27, 10.1.2.202, partition 7, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,034 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 27 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,035 INFO TaskSetManager: Finished task 1.0 in stage 2.0 (TID 21) in 87 ms on 10.1.2.202 (4/19)
+17/01/29 11:33:23,063 INFO TaskSetManager: Starting task 8.0 in stage 2.0 (TID 28, 10.1.2.202, partition 8, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,063 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 28 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,064 INFO TaskSetManager: Finished task 5.0 in stage 2.0 (TID 25) in 39 ms on 10.1.2.202 (5/19)
+17/01/29 11:33:23,068 INFO TaskSetManager: Finished task 4.0 in stage 2.0 (TID 24) in 47 ms on 10.1.2.202 (6/19)
+17/01/29 11:33:23,070 INFO TaskSetManager: Starting task 9.0 in stage 2.0 (TID 29, 10.1.2.202, partition 9, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,070 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 29 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,080 INFO TaskSetManager: Starting task 10.0 in stage 2.0 (TID 30, 10.1.2.202, partition 10, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,080 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 30 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,080 INFO TaskSetManager: Finished task 6.0 in stage 2.0 (TID 26) in 51 ms on 10.1.2.202 (7/19)
+17/01/29 11:33:23,082 INFO TaskSetManager: Starting task 11.0 in stage 2.0 (TID 31, 10.1.2.202, partition 11, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,083 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 31 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,083 INFO TaskSetManager: Finished task 7.0 in stage 2.0 (TID 27) in 51 ms on 10.1.2.202 (8/19)
+17/01/29 11:33:23,101 INFO TaskSetManager: Starting task 12.0 in stage 2.0 (TID 32, 10.1.2.202, partition 12, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,101 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 32 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,101 INFO TaskSetManager: Finished task 8.0 in stage 2.0 (TID 28) in 40 ms on 10.1.2.202 (9/19)
+17/01/29 11:33:23,105 INFO TaskSetManager: Starting task 13.0 in stage 2.0 (TID 33, 10.1.2.202, partition 13, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,105 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 33 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,106 INFO TaskSetManager: Finished task 9.0 in stage 2.0 (TID 29) in 37 ms on 10.1.2.202 (10/19)
+17/01/29 11:33:23,115 INFO TaskSetManager: Starting task 14.0 in stage 2.0 (TID 34, 10.1.2.202, partition 14, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,115 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 34 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,116 INFO TaskSetManager: Finished task 10.0 in stage 2.0 (TID 30) in 37 ms on 10.1.2.202 (11/19)
+17/01/29 11:33:23,120 INFO TaskSetManager: Starting task 15.0 in stage 2.0 (TID 35, 10.1.2.202, partition 15, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,121 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 35 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,121 INFO TaskSetManager: Finished task 11.0 in stage 2.0 (TID 31) in 40 ms on 10.1.2.202 (12/19)
+17/01/29 11:33:23,138 INFO TaskSetManager: Starting task 16.0 in stage 2.0 (TID 36, 10.1.2.202, partition 16, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,139 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 36 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,139 INFO TaskSetManager: Finished task 12.0 in stage 2.0 (TID 32) in 40 ms on 10.1.2.202 (13/19)
+17/01/29 11:33:23,152 INFO TaskSetManager: Starting task 17.0 in stage 2.0 (TID 37, 10.1.2.202, partition 17, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,152 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 37 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,152 INFO TaskSetManager: Finished task 14.0 in stage 2.0 (TID 34) in 39 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:23,160 INFO TaskSetManager: Starting task 18.0 in stage 2.0 (TID 38, 10.1.2.202, partition 18, PROCESS_LOCAL, 5371 bytes)
+17/01/29 11:33:23,160 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 38 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,161 INFO TaskSetManager: Finished task 13.0 in stage 2.0 (TID 33) in 58 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:23,166 INFO TaskSetManager: Finished task 15.0 in stage 2.0 (TID 35) in 47 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:23,180 INFO TaskSetManager: Finished task 18.0 in stage 2.0 (TID 38) in 21 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:23,180 INFO TaskSetManager: Finished task 16.0 in stage 2.0 (TID 36) in 43 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:23,189 INFO TaskSetManager: Finished task 17.0 in stage 2.0 (TID 37) in 39 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:23,189 INFO TaskSchedulerImpl: Removed TaskSet 2.0, whose tasks have all completed, from pool 
+17/01/29 11:33:23,190 INFO DAGScheduler: ResultStage 2 (count at GradientDescent.scala:209) finished in 0.244 s
+17/01/29 11:33:23,191 INFO DAGScheduler: Job 2 finished: count at GradientDescent.scala:209, took 0.270373 s
+17/01/29 11:33:23,434 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeSystemBLAS
+17/01/29 11:33:23,434 WARN BLAS: Failed to load implementation from: com.github.fommil.netlib.NativeRefBLAS
+17/01/29 11:33:23,459 INFO MemoryStore: Block broadcast_4 stored as values in memory (estimated size 200.0 B, free 2.1 GB)
+17/01/29 11:33:23,462 INFO MemoryStore: Block broadcast_4_piece0 stored as bytes in memory (estimated size 153.0 B, free 2.1 GB)
+17/01/29 11:33:23,463 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 10.1.2.86:39920 (size: 153.0 B, free: 2.1 GB)
+17/01/29 11:33:23,464 INFO SparkContext: Created broadcast 4 from broadcast at GradientDescent.scala:235
+17/01/29 11:33:23,517 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/01/29 11:33:23,523 INFO DAGScheduler: Registering RDD 11 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:23,524 INFO DAGScheduler: Got job 3 (treeAggregate at GradientDescent.scala:239) with 3 output partitions
+17/01/29 11:33:23,524 INFO DAGScheduler: Final stage: ResultStage 4 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:23,524 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 3)
+17/01/29 11:33:23,524 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 3)
+17/01/29 11:33:23,526 INFO DAGScheduler: Submitting ShuffleMapStage 3 (MapPartitionsRDD[11] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:23,540 INFO MemoryStore: Block broadcast_5 stored as values in memory (estimated size 7.1 KB, free 2.1 GB)
+17/01/29 11:33:23,542 INFO MemoryStore: Block broadcast_5_piece0 stored as bytes in memory (estimated size 3.7 KB, free 2.1 GB)
+17/01/29 11:33:23,542 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 10.1.2.86:39920 (size: 3.7 KB, free: 2.1 GB)
+17/01/29 11:33:23,543 INFO SparkContext: Created broadcast 5 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:23,545 INFO DAGScheduler: Submitting 19 missing tasks from ShuffleMapStage 3 (MapPartitionsRDD[11] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:23,545 INFO TaskSchedulerImpl: Adding task set 3.0 with 19 tasks
+17/01/29 11:33:23,549 INFO TaskSetManager: Starting task 0.0 in stage 3.0 (TID 39, 10.1.2.202, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:23,550 INFO TaskSetManager: Starting task 1.0 in stage 3.0 (TID 40, 10.1.2.202, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:23,551 INFO TaskSetManager: Starting task 2.0 in stage 3.0 (TID 41, 10.1.2.202, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:23,552 INFO TaskSetManager: Starting task 3.0 in stage 3.0 (TID 42, 10.1.2.202, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:23,552 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 39 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,553 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 40 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,553 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 41 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,553 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 42 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:23,576 INFO BlockManagerInfo: Added broadcast_5_piece0 in memory on 10.1.2.202:43645 (size: 3.7 KB, free: 700.7 MB)
+17/01/29 11:33:23,876 INFO BlockManagerInfo: Added broadcast_4_piece0 in memory on 10.1.2.202:43645 (size: 153.0 B, free: 700.7 MB)
+17/01/29 11:33:24,070 INFO TaskSetManager: Starting task 4.0 in stage 3.0 (TID 43, 10.1.2.202, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,070 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 43 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,073 INFO TaskSetManager: Starting task 5.0 in stage 3.0 (TID 44, 10.1.2.202, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,073 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 44 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,073 INFO TaskSetManager: Finished task 0.0 in stage 3.0 (TID 39) in 527 ms on 10.1.2.202 (1/19)
+17/01/29 11:33:24,074 INFO TaskSetManager: Finished task 2.0 in stage 3.0 (TID 41) in 524 ms on 10.1.2.202 (2/19)
+17/01/29 11:33:24,076 INFO TaskSetManager: Starting task 6.0 in stage 3.0 (TID 45, 10.1.2.202, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,076 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 45 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,077 INFO TaskSetManager: Finished task 1.0 in stage 3.0 (TID 40) in 527 ms on 10.1.2.202 (3/19)
+17/01/29 11:33:24,078 INFO TaskSetManager: Starting task 7.0 in stage 3.0 (TID 46, 10.1.2.202, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,079 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 46 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,079 INFO TaskSetManager: Finished task 3.0 in stage 3.0 (TID 42) in 528 ms on 10.1.2.202 (4/19)
+17/01/29 11:33:24,194 INFO TaskSetManager: Starting task 8.0 in stage 3.0 (TID 47, 10.1.2.202, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,194 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 47 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,195 INFO TaskSetManager: Finished task 4.0 in stage 3.0 (TID 43) in 127 ms on 10.1.2.202 (5/19)
+17/01/29 11:33:24,208 INFO TaskSetManager: Starting task 9.0 in stage 3.0 (TID 48, 10.1.2.202, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,208 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 48 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,208 INFO TaskSetManager: Finished task 6.0 in stage 3.0 (TID 45) in 133 ms on 10.1.2.202 (6/19)
+17/01/29 11:33:24,219 INFO TaskSetManager: Starting task 10.0 in stage 3.0 (TID 49, 10.1.2.202, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,219 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 49 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,219 INFO TaskSetManager: Finished task 5.0 in stage 3.0 (TID 44) in 147 ms on 10.1.2.202 (7/19)
+17/01/29 11:33:24,227 INFO TaskSetManager: Starting task 11.0 in stage 3.0 (TID 50, 10.1.2.202, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,228 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 50 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,228 INFO TaskSetManager: Finished task 7.0 in stage 3.0 (TID 46) in 151 ms on 10.1.2.202 (8/19)
+17/01/29 11:33:24,282 INFO TaskSetManager: Starting task 12.0 in stage 3.0 (TID 51, 10.1.2.202, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,282 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 51 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,283 INFO TaskSetManager: Finished task 8.0 in stage 3.0 (TID 47) in 90 ms on 10.1.2.202 (9/19)
+17/01/29 11:33:24,300 INFO TaskSetManager: Starting task 13.0 in stage 3.0 (TID 52, 10.1.2.202, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,300 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 52 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,300 INFO TaskSetManager: Finished task 9.0 in stage 3.0 (TID 48) in 94 ms on 10.1.2.202 (10/19)
+17/01/29 11:33:24,392 INFO TaskSetManager: Starting task 14.0 in stage 3.0 (TID 53, 10.1.2.202, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,393 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 53 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,393 INFO TaskSetManager: Finished task 10.0 in stage 3.0 (TID 49) in 174 ms on 10.1.2.202 (11/19)
+17/01/29 11:33:24,396 INFO TaskSetManager: Starting task 15.0 in stage 3.0 (TID 54, 10.1.2.202, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,397 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 54 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,397 INFO TaskSetManager: Finished task 11.0 in stage 3.0 (TID 50) in 171 ms on 10.1.2.202 (12/19)
+17/01/29 11:33:24,428 INFO TaskSetManager: Finished task 12.0 in stage 3.0 (TID 51) in 147 ms on 10.1.2.202 (13/19)
+17/01/29 11:33:24,430 INFO TaskSetManager: Starting task 16.0 in stage 3.0 (TID 55, 10.1.2.202, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,431 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 55 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,441 INFO TaskSetManager: Starting task 17.0 in stage 3.0 (TID 56, 10.1.2.202, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,441 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 56 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,442 INFO TaskSetManager: Finished task 13.0 in stage 3.0 (TID 52) in 144 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:24,501 INFO TaskSetManager: Starting task 18.0 in stage 3.0 (TID 57, 10.1.2.202, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,501 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 57 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,502 INFO TaskSetManager: Finished task 15.0 in stage 3.0 (TID 54) in 106 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:24,538 INFO TaskSetManager: Finished task 14.0 in stage 3.0 (TID 53) in 147 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:24,553 INFO TaskSetManager: Finished task 18.0 in stage 3.0 (TID 57) in 53 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:24,556 INFO TaskSetManager: Finished task 16.0 in stage 3.0 (TID 55) in 126 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:24,561 INFO TaskSetManager: Finished task 17.0 in stage 3.0 (TID 56) in 121 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:24,562 INFO TaskSchedulerImpl: Removed TaskSet 3.0, whose tasks have all completed, from pool 
+17/01/29 11:33:24,562 INFO DAGScheduler: ShuffleMapStage 3 (treeAggregate at GradientDescent.scala:239) finished in 1.016 s
+17/01/29 11:33:24,564 INFO DAGScheduler: looking for newly runnable stages
+17/01/29 11:33:24,564 INFO DAGScheduler: running: Set()
+17/01/29 11:33:24,565 INFO DAGScheduler: waiting: Set(ResultStage 4)
+17/01/29 11:33:24,565 INFO DAGScheduler: failed: Set()
+17/01/29 11:33:24,567 INFO DAGScheduler: Submitting ResultStage 4 (MapPartitionsRDD[13] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:24,573 INFO MemoryStore: Block broadcast_6 stored as values in memory (estimated size 3.1 KB, free 2.1 GB)
+17/01/29 11:33:24,576 INFO MemoryStore: Block broadcast_6_piece0 stored as bytes in memory (estimated size 1893.0 B, free 2.1 GB)
+17/01/29 11:33:24,577 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 10.1.2.86:39920 (size: 1893.0 B, free: 2.1 GB)
+17/01/29 11:33:24,577 INFO SparkContext: Created broadcast 6 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:24,578 INFO DAGScheduler: Submitting 3 missing tasks from ResultStage 4 (MapPartitionsRDD[13] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:24,578 INFO TaskSchedulerImpl: Adding task set 4.0 with 3 tasks
+17/01/29 11:33:24,580 INFO TaskSetManager: Starting task 0.0 in stage 4.0 (TID 58, 10.1.2.202, partition 0, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:24,581 INFO TaskSetManager: Starting task 1.0 in stage 4.0 (TID 59, 10.1.2.202, partition 1, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:24,582 INFO TaskSetManager: Starting task 2.0 in stage 4.0 (TID 60, 10.1.2.202, partition 2, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:24,583 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 58 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,583 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 59 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,583 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 60 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,598 INFO BlockManagerInfo: Added broadcast_6_piece0 in memory on 10.1.2.202:43645 (size: 1893.0 B, free: 700.7 MB)
+17/01/29 11:33:24,619 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 0 to 10.1.2.202:49724
+17/01/29 11:33:24,622 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 0 is 165 bytes
+17/01/29 11:33:24,661 INFO TaskSetManager: Finished task 1.0 in stage 4.0 (TID 59) in 80 ms on 10.1.2.202 (1/3)
+17/01/29 11:33:24,665 INFO TaskSetManager: Finished task 2.0 in stage 4.0 (TID 60) in 84 ms on 10.1.2.202 (2/3)
+17/01/29 11:33:24,667 INFO TaskSetManager: Finished task 0.0 in stage 4.0 (TID 58) in 87 ms on 10.1.2.202 (3/3)
+17/01/29 11:33:24,667 INFO TaskSchedulerImpl: Removed TaskSet 4.0, whose tasks have all completed, from pool 
+17/01/29 11:33:24,667 INFO DAGScheduler: ResultStage 4 (treeAggregate at GradientDescent.scala:239) finished in 0.088 s
+17/01/29 11:33:24,668 INFO DAGScheduler: Job 3 finished: treeAggregate at GradientDescent.scala:239, took 1.150570 s
+17/01/29 11:33:24,670 INFO MemoryStore: Block broadcast_7 stored as values in memory (estimated size 200.0 B, free 2.1 GB)
+17/01/29 11:33:24,672 INFO MemoryStore: Block broadcast_7_piece0 stored as bytes in memory (estimated size 285.0 B, free 2.1 GB)
+17/01/29 11:33:24,673 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 10.1.2.86:39920 (size: 285.0 B, free: 2.1 GB)
+17/01/29 11:33:24,673 INFO SparkContext: Created broadcast 7 from broadcast at GradientDescent.scala:235
+17/01/29 11:33:24,692 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/01/29 11:33:24,693 INFO DAGScheduler: Registering RDD 16 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:24,693 INFO DAGScheduler: Got job 4 (treeAggregate at GradientDescent.scala:239) with 3 output partitions
+17/01/29 11:33:24,694 INFO DAGScheduler: Final stage: ResultStage 6 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:24,694 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 5)
+17/01/29 11:33:24,694 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 5)
+17/01/29 11:33:24,696 INFO DAGScheduler: Submitting ShuffleMapStage 5 (MapPartitionsRDD[16] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:24,701 INFO MemoryStore: Block broadcast_8 stored as values in memory (estimated size 7.1 KB, free 2.1 GB)
+17/01/29 11:33:24,703 INFO MemoryStore: Block broadcast_8_piece0 stored as bytes in memory (estimated size 3.7 KB, free 2.1 GB)
+17/01/29 11:33:24,703 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 10.1.2.86:39920 (size: 3.7 KB, free: 2.1 GB)
+17/01/29 11:33:24,704 INFO SparkContext: Created broadcast 8 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:24,705 INFO DAGScheduler: Submitting 19 missing tasks from ShuffleMapStage 5 (MapPartitionsRDD[16] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:24,705 INFO TaskSchedulerImpl: Adding task set 5.0 with 19 tasks
+17/01/29 11:33:24,707 INFO TaskSetManager: Starting task 0.0 in stage 5.0 (TID 61, 10.1.2.202, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,708 INFO TaskSetManager: Starting task 1.0 in stage 5.0 (TID 62, 10.1.2.202, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,709 INFO TaskSetManager: Starting task 2.0 in stage 5.0 (TID 63, 10.1.2.202, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,710 INFO TaskSetManager: Starting task 3.0 in stage 5.0 (TID 64, 10.1.2.202, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,710 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 61 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,710 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 62 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,711 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 63 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,711 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 64 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,729 INFO BlockManagerInfo: Added broadcast_8_piece0 in memory on 10.1.2.202:43645 (size: 3.7 KB, free: 700.7 MB)
+17/01/29 11:33:24,743 INFO BlockManagerInfo: Added broadcast_7_piece0 in memory on 10.1.2.202:43645 (size: 285.0 B, free: 700.7 MB)
+17/01/29 11:33:24,842 INFO TaskSetManager: Starting task 4.0 in stage 5.0 (TID 65, 10.1.2.202, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,842 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 65 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,843 INFO TaskSetManager: Finished task 1.0 in stage 5.0 (TID 62) in 136 ms on 10.1.2.202 (1/19)
+17/01/29 11:33:24,844 INFO TaskSetManager: Starting task 5.0 in stage 5.0 (TID 66, 10.1.2.202, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,845 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 66 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,845 INFO TaskSetManager: Finished task 3.0 in stage 5.0 (TID 64) in 136 ms on 10.1.2.202 (2/19)
+17/01/29 11:33:24,862 INFO TaskSetManager: Starting task 6.0 in stage 5.0 (TID 67, 10.1.2.202, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,862 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 67 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,863 INFO TaskSetManager: Finished task 2.0 in stage 5.0 (TID 63) in 154 ms on 10.1.2.202 (3/19)
+17/01/29 11:33:24,864 INFO TaskSetManager: Starting task 7.0 in stage 5.0 (TID 68, 10.1.2.202, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,867 INFO TaskSetManager: Finished task 0.0 in stage 5.0 (TID 61) in 160 ms on 10.1.2.202 (4/19)
+17/01/29 11:33:24,867 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 68 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,932 INFO TaskSetManager: Starting task 8.0 in stage 5.0 (TID 69, 10.1.2.202, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,932 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 69 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,933 INFO TaskSetManager: Finished task 4.0 in stage 5.0 (TID 65) in 91 ms on 10.1.2.202 (5/19)
+17/01/29 11:33:24,937 INFO TaskSetManager: Starting task 9.0 in stage 5.0 (TID 70, 10.1.2.202, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,937 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 70 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,937 INFO TaskSetManager: Finished task 5.0 in stage 5.0 (TID 66) in 94 ms on 10.1.2.202 (6/19)
+17/01/29 11:33:24,953 INFO TaskSetManager: Starting task 10.0 in stage 5.0 (TID 71, 10.1.2.202, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,953 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 71 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,954 INFO TaskSetManager: Finished task 6.0 in stage 5.0 (TID 67) in 93 ms on 10.1.2.202 (7/19)
+17/01/29 11:33:24,969 INFO TaskSetManager: Starting task 11.0 in stage 5.0 (TID 72, 10.1.2.202, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:24,969 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 72 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:24,970 INFO TaskSetManager: Finished task 7.0 in stage 5.0 (TID 68) in 107 ms on 10.1.2.202 (8/19)
+17/01/29 11:33:25,031 INFO TaskSetManager: Starting task 12.0 in stage 5.0 (TID 73, 10.1.2.202, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,032 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 73 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,032 INFO TaskSetManager: Finished task 8.0 in stage 5.0 (TID 69) in 101 ms on 10.1.2.202 (9/19)
+17/01/29 11:33:25,047 INFO TaskSetManager: Starting task 13.0 in stage 5.0 (TID 74, 10.1.2.202, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,047 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 74 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,048 INFO TaskSetManager: Finished task 10.0 in stage 5.0 (TID 71) in 96 ms on 10.1.2.202 (10/19)
+17/01/29 11:33:25,050 INFO TaskSetManager: Starting task 14.0 in stage 5.0 (TID 75, 10.1.2.202, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,050 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 75 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,050 INFO TaskSetManager: Finished task 9.0 in stage 5.0 (TID 70) in 114 ms on 10.1.2.202 (11/19)
+17/01/29 11:33:25,061 INFO TaskSetManager: Starting task 15.0 in stage 5.0 (TID 76, 10.1.2.202, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,061 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 76 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,062 INFO TaskSetManager: Finished task 11.0 in stage 5.0 (TID 72) in 94 ms on 10.1.2.202 (12/19)
+17/01/29 11:33:25,122 INFO TaskSetManager: Starting task 16.0 in stage 5.0 (TID 77, 10.1.2.202, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,122 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 77 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,123 INFO TaskSetManager: Finished task 12.0 in stage 5.0 (TID 73) in 92 ms on 10.1.2.202 (13/19)
+17/01/29 11:33:25,138 INFO TaskSetManager: Starting task 17.0 in stage 5.0 (TID 78, 10.1.2.202, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,138 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 78 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,139 INFO TaskSetManager: Finished task 14.0 in stage 5.0 (TID 75) in 90 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:25,152 INFO TaskSetManager: Starting task 18.0 in stage 5.0 (TID 79, 10.1.2.202, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,153 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 79 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,153 INFO TaskSetManager: Finished task 15.0 in stage 5.0 (TID 76) in 93 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:25,158 INFO TaskSetManager: Finished task 13.0 in stage 5.0 (TID 74) in 111 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:25,197 INFO TaskSetManager: Finished task 18.0 in stage 5.0 (TID 79) in 45 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:25,212 INFO TaskSetManager: Finished task 16.0 in stage 5.0 (TID 77) in 91 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:25,231 INFO TaskSetManager: Finished task 17.0 in stage 5.0 (TID 78) in 93 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:25,231 INFO TaskSchedulerImpl: Removed TaskSet 5.0, whose tasks have all completed, from pool 
+17/01/29 11:33:25,232 INFO DAGScheduler: ShuffleMapStage 5 (treeAggregate at GradientDescent.scala:239) finished in 0.526 s
+17/01/29 11:33:25,232 INFO DAGScheduler: looking for newly runnable stages
+17/01/29 11:33:25,232 INFO DAGScheduler: running: Set()
+17/01/29 11:33:25,233 INFO DAGScheduler: waiting: Set(ResultStage 6)
+17/01/29 11:33:25,233 INFO DAGScheduler: failed: Set()
+17/01/29 11:33:25,233 INFO DAGScheduler: Submitting ResultStage 6 (MapPartitionsRDD[18] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:25,236 INFO MemoryStore: Block broadcast_9 stored as values in memory (estimated size 3.1 KB, free 2.1 GB)
+17/01/29 11:33:25,238 INFO MemoryStore: Block broadcast_9_piece0 stored as bytes in memory (estimated size 1892.0 B, free 2.1 GB)
+17/01/29 11:33:25,238 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 10.1.2.86:39920 (size: 1892.0 B, free: 2.1 GB)
+17/01/29 11:33:25,239 INFO SparkContext: Created broadcast 9 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:25,239 INFO DAGScheduler: Submitting 3 missing tasks from ResultStage 6 (MapPartitionsRDD[18] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:25,240 INFO TaskSchedulerImpl: Adding task set 6.0 with 3 tasks
+17/01/29 11:33:25,241 INFO TaskSetManager: Starting task 0.0 in stage 6.0 (TID 80, 10.1.2.202, partition 0, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:25,242 INFO TaskSetManager: Starting task 1.0 in stage 6.0 (TID 81, 10.1.2.202, partition 1, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:25,242 INFO TaskSetManager: Starting task 2.0 in stage 6.0 (TID 82, 10.1.2.202, partition 2, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:25,243 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 80 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,243 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 81 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,244 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 82 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,262 INFO BlockManagerInfo: Added broadcast_9_piece0 in memory on 10.1.2.202:43645 (size: 1892.0 B, free: 700.7 MB)
+17/01/29 11:33:25,268 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 1 to 10.1.2.202:49724
+17/01/29 11:33:25,268 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 1 is 165 bytes
+17/01/29 11:33:25,277 INFO TaskSetManager: Finished task 2.0 in stage 6.0 (TID 82) in 35 ms on 10.1.2.202 (1/3)
+17/01/29 11:33:25,279 INFO TaskSetManager: Finished task 1.0 in stage 6.0 (TID 81) in 37 ms on 10.1.2.202 (2/3)
+17/01/29 11:33:25,280 INFO TaskSetManager: Finished task 0.0 in stage 6.0 (TID 80) in 40 ms on 10.1.2.202 (3/3)
+17/01/29 11:33:25,280 INFO TaskSchedulerImpl: Removed TaskSet 6.0, whose tasks have all completed, from pool 
+17/01/29 11:33:25,281 INFO DAGScheduler: ResultStage 6 (treeAggregate at GradientDescent.scala:239) finished in 0.041 s
+17/01/29 11:33:25,282 INFO DAGScheduler: Job 4 finished: treeAggregate at GradientDescent.scala:239, took 0.590087 s
+17/01/29 11:33:25,289 INFO MemoryStore: Block broadcast_10 stored as values in memory (estimated size 200.0 B, free 2.1 GB)
+17/01/29 11:33:25,291 INFO MemoryStore: Block broadcast_10_piece0 stored as bytes in memory (estimated size 285.0 B, free 2.1 GB)
+17/01/29 11:33:25,292 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 10.1.2.86:39920 (size: 285.0 B, free: 2.1 GB)
+17/01/29 11:33:25,292 INFO SparkContext: Created broadcast 10 from broadcast at GradientDescent.scala:235
+17/01/29 11:33:25,310 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/01/29 11:33:25,312 INFO DAGScheduler: Registering RDD 21 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:25,312 INFO DAGScheduler: Got job 5 (treeAggregate at GradientDescent.scala:239) with 3 output partitions
+17/01/29 11:33:25,312 INFO DAGScheduler: Final stage: ResultStage 8 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:25,313 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 7)
+17/01/29 11:33:25,313 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 7)
+17/01/29 11:33:25,316 INFO DAGScheduler: Submitting ShuffleMapStage 7 (MapPartitionsRDD[21] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:25,332 INFO MemoryStore: Block broadcast_11 stored as values in memory (estimated size 7.1 KB, free 2.1 GB)
+17/01/29 11:33:25,334 INFO MemoryStore: Block broadcast_11_piece0 stored as bytes in memory (estimated size 3.7 KB, free 2.1 GB)
+17/01/29 11:33:25,334 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 10.1.2.86:39920 (size: 3.7 KB, free: 2.1 GB)
+17/01/29 11:33:25,335 INFO SparkContext: Created broadcast 11 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:25,336 INFO DAGScheduler: Submitting 19 missing tasks from ShuffleMapStage 7 (MapPartitionsRDD[21] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:25,336 INFO TaskSchedulerImpl: Adding task set 7.0 with 19 tasks
+17/01/29 11:33:25,338 INFO TaskSetManager: Starting task 0.0 in stage 7.0 (TID 83, 10.1.2.202, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,338 INFO TaskSetManager: Starting task 1.0 in stage 7.0 (TID 84, 10.1.2.202, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,339 INFO TaskSetManager: Starting task 2.0 in stage 7.0 (TID 85, 10.1.2.202, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,340 INFO TaskSetManager: Starting task 3.0 in stage 7.0 (TID 86, 10.1.2.202, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,340 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 83 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,340 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 84 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,340 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 85 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,341 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 86 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,374 INFO BlockManagerInfo: Added broadcast_11_piece0 in memory on 10.1.2.202:43645 (size: 3.7 KB, free: 700.7 MB)
+17/01/29 11:33:25,386 INFO BlockManagerInfo: Added broadcast_10_piece0 in memory on 10.1.2.202:43645 (size: 285.0 B, free: 700.7 MB)
+17/01/29 11:33:25,500 INFO TaskSetManager: Starting task 4.0 in stage 7.0 (TID 87, 10.1.2.202, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,500 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 87 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,501 INFO TaskSetManager: Finished task 3.0 in stage 7.0 (TID 86) in 161 ms on 10.1.2.202 (1/19)
+17/01/29 11:33:25,512 INFO TaskSetManager: Starting task 5.0 in stage 7.0 (TID 88, 10.1.2.202, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,513 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 88 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,514 INFO TaskSetManager: Finished task 1.0 in stage 7.0 (TID 84) in 176 ms on 10.1.2.202 (2/19)
+17/01/29 11:33:25,528 INFO TaskSetManager: Starting task 6.0 in stage 7.0 (TID 89, 10.1.2.202, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,528 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 89 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,529 INFO TaskSetManager: Finished task 0.0 in stage 7.0 (TID 83) in 191 ms on 10.1.2.202 (3/19)
+17/01/29 11:33:25,531 INFO TaskSetManager: Starting task 7.0 in stage 7.0 (TID 90, 10.1.2.202, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,531 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 90 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,531 INFO TaskSetManager: Finished task 2.0 in stage 7.0 (TID 85) in 192 ms on 10.1.2.202 (4/19)
+17/01/29 11:33:25,608 INFO TaskSetManager: Starting task 8.0 in stage 7.0 (TID 91, 10.1.2.202, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,608 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 91 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,608 INFO TaskSetManager: Finished task 4.0 in stage 7.0 (TID 87) in 109 ms on 10.1.2.202 (5/19)
+17/01/29 11:33:25,628 INFO TaskSetManager: Starting task 9.0 in stage 7.0 (TID 92, 10.1.2.202, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,628 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 92 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,629 INFO TaskSetManager: Finished task 5.0 in stage 7.0 (TID 88) in 117 ms on 10.1.2.202 (6/19)
+17/01/29 11:33:25,638 INFO TaskSetManager: Starting task 10.0 in stage 7.0 (TID 93, 10.1.2.202, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,639 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 93 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,639 INFO TaskSetManager: Finished task 7.0 in stage 7.0 (TID 90) in 109 ms on 10.1.2.202 (7/19)
+17/01/29 11:33:25,641 INFO TaskSetManager: Starting task 11.0 in stage 7.0 (TID 94, 10.1.2.202, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,641 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 94 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,641 INFO TaskSetManager: Finished task 6.0 in stage 7.0 (TID 89) in 114 ms on 10.1.2.202 (8/19)
+17/01/29 11:33:25,747 INFO TaskSetManager: Starting task 12.0 in stage 7.0 (TID 95, 10.1.2.202, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,747 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 95 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,748 INFO TaskSetManager: Finished task 8.0 in stage 7.0 (TID 91) in 140 ms on 10.1.2.202 (9/19)
+17/01/29 11:33:25,777 INFO TaskSetManager: Starting task 13.0 in stage 7.0 (TID 96, 10.1.2.202, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,777 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 96 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,778 INFO TaskSetManager: Finished task 10.0 in stage 7.0 (TID 93) in 140 ms on 10.1.2.202 (10/19)
+17/01/29 11:33:25,783 INFO TaskSetManager: Starting task 14.0 in stage 7.0 (TID 97, 10.1.2.202, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,784 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 97 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,784 INFO TaskSetManager: Finished task 9.0 in stage 7.0 (TID 92) in 157 ms on 10.1.2.202 (11/19)
+17/01/29 11:33:25,800 INFO TaskSetManager: Starting task 15.0 in stage 7.0 (TID 98, 10.1.2.202, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,801 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 98 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,801 INFO TaskSetManager: Finished task 11.0 in stage 7.0 (TID 94) in 161 ms on 10.1.2.202 (12/19)
+17/01/29 11:33:25,864 INFO TaskSetManager: Starting task 16.0 in stage 7.0 (TID 99, 10.1.2.202, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,864 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 99 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,864 INFO TaskSetManager: Finished task 12.0 in stage 7.0 (TID 95) in 118 ms on 10.1.2.202 (13/19)
+17/01/29 11:33:25,894 INFO TaskSetManager: Starting task 17.0 in stage 7.0 (TID 100, 10.1.2.202, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,894 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 100 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,895 INFO TaskSetManager: Finished task 13.0 in stage 7.0 (TID 96) in 119 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:25,903 INFO TaskSetManager: Starting task 18.0 in stage 7.0 (TID 101, 10.1.2.202, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:25,904 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 101 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:25,904 INFO TaskSetManager: Finished task 14.0 in stage 7.0 (TID 97) in 121 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:25,918 INFO TaskSetManager: Finished task 15.0 in stage 7.0 (TID 98) in 119 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:25,952 INFO TaskSetManager: Finished task 18.0 in stage 7.0 (TID 101) in 49 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:25,971 INFO TaskSetManager: Finished task 16.0 in stage 7.0 (TID 99) in 108 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:25,995 INFO TaskSetManager: Finished task 17.0 in stage 7.0 (TID 100) in 102 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:25,995 INFO TaskSchedulerImpl: Removed TaskSet 7.0, whose tasks have all completed, from pool 
+17/01/29 11:33:25,996 INFO DAGScheduler: ShuffleMapStage 7 (treeAggregate at GradientDescent.scala:239) finished in 0.659 s
+17/01/29 11:33:25,997 INFO DAGScheduler: looking for newly runnable stages
+17/01/29 11:33:25,997 INFO DAGScheduler: running: Set()
+17/01/29 11:33:25,997 INFO DAGScheduler: waiting: Set(ResultStage 8)
+17/01/29 11:33:25,997 INFO DAGScheduler: failed: Set()
+17/01/29 11:33:25,998 INFO DAGScheduler: Submitting ResultStage 8 (MapPartitionsRDD[23] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:26,000 INFO MemoryStore: Block broadcast_12 stored as values in memory (estimated size 3.1 KB, free 2.1 GB)
+17/01/29 11:33:26,002 INFO MemoryStore: Block broadcast_12_piece0 stored as bytes in memory (estimated size 1894.0 B, free 2.1 GB)
+17/01/29 11:33:26,003 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 10.1.2.86:39920 (size: 1894.0 B, free: 2.1 GB)
+17/01/29 11:33:26,004 INFO SparkContext: Created broadcast 12 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:26,004 INFO DAGScheduler: Submitting 3 missing tasks from ResultStage 8 (MapPartitionsRDD[23] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,004 INFO TaskSchedulerImpl: Adding task set 8.0 with 3 tasks
+17/01/29 11:33:26,006 INFO TaskSetManager: Starting task 0.0 in stage 8.0 (TID 102, 10.1.2.202, partition 0, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:26,006 INFO TaskSetManager: Starting task 1.0 in stage 8.0 (TID 103, 10.1.2.202, partition 1, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:26,007 INFO TaskSetManager: Starting task 2.0 in stage 8.0 (TID 104, 10.1.2.202, partition 2, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:26,007 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 102 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,007 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 103 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,008 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 104 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,018 INFO BlockManagerInfo: Added broadcast_12_piece0 in memory on 10.1.2.202:43645 (size: 1894.0 B, free: 700.7 MB)
+17/01/29 11:33:26,023 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 2 to 10.1.2.202:49724
+17/01/29 11:33:26,024 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 2 is 165 bytes
+17/01/29 11:33:26,032 INFO TaskSetManager: Finished task 0.0 in stage 8.0 (TID 102) in 27 ms on 10.1.2.202 (1/3)
+17/01/29 11:33:26,033 INFO TaskSetManager: Finished task 2.0 in stage 8.0 (TID 104) in 27 ms on 10.1.2.202 (2/3)
+17/01/29 11:33:26,036 INFO TaskSetManager: Finished task 1.0 in stage 8.0 (TID 103) in 30 ms on 10.1.2.202 (3/3)
+17/01/29 11:33:26,036 INFO TaskSchedulerImpl: Removed TaskSet 8.0, whose tasks have all completed, from pool 
+17/01/29 11:33:26,037 INFO DAGScheduler: ResultStage 8 (treeAggregate at GradientDescent.scala:239) finished in 0.032 s
+17/01/29 11:33:26,037 INFO DAGScheduler: Job 5 finished: treeAggregate at GradientDescent.scala:239, took 0.726929 s
+17/01/29 11:33:26,040 INFO MemoryStore: Block broadcast_13 stored as values in memory (estimated size 200.0 B, free 2.1 GB)
+17/01/29 11:33:26,041 INFO MemoryStore: Block broadcast_13_piece0 stored as bytes in memory (estimated size 285.0 B, free 2.1 GB)
+17/01/29 11:33:26,042 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 10.1.2.86:39920 (size: 285.0 B, free: 2.1 GB)
+17/01/29 11:33:26,043 INFO SparkContext: Created broadcast 13 from broadcast at GradientDescent.scala:235
+17/01/29 11:33:26,058 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/01/29 11:33:26,060 INFO DAGScheduler: Registering RDD 26 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,060 INFO DAGScheduler: Got job 6 (treeAggregate at GradientDescent.scala:239) with 3 output partitions
+17/01/29 11:33:26,060 INFO DAGScheduler: Final stage: ResultStage 10 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,060 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 9)
+17/01/29 11:33:26,060 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 9)
+17/01/29 11:33:26,064 INFO DAGScheduler: Submitting ShuffleMapStage 9 (MapPartitionsRDD[26] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:26,069 INFO MemoryStore: Block broadcast_14 stored as values in memory (estimated size 7.1 KB, free 2.1 GB)
+17/01/29 11:33:26,071 INFO MemoryStore: Block broadcast_14_piece0 stored as bytes in memory (estimated size 3.7 KB, free 2.1 GB)
+17/01/29 11:33:26,071 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 10.1.2.86:39920 (size: 3.7 KB, free: 2.1 GB)
+17/01/29 11:33:26,072 INFO SparkContext: Created broadcast 14 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:26,073 INFO DAGScheduler: Submitting 19 missing tasks from ShuffleMapStage 9 (MapPartitionsRDD[26] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,073 INFO TaskSchedulerImpl: Adding task set 9.0 with 19 tasks
+17/01/29 11:33:26,075 INFO TaskSetManager: Starting task 0.0 in stage 9.0 (TID 105, 10.1.2.202, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,075 INFO TaskSetManager: Starting task 1.0 in stage 9.0 (TID 106, 10.1.2.202, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,076 INFO TaskSetManager: Starting task 2.0 in stage 9.0 (TID 107, 10.1.2.202, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,076 INFO TaskSetManager: Starting task 3.0 in stage 9.0 (TID 108, 10.1.2.202, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,076 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 105 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,076 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 106 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,077 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 107 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,077 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 108 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,089 INFO BlockManagerInfo: Added broadcast_14_piece0 in memory on 10.1.2.202:43645 (size: 3.7 KB, free: 700.7 MB)
+17/01/29 11:33:26,103 INFO BlockManagerInfo: Added broadcast_13_piece0 in memory on 10.1.2.202:43645 (size: 285.0 B, free: 700.7 MB)
+17/01/29 11:33:26,189 INFO TaskSetManager: Starting task 4.0 in stage 9.0 (TID 109, 10.1.2.202, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,189 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 109 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,190 INFO TaskSetManager: Finished task 3.0 in stage 9.0 (TID 108) in 113 ms on 10.1.2.202 (1/19)
+17/01/29 11:33:26,192 INFO TaskSetManager: Starting task 5.0 in stage 9.0 (TID 110, 10.1.2.202, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,192 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 110 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,193 INFO TaskSetManager: Finished task 0.0 in stage 9.0 (TID 105) in 118 ms on 10.1.2.202 (2/19)
+17/01/29 11:33:26,195 INFO TaskSetManager: Starting task 6.0 in stage 9.0 (TID 111, 10.1.2.202, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,195 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 111 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,196 INFO TaskSetManager: Finished task 2.0 in stage 9.0 (TID 107) in 120 ms on 10.1.2.202 (3/19)
+17/01/29 11:33:26,198 INFO TaskSetManager: Starting task 7.0 in stage 9.0 (TID 112, 10.1.2.202, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,198 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 112 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,198 INFO TaskSetManager: Finished task 1.0 in stage 9.0 (TID 106) in 123 ms on 10.1.2.202 (4/19)
+17/01/29 11:33:26,281 INFO TaskSetManager: Starting task 8.0 in stage 9.0 (TID 113, 10.1.2.202, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,281 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 113 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,281 INFO TaskSetManager: Finished task 5.0 in stage 9.0 (TID 110) in 89 ms on 10.1.2.202 (5/19)
+17/01/29 11:33:26,287 INFO TaskSetManager: Starting task 9.0 in stage 9.0 (TID 114, 10.1.2.202, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,287 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 114 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,287 INFO TaskSetManager: Finished task 7.0 in stage 9.0 (TID 112) in 90 ms on 10.1.2.202 (6/19)
+17/01/29 11:33:26,288 INFO TaskSetManager: Starting task 10.0 in stage 9.0 (TID 115, 10.1.2.202, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,288 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 115 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,289 INFO TaskSetManager: Finished task 4.0 in stage 9.0 (TID 109) in 101 ms on 10.1.2.202 (7/19)
+17/01/29 11:33:26,297 INFO TaskSetManager: Starting task 11.0 in stage 9.0 (TID 116, 10.1.2.202, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,297 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 116 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,298 INFO TaskSetManager: Finished task 6.0 in stage 9.0 (TID 111) in 104 ms on 10.1.2.202 (8/19)
+17/01/29 11:33:26,373 INFO TaskSetManager: Starting task 12.0 in stage 9.0 (TID 117, 10.1.2.202, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,373 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 117 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,373 INFO TaskSetManager: Finished task 8.0 in stage 9.0 (TID 113) in 93 ms on 10.1.2.202 (9/19)
+17/01/29 11:33:26,381 INFO TaskSetManager: Starting task 13.0 in stage 9.0 (TID 118, 10.1.2.202, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,381 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 118 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,381 INFO TaskSetManager: Finished task 9.0 in stage 9.0 (TID 114) in 95 ms on 10.1.2.202 (10/19)
+17/01/29 11:33:26,390 INFO TaskSetManager: Starting task 14.0 in stage 9.0 (TID 119, 10.1.2.202, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,390 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 119 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,391 INFO TaskSetManager: Finished task 10.0 in stage 9.0 (TID 115) in 103 ms on 10.1.2.202 (11/19)
+17/01/29 11:33:26,399 INFO TaskSetManager: Starting task 15.0 in stage 9.0 (TID 120, 10.1.2.202, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,399 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 120 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,400 INFO TaskSetManager: Finished task 11.0 in stage 9.0 (TID 116) in 103 ms on 10.1.2.202 (12/19)
+17/01/29 11:33:26,480 INFO TaskSetManager: Starting task 16.0 in stage 9.0 (TID 121, 10.1.2.202, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,480 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 121 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,480 INFO TaskSetManager: Finished task 13.0 in stage 9.0 (TID 118) in 100 ms on 10.1.2.202 (13/19)
+17/01/29 11:33:26,489 INFO TaskSetManager: Starting task 17.0 in stage 9.0 (TID 122, 10.1.2.202, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,490 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 122 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,490 INFO TaskSetManager: Finished task 15.0 in stage 9.0 (TID 120) in 91 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:26,496 INFO TaskSetManager: Starting task 18.0 in stage 9.0 (TID 123, 10.1.2.202, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,497 INFO TaskSetManager: Finished task 12.0 in stage 9.0 (TID 117) in 125 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:26,497 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 123 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,513 INFO TaskSetManager: Finished task 14.0 in stage 9.0 (TID 119) in 123 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:26,540 INFO TaskSetManager: Finished task 18.0 in stage 9.0 (TID 123) in 44 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:26,572 INFO TaskSetManager: Finished task 16.0 in stage 9.0 (TID 121) in 93 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:26,578 INFO TaskSetManager: Finished task 17.0 in stage 9.0 (TID 122) in 89 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:26,578 INFO TaskSchedulerImpl: Removed TaskSet 9.0, whose tasks have all completed, from pool 
+17/01/29 11:33:26,579 INFO DAGScheduler: ShuffleMapStage 9 (treeAggregate at GradientDescent.scala:239) finished in 0.505 s
+17/01/29 11:33:26,579 INFO DAGScheduler: looking for newly runnable stages
+17/01/29 11:33:26,580 INFO DAGScheduler: running: Set()
+17/01/29 11:33:26,580 INFO DAGScheduler: waiting: Set(ResultStage 10)
+17/01/29 11:33:26,580 INFO DAGScheduler: failed: Set()
+17/01/29 11:33:26,580 INFO DAGScheduler: Submitting ResultStage 10 (MapPartitionsRDD[28] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:26,583 INFO MemoryStore: Block broadcast_15 stored as values in memory (estimated size 3.1 KB, free 2.1 GB)
+17/01/29 11:33:26,585 INFO MemoryStore: Block broadcast_15_piece0 stored as bytes in memory (estimated size 1889.0 B, free 2.1 GB)
+17/01/29 11:33:26,585 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 10.1.2.86:39920 (size: 1889.0 B, free: 2.1 GB)
+17/01/29 11:33:26,586 INFO SparkContext: Created broadcast 15 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:26,587 INFO DAGScheduler: Submitting 3 missing tasks from ResultStage 10 (MapPartitionsRDD[28] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,587 INFO TaskSchedulerImpl: Adding task set 10.0 with 3 tasks
+17/01/29 11:33:26,589 INFO TaskSetManager: Starting task 0.0 in stage 10.0 (TID 124, 10.1.2.202, partition 0, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:26,589 INFO TaskSetManager: Starting task 1.0 in stage 10.0 (TID 125, 10.1.2.202, partition 1, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:26,590 INFO TaskSetManager: Starting task 2.0 in stage 10.0 (TID 126, 10.1.2.202, partition 2, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:26,590 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 124 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,590 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 125 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,591 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 126 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,604 INFO BlockManagerInfo: Added broadcast_15_piece0 in memory on 10.1.2.202:43645 (size: 1889.0 B, free: 700.7 MB)
+17/01/29 11:33:26,608 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 3 to 10.1.2.202:49724
+17/01/29 11:33:26,609 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 3 is 165 bytes
+17/01/29 11:33:26,620 INFO TaskSetManager: Finished task 1.0 in stage 10.0 (TID 125) in 31 ms on 10.1.2.202 (1/3)
+17/01/29 11:33:26,621 INFO TaskSetManager: Finished task 0.0 in stage 10.0 (TID 124) in 33 ms on 10.1.2.202 (2/3)
+17/01/29 11:33:26,622 INFO TaskSetManager: Finished task 2.0 in stage 10.0 (TID 126) in 33 ms on 10.1.2.202 (3/3)
+17/01/29 11:33:26,622 INFO TaskSchedulerImpl: Removed TaskSet 10.0, whose tasks have all completed, from pool 
+17/01/29 11:33:26,624 INFO DAGScheduler: ResultStage 10 (treeAggregate at GradientDescent.scala:239) finished in 0.036 s
+17/01/29 11:33:26,624 INFO DAGScheduler: Job 6 finished: treeAggregate at GradientDescent.scala:239, took 0.565751 s
+17/01/29 11:33:26,626 INFO MemoryStore: Block broadcast_16 stored as values in memory (estimated size 200.0 B, free 2.1 GB)
+17/01/29 11:33:26,628 INFO MemoryStore: Block broadcast_16_piece0 stored as bytes in memory (estimated size 285.0 B, free 2.1 GB)
+17/01/29 11:33:26,628 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 10.1.2.86:39920 (size: 285.0 B, free: 2.1 GB)
+17/01/29 11:33:26,629 INFO SparkContext: Created broadcast 16 from broadcast at GradientDescent.scala:235
+17/01/29 11:33:26,644 INFO SparkContext: Starting job: treeAggregate at GradientDescent.scala:239
+17/01/29 11:33:26,646 INFO DAGScheduler: Registering RDD 31 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,646 INFO DAGScheduler: Got job 7 (treeAggregate at GradientDescent.scala:239) with 3 output partitions
+17/01/29 11:33:26,646 INFO DAGScheduler: Final stage: ResultStage 12 (treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,646 INFO DAGScheduler: Parents of final stage: List(ShuffleMapStage 11)
+17/01/29 11:33:26,647 INFO DAGScheduler: Missing parents: List(ShuffleMapStage 11)
+17/01/29 11:33:26,650 INFO DAGScheduler: Submitting ShuffleMapStage 11 (MapPartitionsRDD[31] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:26,654 INFO MemoryStore: Block broadcast_17 stored as values in memory (estimated size 7.1 KB, free 2.1 GB)
+17/01/29 11:33:26,656 INFO MemoryStore: Block broadcast_17_piece0 stored as bytes in memory (estimated size 3.7 KB, free 2.1 GB)
+17/01/29 11:33:26,656 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 10.1.2.86:39920 (size: 3.7 KB, free: 2.1 GB)
+17/01/29 11:33:26,657 INFO SparkContext: Created broadcast 17 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:26,658 INFO DAGScheduler: Submitting 19 missing tasks from ShuffleMapStage 11 (MapPartitionsRDD[31] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:26,658 INFO TaskSchedulerImpl: Adding task set 11.0 with 19 tasks
+17/01/29 11:33:26,660 INFO TaskSetManager: Starting task 0.0 in stage 11.0 (TID 127, 10.1.2.202, partition 0, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,660 INFO TaskSetManager: Starting task 1.0 in stage 11.0 (TID 128, 10.1.2.202, partition 1, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,661 INFO TaskSetManager: Starting task 2.0 in stage 11.0 (TID 129, 10.1.2.202, partition 2, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,661 INFO TaskSetManager: Starting task 3.0 in stage 11.0 (TID 130, 10.1.2.202, partition 3, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,662 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 127 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,662 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 128 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,662 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 129 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,663 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 130 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,680 INFO BlockManagerInfo: Added broadcast_17_piece0 in memory on 10.1.2.202:43645 (size: 3.7 KB, free: 700.7 MB)
+17/01/29 11:33:26,691 INFO BlockManagerInfo: Added broadcast_16_piece0 in memory on 10.1.2.202:43645 (size: 285.0 B, free: 700.7 MB)
+17/01/29 11:33:26,791 INFO TaskSetManager: Starting task 4.0 in stage 11.0 (TID 131, 10.1.2.202, partition 4, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,792 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 131 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,792 INFO TaskSetManager: Finished task 1.0 in stage 11.0 (TID 128) in 132 ms on 10.1.2.202 (1/19)
+17/01/29 11:33:26,793 INFO TaskSetManager: Starting task 5.0 in stage 11.0 (TID 132, 10.1.2.202, partition 5, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,793 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 132 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,794 INFO TaskSetManager: Finished task 2.0 in stage 11.0 (TID 129) in 133 ms on 10.1.2.202 (2/19)
+17/01/29 11:33:26,801 INFO TaskSetManager: Starting task 6.0 in stage 11.0 (TID 133, 10.1.2.202, partition 6, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,801 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 133 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,802 INFO TaskSetManager: Finished task 0.0 in stage 11.0 (TID 127) in 142 ms on 10.1.2.202 (3/19)
+17/01/29 11:33:26,808 INFO TaskSetManager: Starting task 7.0 in stage 11.0 (TID 134, 10.1.2.202, partition 7, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,808 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 134 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,808 INFO TaskSetManager: Finished task 3.0 in stage 11.0 (TID 130) in 147 ms on 10.1.2.202 (4/19)
+17/01/29 11:33:26,896 INFO TaskSetManager: Starting task 8.0 in stage 11.0 (TID 135, 10.1.2.202, partition 8, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,896 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 135 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,897 INFO TaskSetManager: Finished task 4.0 in stage 11.0 (TID 131) in 105 ms on 10.1.2.202 (5/19)
+17/01/29 11:33:26,898 INFO TaskSetManager: Starting task 9.0 in stage 11.0 (TID 136, 10.1.2.202, partition 9, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,898 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 136 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,898 INFO TaskSetManager: Finished task 5.0 in stage 11.0 (TID 132) in 105 ms on 10.1.2.202 (6/19)
+17/01/29 11:33:26,911 INFO TaskSetManager: Starting task 10.0 in stage 11.0 (TID 137, 10.1.2.202, partition 10, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,911 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 137 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,912 INFO TaskSetManager: Finished task 7.0 in stage 11.0 (TID 134) in 104 ms on 10.1.2.202 (7/19)
+17/01/29 11:33:26,915 INFO TaskSetManager: Starting task 11.0 in stage 11.0 (TID 138, 10.1.2.202, partition 11, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:26,915 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 138 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:26,915 INFO TaskSetManager: Finished task 6.0 in stage 11.0 (TID 133) in 114 ms on 10.1.2.202 (8/19)
+17/01/29 11:33:27,045 INFO TaskSetManager: Starting task 12.0 in stage 11.0 (TID 139, 10.1.2.202, partition 12, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,045 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 139 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,045 INFO TaskSetManager: Finished task 9.0 in stage 11.0 (TID 136) in 148 ms on 10.1.2.202 (9/19)
+17/01/29 11:33:27,046 INFO TaskSetManager: Starting task 13.0 in stage 11.0 (TID 140, 10.1.2.202, partition 13, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,047 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 140 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,047 INFO TaskSetManager: Finished task 8.0 in stage 11.0 (TID 135) in 152 ms on 10.1.2.202 (10/19)
+17/01/29 11:33:27,067 INFO TaskSetManager: Starting task 14.0 in stage 11.0 (TID 141, 10.1.2.202, partition 14, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,068 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 141 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,068 INFO TaskSetManager: Finished task 10.0 in stage 11.0 (TID 137) in 157 ms on 10.1.2.202 (11/19)
+17/01/29 11:33:27,072 INFO TaskSetManager: Starting task 15.0 in stage 11.0 (TID 142, 10.1.2.202, partition 15, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,072 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 142 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,072 INFO TaskSetManager: Finished task 11.0 in stage 11.0 (TID 138) in 158 ms on 10.1.2.202 (12/19)
+17/01/29 11:33:27,144 INFO TaskSetManager: Starting task 16.0 in stage 11.0 (TID 143, 10.1.2.202, partition 16, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,144 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 143 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,145 INFO TaskSetManager: Finished task 12.0 in stage 11.0 (TID 139) in 101 ms on 10.1.2.202 (13/19)
+17/01/29 11:33:27,150 INFO TaskSetManager: Starting task 17.0 in stage 11.0 (TID 144, 10.1.2.202, partition 17, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,150 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 144 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,150 INFO TaskSetManager: Finished task 13.0 in stage 11.0 (TID 140) in 104 ms on 10.1.2.202 (14/19)
+17/01/29 11:33:27,180 INFO TaskSetManager: Starting task 18.0 in stage 11.0 (TID 145, 10.1.2.202, partition 18, PROCESS_LOCAL, 5560 bytes)
+17/01/29 11:33:27,180 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 145 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,180 INFO TaskSetManager: Finished task 15.0 in stage 11.0 (TID 142) in 109 ms on 10.1.2.202 (15/19)
+17/01/29 11:33:27,197 INFO TaskSetManager: Finished task 14.0 in stage 11.0 (TID 141) in 130 ms on 10.1.2.202 (16/19)
+17/01/29 11:33:27,221 INFO TaskSetManager: Finished task 18.0 in stage 11.0 (TID 145) in 42 ms on 10.1.2.202 (17/19)
+17/01/29 11:33:27,246 INFO TaskSetManager: Finished task 16.0 in stage 11.0 (TID 143) in 103 ms on 10.1.2.202 (18/19)
+17/01/29 11:33:27,247 INFO TaskSetManager: Finished task 17.0 in stage 11.0 (TID 144) in 98 ms on 10.1.2.202 (19/19)
+17/01/29 11:33:27,247 INFO TaskSchedulerImpl: Removed TaskSet 11.0, whose tasks have all completed, from pool 
+17/01/29 11:33:27,248 INFO DAGScheduler: ShuffleMapStage 11 (treeAggregate at GradientDescent.scala:239) finished in 0.588 s
+17/01/29 11:33:27,248 INFO DAGScheduler: looking for newly runnable stages
+17/01/29 11:33:27,248 INFO DAGScheduler: running: Set()
+17/01/29 11:33:27,248 INFO DAGScheduler: waiting: Set(ResultStage 12)
+17/01/29 11:33:27,248 INFO DAGScheduler: failed: Set()
+17/01/29 11:33:27,249 INFO DAGScheduler: Submitting ResultStage 12 (MapPartitionsRDD[33] at treeAggregate at GradientDescent.scala:239), which has no missing parents
+17/01/29 11:33:27,251 INFO MemoryStore: Block broadcast_18 stored as values in memory (estimated size 3.1 KB, free 2.1 GB)
+17/01/29 11:33:27,252 INFO MemoryStore: Block broadcast_18_piece0 stored as bytes in memory (estimated size 1894.0 B, free 2.1 GB)
+17/01/29 11:33:27,257 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 10.1.2.86:39920 (size: 1894.0 B, free: 2.1 GB)
+17/01/29 11:33:27,258 INFO SparkContext: Created broadcast 18 from broadcast at DAGScheduler.scala:1012
+17/01/29 11:33:27,258 INFO DAGScheduler: Submitting 3 missing tasks from ResultStage 12 (MapPartitionsRDD[33] at treeAggregate at GradientDescent.scala:239)
+17/01/29 11:33:27,258 INFO TaskSchedulerImpl: Adding task set 12.0 with 3 tasks
+17/01/29 11:33:27,259 INFO TaskSetManager: Starting task 0.0 in stage 12.0 (TID 146, 10.1.2.202, partition 0, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:27,260 INFO TaskSetManager: Starting task 1.0 in stage 12.0 (TID 147, 10.1.2.202, partition 1, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:27,260 INFO TaskSetManager: Starting task 2.0 in stage 12.0 (TID 148, 10.1.2.202, partition 2, NODE_LOCAL, 5227 bytes)
+17/01/29 11:33:27,260 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 146 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,261 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 147 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,261 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Launching task 148 on executor id: 0 hostname: 10.1.2.202.
+17/01/29 11:33:27,272 INFO BlockManagerInfo: Added broadcast_18_piece0 in memory on 10.1.2.202:43645 (size: 1894.0 B, free: 700.7 MB)
+17/01/29 11:33:27,276 INFO MapOutputTrackerMasterEndpoint: Asked to send map output locations for shuffle 4 to 10.1.2.202:49724
+17/01/29 11:33:27,277 INFO MapOutputTrackerMaster: Size of output statuses for shuffle 4 is 165 bytes
+17/01/29 11:33:27,284 INFO TaskSetManager: Finished task 0.0 in stage 12.0 (TID 146) in 25 ms on 10.1.2.202 (1/3)
+17/01/29 11:33:27,286 INFO TaskSetManager: Finished task 1.0 in stage 12.0 (TID 147) in 27 ms on 10.1.2.202 (2/3)
+17/01/29 11:33:27,287 INFO TaskSetManager: Finished task 2.0 in stage 12.0 (TID 148) in 27 ms on 10.1.2.202 (3/3)
+17/01/29 11:33:27,287 INFO TaskSchedulerImpl: Removed TaskSet 12.0, whose tasks have all completed, from pool 
+17/01/29 11:33:27,287 INFO DAGScheduler: ResultStage 12 (treeAggregate at GradientDescent.scala:239) finished in 0.026 s
+17/01/29 11:33:27,288 INFO DAGScheduler: Job 7 finished: treeAggregate at GradientDescent.scala:239, took 0.643192 s
+17/01/29 11:33:27,290 INFO GradientDescent: GradientDescent.runMiniBatchSGD finished. Last 10 stochastic losses 0.6931471805627883, 0.680630549377348, 0.6722807293555931, 0.654900110965716, 0.6360731966216852
+17/01/29 11:33:27,305 INFO SparkUI: Stopped Spark web UI at http://10.1.2.86:4040
+17/01/29 11:33:27,309 INFO StandaloneSchedulerBackend: Shutting down all executors
+17/01/29 11:33:27,310 INFO CoarseGrainedSchedulerBackend$DriverEndpoint: Asking each executor to shut down
+17/01/29 11:33:27,320 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+17/01/29 11:33:27,328 INFO MemoryStore: MemoryStore cleared
+17/01/29 11:33:27,329 INFO BlockManager: BlockManager stopped
+17/01/29 11:33:27,330 INFO BlockManagerMaster: BlockManagerMaster stopped
+17/01/29 11:33:27,332 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+17/01/29 11:33:27,336 INFO SparkContext: Successfully stopped SparkContext
+17/01/29 11:33:27,341 INFO ShutdownHookManager: Shutdown hook called
+17/01/29 11:33:27,342 INFO ShutdownHookManager: Deleting directory /tmp/spark-db803a24-cb01-4adc-8877-14391fa65aa2
+Heap
+ PSYoungGen      total 1195008K, used 670336K [0x00000007aca80000, 0x0000000800000000, 0x0000000800000000)
+  eden space 1024512K, 53% used [0x00000007aca80000,0x00000007ce033990,0x00000007eb300000)
+  from space 170496K, 72% used [0x00000007eb300000,0x00000007f2bec8b0,0x00000007f5980000)
+  to   space 170496K, 0% used [0x00000007f5980000,0x00000007f5980000,0x0000000800000000)
+ ParOldGen       total 2731008K, used 72K [0x0000000705f80000, 0x00000007aca80000, 0x00000007aca80000)
+  object space 2731008K, 0% used [0x0000000705f80000,0x0000000705f92010,0x00000007aca80000)
+ PSPermGen       total 55296K, used 55234K [0x00000006f5f80000, 0x00000006f9580000, 0x0000000705f80000)
+  object space 55296K, 99% used [0x00000006f5f80000,0x00000006f9570bb0,0x00000006f9580000)
