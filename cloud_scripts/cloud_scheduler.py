@@ -250,7 +250,7 @@ def main():
                                       'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
                                       'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
                                      ],
-                                      True, 500,'2k', 0, 3, True, 0.05, 3, 1)
+                                      True, 500,'2k', 0, 3, True, 0.05, 6, 1)
 
 
 
