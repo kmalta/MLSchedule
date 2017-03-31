@@ -26,9 +26,19 @@ app.get('/', function (req, res, next) {
   //res.sendFile('./html/dataset_upload.html')
 });
 
+
+// Dataset upload.
 app.get('/dataset_upload', function (req, res, next) {
     res.render(path.resolve('src/views/dataset_upload.ejs'));
 });
+
+// Post for s3 url obtained through a form.
+app.post('/dataset_upload', function(req, res){
+  //res.redirect("/profile");
+  console.log(req.body);
+  console.log(req.body.url);
+});
+
 
 app.get('/profile', function (req, res, next) {
     res.render(path.resolve('src/views/profile.ejs'));
@@ -49,5 +59,7 @@ app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   next(err);
 });
+
+
 
 module.exports = app;

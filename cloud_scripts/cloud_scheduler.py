@@ -36,21 +36,9 @@ def fixed_design_init(exp_folder, master_type, s3url, num_features, jar_path, al
     prev_exp_percent = 0
 
 
-    f2 = open(exp_folder + '/experiment' + init_time_str + '/log_metrics_file', 'a')
-    meaning_array = [
-                     'first at GeneralizedLinearAlgorithm.scala:246', 
-                     'count at DataValidators.scala:40', 
-                     'count at GradientDescent.scala:209',
-                     'treeAggregate at GradientDescent.scala:239',
-                    ]
-    f2.write('\t'.join(meaning_array) + '\n')
-    f2.close()
-
     os.system('mkdir ' + exp_folder + '/experiment' + init_time_str + '/logs')
     for k, exp in enumerate(experiments):
         log_path =  exp_folder + '/experiment' + init_time_str + '/logs/log_trial_' + str(k + log_idx)
-        if os.path.isfile(log_path):
-            os.system('rm ' + log_path)
 
         print "\n\n#######################################################"
         print "#######################################################\n\n"
@@ -84,10 +72,6 @@ def fixed_design_init(exp_folder, master_type, s3url, num_features, jar_path, al
 
         print "METRICS: ", repr(metrics)
 
-        os.system('echo ' + str(metrics[0]) + ' >> ' + exp_folder + '/experiment' + init_time_str + '/setup')
-        os.system('echo ' + str(metrics[1]) + ' >> ' + exp_folder + '/experiment' + init_time_str + '/load_data')
-        os.system('echo ' + str(metrics[2]) + ' >> ' + exp_folder + '/experiment' + init_time_str + '/init_vector')
-        os.system('echo ' + str(metrics[3]) + ' >> ' + exp_folder + '/experiment' + init_time_str + '/model_setup')
         os.system('echo ' + str(metrics[4]) + ' >> ' + exp_folder + '/experiment' + init_time_str + '/all_iters')
         os.system('python cloud_scripts/parse_spark_log_for_times.py ' + exp_folder + '/experiment' + init_time_str + ' ' + str(k))
         second_prev = prev_exp
@@ -112,20 +96,27 @@ def run_suite_of_exps_static(scale_factor, scale_data, exp_folder, s3url, featur
     print 'Suffix:', suffix
     exps_array = [[scale,mach_count,epochs] for i in range(trials)]
     fixed_design_init(exp_folder, master_type, s3url, features, jar_path, algorithm, suffix, exps_array, replication, worker_type)
-    part_way = False
-    os.system('rm current_exp_path')
 
 
 
-def run_real_suite(exp_folder, epochs, checkpoint, trials, scale_data, scale_factor, worker_type, machine_checkpoint):
-    machines = [i for i in range(machine_checkpoint, 16)]
+
+def run_real_suite(exp_fold, epochs, checkpoint, trials, scale_data, scale_factor, worker_type, machine_checkpoint, data, max_machs):
+    machines = [i for i in range(machine_checkpoint, max_machs)]
     for mach_count in machines:
-        run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-
+        if data == 1 or data == 0:
+            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://susy-data/susy', 18, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if data == 2 or data == 0:
+            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://higgs-data/higgs', 28, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if data == 3 or data == 0:
+            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if data == 4 or data == 0:
+            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if data == 5 or data == 0:
+            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
 
 def machine_exp_synth_suite_sample(exp_folder, epochs, dataset, checkpoint, trials, scale_data, scale_factor, worker_type, machine_checkpoint, dataset_checkpoint):
 
-    machines = [i for i in range(machine_checkpoint, 17)]
+    machines = [i for i in range(machine_checkpoint, 16)]
     for mach_count in machines:
         if mach_count > machines[0]:
             dataset_checkpoint = 1
@@ -147,18 +138,18 @@ def machine_exp_synth_suite_sample(exp_folder, epochs, dataset, checkpoint, tria
         #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_8_-5', int(1e8), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
 
 
-def separate_machine_exp_synth_suite(exp_folds, sample, epochs, dataset, checkpoint, trials, scale_data, scale_factor, machine_checkpoint, dataset_checkpoint):
+def separate_machine_exp_synth_suite(exp_folds, epochs, dataset, checkpoint, trials, scale_data, scale_factor, machine_checkpoint, dataset_checkpoint):
     #machine_exp_synth_suite_sample(exp_folds[0], epochs, dataset, checkpoint, trials, scale_data, 8*scale_factor, 'hi1.4xlarge', machine_checkpoint, dataset_checkpoint)
     machine_exp_synth_suite_sample(exp_folds[1], epochs, dataset, checkpoint, trials, scale_data, 4*scale_factor, 'm1.large', machine_checkpoint, dataset_checkpoint)
-    machine_exp_synth_suite_sample(exp_folds[2], epochs, dataset, checkpoint, trials, scale_data, 4*scale_factor, 'cg1.4xlarge', machine_checkpoint, dataset_checkpoint)
+    #machine_exp_synth_suite_sample(exp_folds[2], epochs, dataset, checkpoint, trials, scale_data, 4*scale_factor, 'cg1.4xlarge', machine_checkpoint, dataset_checkpoint)
 
 
 
 #REFERENCE VALUES
 datasets = ['higgs', 'susy', 'url', 'kdda', 'kddb']
 datasets_bytes = [7.4, 2.3, 2.1, 2.5, 4.8]
-samples = [11000000,5000000,2396130,19264097,8407752]
-features = [28,18,3231961,29890095,20216830]
+samples = [11000000,5000000,2396130,8407752,19264097]
+features = [28,18,3231961,20216830,29890095]
 
 
 def main():
@@ -171,15 +162,23 @@ def main():
     os.system('python cloud_scripts/text_message_warn.py ' + pid + ' &')
 
 
-    run_real_suite('data/computation-scaling-3-30-17', 500, 0, 3, False, 99.9, 'm1.large', 1)
+    separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
+                                      'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
+                                      'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
+                                     ],
+                                      500,'2k', 0, 3, True, 0.05, 16, 1)
 
-    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
-    #                                   'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
-    #                                   'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
-    #                                  ],
-    #                                   500,'2k', 0, 3, True, 0.05, 15, 1)
+    run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 10, 3, 15)
+    run_real_suite('data/computation-scaling-3-30-17/h1', 500, 0, 1, False, 99.9, 'hi1.4xlarge', 1, 0, 7)
 
 
+    run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 1, 1, 15)
+    run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 1, 2, 15)
+
+
+    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 3, 15)
+    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 1, 15)
+    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 2, 15)
 
 
 if __name__ == "__main__":
