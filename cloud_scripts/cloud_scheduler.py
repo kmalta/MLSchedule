@@ -80,68 +80,71 @@ def fixed_design_init(exp_folder, master_type, s3url, num_features, jar_path, al
 
 
 
-def run_suite_of_exps_static(scale_factor, scale_data, exp_folder, s3url, features, master_type, algorithm, replication, worker_type, epochs, trials, mach_count):
+def run_suite_of_exps_static(samples_per_machine, scale_data, exp_folder, s3url, features, master_type, algorithm, replication, worker_type, epochs, trials, mach_count):
     jar_path = 'spark_job_files/log_reg_explicit_parallelism/target/scala-2.11/log-reg-explicit-parallelism_2.11-1.0.jar'
 
     print exp_folder
 
-    scale = 1
+    total_samples = 0
     if scale_data == True:
-        scale = scale_factor*mach_count
+        total_samples = samples_per_machine*mach_count
 
 
     suffix = time_str() + '_' + s3url.split('/')[-1] + '_' + str(mach_count) + '_machines_comm_data_' + str(epochs) + '_epochs_' + str(trials) + '_trials'
 
     print 'Num Exps:', str(trials)
     print 'Suffix:', suffix
-    exps_array = [[scale,mach_count,epochs] for i in range(trials)]
+    exps_array = [[total_samples,mach_count,epochs] for i in range(trials)]
     fixed_design_init(exp_folder, master_type, s3url, features, jar_path, algorithm, suffix, exps_array, replication, worker_type)
 
 
 
 
-def run_real_suite(exp_fold, epochs, checkpoint, trials, scale_data, scale_factor, worker_type, machine_checkpoint, data, max_machs):
-    machines = [i for i in range(machine_checkpoint, max_machs)]
+def run_real_suite(exp_fold, epochs, checkpoint, trials, scale_data, samples_per_machine, worker_type, machine_checkpoint, data, max_machs):
+    machines = [i for i in range(machine_checkpoint, max_machs + 1)]
     for mach_count in machines:
         if data == 1 or data == 0:
-            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://susy-data/susy', 18, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://susy-data/susy', 18, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         if data == 2 or data == 0:
-            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://higgs-data/higgs', 28, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://higgs-data/higgs', 28, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         if data == 3 or data == 0:
-            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         if data == 4 or data == 0:
-            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         if data == 5 or data == 0:
-            run_suite_of_exps_static(scale_factor,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
 
-def machine_exp_synth_suite_sample(exp_folder, epochs, dataset, checkpoint, trials, scale_data, scale_factor, worker_type, machine_checkpoint, dataset_checkpoint):
+def machine_exp_synth_suite_sample(exp_folder, epochs, dataset, checkpoint, trials, scale_data, samples_per_core, worker_type, machine_checkpoint, dataset_checkpoint, single):
 
     machines = [i for i in range(machine_checkpoint, 16)]
     for mach_count in machines:
         if mach_count > machines[0]:
-            dataset_checkpoint = 1
-        # if dataset_checkpoint <= 1:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_1_0', 10, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        # if dataset_checkpoint <= 2:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_2_0', 100, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            if single == True:
+                dataset_checkpoint = 9
+            else:
+                dataset_checkpoint = 1
+        if dataset_checkpoint <= 1:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_1_0', 10, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if dataset_checkpoint <= 2:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_2_0', 100, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         # if dataset_checkpoint <= 3:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_3_0', 1000, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_3_0', 1000, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         # if dataset_checkpoint <= 4:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_4_-1', 10000, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_4_-1', 10000, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         # if dataset_checkpoint <= 5:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_5_-2', int(1e5), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        # if dataset_checkpoint <= 6:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_6_-3', int(1e6), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        if dataset_checkpoint <= 7:
-            run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_7_-4', int(1e7), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_5_-2', int(1e5), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if dataset_checkpoint <= 6:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_6_-3', int(1e6), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        # if dataset_checkpoint <= 7:
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_7_-4', int(1e7), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         # if dataset_checkpoint <= 8:
-        #     run_suite_of_exps_static(scale_factor,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_8_-5', int(1e8), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_8_-5', int(1e8), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
 
 
-def separate_machine_exp_synth_suite(exp_folds, epochs, dataset, checkpoint, trials, scale_data, scale_factor, machine_checkpoint, dataset_checkpoint):
-    #machine_exp_synth_suite_sample(exp_folds[0], epochs, dataset, checkpoint, trials, scale_data, 8*scale_factor, 'hi1.4xlarge', machine_checkpoint, dataset_checkpoint)
-    machine_exp_synth_suite_sample(exp_folds[1], epochs, dataset, checkpoint, trials, scale_data, 4*scale_factor, 'm1.large', machine_checkpoint, dataset_checkpoint)
-    #machine_exp_synth_suite_sample(exp_folds[2], epochs, dataset, checkpoint, trials, scale_data, 4*scale_factor, 'cg1.4xlarge', machine_checkpoint, dataset_checkpoint)
+def separate_machine_exp_synth_suite(exp_folds, epochs, dataset, checkpoint, trials, scale_data, samples_per_core, machine_checkpoint, dataset_checkpoint, single):
+    #machine_exp_synth_suite_sample(exp_folds[0], epochs, dataset, checkpoint, trials, scale_data, 8*samples_per_core, 'hi1.4xlarge', machine_checkpoint, dataset_checkpoint, single)
+    machine_exp_synth_suite_sample(exp_folds[1], epochs, dataset, checkpoint, trials, scale_data, 4*samples_per_core, 'm1.large', machine_checkpoint, dataset_checkpoint, single)
+    #machine_exp_synth_suite_sample(exp_folds[2], epochs, dataset, checkpoint, trials, scale_data, 4*samples_per_core, 'cg1.4xlarge', machine_checkpoint, dataset_checkpoint, single)
 
 
 
@@ -162,23 +165,51 @@ def main():
     os.system('python cloud_scripts/text_message_warn.py ' + pid + ' &')
 
 
+
+
+    #run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 15, 1, 15)
+    #run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 15, 2, 15)
+
+
+    #run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 15, 3, 15)
+    #run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 15, 1, 15)
+    #run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 15, 2, 15)
+
+    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
+    #                                   'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
+    #                                   'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
+    #                                  ],
+    #                                   500,'2k', 0, 3, True, 0.05, 7, 8, True)
+
+    #run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 9, 4, 15)
+
+    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
+    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
+    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
+    #                              ],
+    #                               500,'2k', 0, 3, True, 0.05, 12, 1, False)
+
+
+    run_real_suite('data/real_comm_times/m1', 500, 0, 3, True, 4, 'm1.large', 1, 0, 15)
+    #run_real_suite('data/real_comm_times/c1', 500, 0, 3, True, 1, 'cg1.4xlarge', 1, 0, 15)
+    #run_real_suite('data/real_comm_times/h1', 500, 0, 3, True, 1, 'hi1.4xlarge', 1, 0, 8)
+    #run_real_suite('data/computation-scaling-3-30-17/h1', 500, 0, 1, False, 1, 'hi1.4xlarge', 1, 0, 8)
+
     separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
-                                      'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
-                                      'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
-                                     ],
-                                      500,'2k', 0, 3, True, 0.05, 16, 1)
+                                  'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
+                                  'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
+                                 ],
+                                  500,'2k', 0, 3, True, 1, 1, 8, True)
 
-    run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 10, 3, 15)
-    run_real_suite('data/computation-scaling-3-30-17/h1', 500, 0, 1, False, 99.9, 'hi1.4xlarge', 1, 0, 7)
+    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
+    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
+    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
+    #                              ],
+    #                               500,'2k', 0, 1, True, 0.05, 1, 8, True)
 
 
-    run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 1, 1, 15)
-    run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 1, 2, 15)
 
 
-    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 3, 15)
-    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 1, 15)
-    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 2, 15)
 
 
 if __name__ == "__main__":

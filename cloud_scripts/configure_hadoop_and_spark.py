@@ -426,12 +426,14 @@ def configure_and_run_experiment_frameworks(exp_or_actual, num_features, experim
         py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /tmp')
 
 
-        if experiment[0] == 100:
+
+        if experiment[0] == 0:
             py_ssh('', master_ip, 'mv /mnt/' + data_set + '_0 /mnt/' + data_set + '_0_exp')
+            py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(99.9/100.0) + ' ' + str(False))
             py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
         else:
             py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm -f /' + data_set + '_0_exp; /usr/local/hadoop/bin/hdfs dfs -ls /')
-            py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]/100.0))
+            py_ssh('', master_ip, 'rm /mnt/' + data_set + '_0_exp; python scripts/get_percentage_of_file.py ' + '/mnt/' + data_set + '_0 ' + str(experiment[0]) + ' ' + str(True))
             py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put -f /mnt/' + data_set + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
 
 
