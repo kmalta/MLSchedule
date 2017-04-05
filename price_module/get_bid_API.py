@@ -43,16 +43,6 @@ def get_bid(inst_type, region, hours):
     ret_dict['duration'] = time
     return ret_dict
 
-inst_types = ['c4.xlarge', 'm4.xlarge', 'r4.2xlarge']
-
-for inst_type in inst_types:
-    ret = get_bid(inst_type, region, 5)
-    print ret['inst_type']
-    print ret['bid']
-    print ret['duration']
-    print 
-    print
-
 
 
 
@@ -67,7 +57,18 @@ for inst_type in inst_types:
 
 
 def main():
-    1
+    inst_types = ['c4.xlarge', 'm4.xlarge', 'r4.2xlarge']
+
+    for inst_type in inst_types:
+        ret = get_bid(inst_type, region, 1)
+        print ret['inst_type']
+        print ret['bid']
+        print ret['duration']
+        print "Number of machines for $1:", str(1.00/ret['bid'])
+        print 
+        print
+
+
     # clp = sys.argv
     # inst_type = clp[1]
     # region = clp[2]

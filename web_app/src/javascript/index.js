@@ -2,6 +2,13 @@ var express = require('express');
 var path = require('path');
 var bodyParser = require('body-parser');
 var app = express();
+// var fs = require('fs');
+// var vm = require('vm');
+
+const WebSocket = require('ws');
+
+
+
 
 
 app.set('port', (process.env.PORT || '3000'));
@@ -20,11 +27,61 @@ var server = app.listen((process.env.PORT || '3000'), function () {
   console.log('Listening on port %d', server.address().port);
 });
 
+
+
+ 
+const wss = new WebSocket.Server({ server });
+
+profile_table_str = null;
+budget_amount = null;
+dataset_info_json = null;
+
+python_ws = null;
+dataset_upload_ws = null;
+profile_ws = null;
+
+wss.on('connection', function(_ws) {
+  console.log("Connected to Python client");
+  _ws.on('message', function incoming(data) {
+
+    message = JSON.parse(data);
+
+    if (message['message'] == 'hello') {
+      if (message['client'] == 'python') {
+        python_ws = _ws;
+        console.log('Hello Python :)')
+      }
+      if (message['client'] == 'dataset upload') {
+        dataset_upload_ws = _ws;
+        console.log('Hello Dataset Upload Client JS :)')
+      }
+
+      if (message['client'] == 'profile') {
+        profile_ws = _ws;
+        console.log('Hello Profile Client JS :)')
+        profile_ws.send(JSON.stringify({message: 'table', table: profile_table_str, budget: budget_amount, dataset_info: dataset_info_json}));
+      }
+
+    }
+
+    if (message['message'] == 'return profile data') {
+      dataset_info_json = data;
+      dataset_upload_ws.send(JSON.stringify({message: 'hide loader'}));
+      dataset_upload_ws.send(JSON.stringify(message));
+    }
+    if (message['message'] == 'table') {
+      profile_table_str = message['table']
+    }
+
+  });
+});
+
+
 app.get('/', function (req, res, next) {
 
   res.redirect("/dataset_upload");
-  //res.sendFile('./html/dataset_upload.html')
 });
+
 
 
 // Dataset upload.
@@ -34,14 +91,28 @@ app.get('/dataset_upload', function (req, res, next) {
 
 // Post for s3 url obtained through a form.
 app.post('/dataset_upload', function(req, res){
-  //res.redirect("/profile");
-  console.log(req.body);
-  console.log(req.body.url);
+  if (req.body.url != null) {
+    python_ws.send(JSON.stringify({message: 'profile data', url: req.body.url}));
+    dataset_upload_ws.send(JSON.stringify({message: 'show loader'}));
+  }
+  if (req.body.budget != null) {
+    budget_amount = req.body.budget
+    res.redirect("/profile");
+  }
 });
 
 
+
+
+
 app.get('/profile', function (req, res, next) {
+  if (profile_table_str == null) {
+    res.redirect("/dataset_upload");
+  }
+  else {
     res.render(path.resolve('src/views/profile.ejs'));
+    profile_ws.send(JSON.stringify({message: 'table', table: profile_table_str}));
+  }
 });
 
 

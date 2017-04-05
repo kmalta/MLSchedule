@@ -1,7 +1,38 @@
-<form method="post" action="/dataset_upload">
-  S3URL:<br>
-  <input type="text" name="url" value="">
+<head>
+  <link href=http://fonts.googleapis.com/css?family=Dosis rel=stylesheet type=text/css />
+  <link rel="stylesheet" type="text/css" href="/css/table.css" title="Table" media="all" />
+  <link rel="stylesheet" type="text/css" href="/css/loader.css" title="Table" media="all" />
+  <link rel="stylesheet" type="text/css" href="/css/dataset_upload_styles.css" title="Table" media="all" />
+  <script src="/javascript/dataset_upload_websocket.js" charset="utf-8"></script>
+</head>
+
+
+<body>
+  <h2>S3URL:</h2>
+  <form method="post" action="/dataset_upload">
+
   <br>
+    <form method="post" action="/dataset_upload">
+      <input id="s3url-input" type="text" name="url" value="">
+      <input id="s3url-submit" type="submit" value="Get Dataset Analytics">
+    </form> 
+  <br>
+  <br>
+    <!-- Table for dataset profile. -->
+    <div id="dataset-upload-dataset-table">
+      <% include /dataset_upload_dataset_table %>
+    </div>
+  <br>
+  <br>
+  <div  style="display:none" id="profile-budget-div">
+    <h2 id="profile-budget-header">Profiling Budget:</h2>
+    <br>
+    <form method="post" action="/dataset_upload">
+      <input id="profile-budget-input" type="text" name="budget" value="$1.00">
+      <input id="profile-budget-submit" type="submit" value="Profile Dataset">
+    </form>
+    <br>
+  </div>
   <br><br>
-  <input type="submit" value="Profile Dataset">
-</form> 
+</body>
+
