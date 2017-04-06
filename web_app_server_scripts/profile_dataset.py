@@ -18,7 +18,7 @@ def get_num_samples(path):
     f.close()
     return total_lines
 
-def get_profile(path):
+def get_stats(path):
     f = open(path, 'r')
     max_feats = 1
 
@@ -37,7 +37,7 @@ def get_profile(path):
 
     return count, max_feats, float(running_feat_total)/count
 
-def get_data_profile(s3url):
+def get_data_stats(s3url):
 
     dataset = s3url.split('/')[-1]
     get_data = 's3cmd -d -v --force -c ' + cloud_config_path + ' get ' + s3url + '_0' +' temp_files/' + dataset
@@ -54,7 +54,7 @@ def get_data_profile(s3url):
         print "Stuck in 403 Forbidden Loop"
 
 
-    samples, features, average_sparsity = get_profile('temp_files/' + dataset)
+    samples, features, average_sparsity = get_stats('temp_files/' + dataset)
     size_in_bytes = os.path.getsize('temp_files/' + dataset)
     ds_size = size(size_in_bytes, system=si)
 

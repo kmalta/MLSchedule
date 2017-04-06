@@ -9,7 +9,7 @@ datasets_bytes = [7.4, 2.3, 2.1, 2.5, 4.8]
 samples = [11000000,5000000,2396130,8407752,19264097]
 features = [28,18,3231961,20216830,29890095]
 
-
+mach = 'm1'
 
 for k, dataset in enumerate(datasets):
     if k < 2:
@@ -95,9 +95,9 @@ for k, dataset in enumerate(datasets):
     for i in range(1, machs + 1):
         try:
             #comps.append(time_dict['url'][str(i)]['all_iters'] - (log_weight_upper*time_dict['comm'][str(i)]['upper']['all_iters'] + log_weight_lower*time_dict['comm'][str(i)]['lower']['all_iters']))
-            comps.append(time_dict[dataset][str(i)]['all_iters'] - time_dict['comm'][str(i)]['lower']['all_iters'])
+            comps.append(time_dict[dataset][str(i)]['all_iters'] - time_dict['comm'][str(i)]['upper']['all_iters'])
             reals.append(time_dict[dataset][str(i)]['all_iters'])
-            comms.append(time_dict['comm'][str(i)]['lower']['all_iters'])
+            comms.append(time_dict['comm'][str(i)]['upper']['all_iters'])
 
         except:
             print i
@@ -109,11 +109,12 @@ for k, dataset in enumerate(datasets):
     # print time_dict['url']['9']['all_iters']
 
 
-    fig, (ax1, ax2, ax3) = plt.subplots(3, 1, sharex=True)
+    fig, (ax1, ax2, ax3, ax4) = plt.subplots(4, 1, sharex=True)
     ax1.set_title('Epoch Times')
 
     ax2.set_title('Overheads + Communication Time')
     ax3.set_title('Computation Times')
+    ax4.set_title('Predicted Epoch Times')
 
 
     # estimate = np.median(real_comp[18][mach_plot_idx][10:50])
@@ -138,17 +139,22 @@ for k, dataset in enumerate(datasets):
 
 
     lr_samples = LinearRegression()
-    lr_samples.fit(np.transpose(np.matrix([2,4,8])), np.transpose(np.matrix([reals[1], reals[3], reals[7]])))
+    lr_samples.fit(np.transpose(np.matrix([2,15])), np.transpose(np.matrix([reals[1], reals[-1]])))
     sample_predictions = lr_samples.predict(np.transpose(np.matrix(xaxis)))
 
     ax1.plot(xaxis, reals[1:], 'blue')
-    ax1.plot(xaxis, real_predictions, 'red')
-    ax1.plot(xaxis, sample_predictions, 'green')
+    #ax1.plot(xaxis, real_predictions, 'red')
+    #ax1.plot(xaxis, sample_predictions, 'green')
 
     smooth_comp = [x - y for x,y in zip(real_predictions, comm_predictions)]
     predict_comp = [x - y for x,y in zip(sample_predictions, comm_predictions)]
     ax3.plot(xaxis, smooth_comp, 'purple')
-    ax3.plot(xaxis, predict_comp, 'cyan')
+    #ax3.plot(xaxis, predict_comp, 'cyan')
+    ax3.plot(xaxis, comps[1:])
+
+    epoch_predict = [x + y for x,y in zip(smooth_comp, comms[1:])]
+
+    ax4.plot(xaxis, epoch_predict)
 
     plt.suptitle(dataset + ' Speedup Curves')
     plt.show()

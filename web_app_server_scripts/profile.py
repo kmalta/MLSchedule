@@ -8,12 +8,20 @@ import sys
 from time import sleep, gmtime, strftime, time
 import os
 import ast
+import json
 
 from configure_hadoop_and_spark import *
 
 
-def compute_profile(budget, inst_type, bid_price, machine_count):
-    number_of_machines_to_profile = machine_count + int(machine_count*.25)
+#This spins up all the machines, but terminates the slowest %25 of the machine count
+def test_machines():
+    1
+
+def determine_profile_experiments(json_dict):
+    number_of_machines_to_profile = json_dict['machine count'] + int(json_dict['machine count']*.25) + 1
+    test_machines()
+    
+
 
 
 

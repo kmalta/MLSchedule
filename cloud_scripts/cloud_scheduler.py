@@ -175,30 +175,8 @@ def main():
 
 
 
-    #run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 15, 1, 15)
-    #run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 15, 2, 15)
 
-
-    #run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 15, 3, 15)
-    #run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 15, 1, 15)
-    #run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 15, 2, 15)
-
-    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
-    #                                   'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
-    #                                   'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
-    #                                  ],
-    #                                   500,'2k', 0, 3, True, 0.05, 7, 8, True)
-
-    #run_real_suite('data/computation-scaling-3-30-17/m1', 500, 0, 1, False, 99.9, 'm1.large', 9, 4, 15)
-
-    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
-    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
-    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
-    #                              ],
-    #                               500,'2k', 0, 3, True, 1, 12, 1, False)
-
-
-    run_real_suite('data/computation-scaling-3-30-17/c1', 500, 0, 1, False, 99.9, 'cg1.4xlarge', 1, 0, 15)
+    run_real_suite('data/real_comm_times/c1', 500, 0, 1, True, 4, 'cg1.4xlarge', 1, 0, 15)
 
     #run_real_suite('data/real_comm_times/m1', 500, 0, 3, True, 4, 'm1.large', 1, 0, 15)
     #run_real_suite('data/real_comm_times/c1', 500, 0, 3, True, 1, 'cg1.4xlarge', 1, 0, 15)

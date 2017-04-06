@@ -15,7 +15,7 @@ def on_message(ws, message):
     print repr(message)
     if message['message'] == 'profile data':
         s3url = message['url']
-        json_return = get_data_profile(s3url)
+        json_return = get_data_stats(s3url)
         json_to_send = json.dumps(json_return)
         ws.send(json_to_send)
 
