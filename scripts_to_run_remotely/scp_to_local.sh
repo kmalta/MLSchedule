@@ -1,0 +1,1 @@
+scp -i cloud_configs/aristotle/aristotle-key.pem ubuntu@$1:~/$2 temp_files/

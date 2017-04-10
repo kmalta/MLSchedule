@@ -1,0 +1,1 @@
+ssh -i cloud_configs/aristotle/aristotle-key.pem ubuntu@$1

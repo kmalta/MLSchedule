@@ -24,9 +24,11 @@ for k, dataset in enumerate(datasets):
 
     feature = features[datasets.index(dataset)]
 
-    data_fold = 'synth_cluster_scaling_exps_all_machine_counts_3_13_17_' + mach
+    #data_fold = 'synth_cluster_scaling_exps_all_machine_counts_3_13_17_' + mach
 
-
+    comm_data_fold = 'data/synth_comm_times/' + mach
+    real_comm_data_fold = 'data/real_comm_times/' + mach
+    real_data_fold = 'data/real_times/' + mach
 
     log_features = math.log10(feature)
 
@@ -40,16 +42,17 @@ for k, dataset in enumerate(datasets):
     time_dict = {}
     time_dict[dataset] = {}
     time_dict['comm'] = {}
+    time_dict['real_comm'] = {}
 
     def get_real_data():
-        directs = get_directories('data/computation-scaling-3-30-17/' + mach)
+        directs = get_directories(real_data_fold)
         directs = filter(lambda x: dataset in x, directs)
         for i in range(1, machs + 1):
             direct = filter(lambda x: str(i) + '_machines' in x, directs)[0]
-            f = open('data/computation-scaling-3-30-17/' + mach + '/' + direct + '/epochs', 'r')
+            f = open(real_data_fold + '/' + direct + '/epochs', 'r')
             epochs = ast.literal_eval(f.readlines()[0])
             f.close()
-            f = open('data/computation-scaling-3-30-17/' + mach + '/' + direct + '/all_iters', 'r')
+            f = open(real_data_fold + '/' + direct + '/all_iters', 'r')
             time = float(f.readlines()[0])
             f.close()
             #mach_num = int(direct.split('_')[3])
@@ -58,17 +61,17 @@ for k, dataset in enumerate(datasets):
             time_dict[dataset][str(i)]['all_iters'] = time
 
     def get_comm_data():
-        directs = get_directories('data/' + data_fold)
+        directs = get_directories(comm_data_fold)
         directs = filter(lambda x: 'data_' + str(log_lower) in x or 'data_' + str(log_upper) in x, directs)
 
         for i in range(1, machs + 1):
             time_dict['comm'][str(i)] = {}
 
         for direct in directs:
-            f = open('data/' + data_fold + '/' + direct + '/epochs', 'r')
+            f = open(comm_data_fold + '/' + direct + '/epochs', 'r')
             epochs = ast.literal_eval(f.readlines()[0])
             f.close()
-            f = open('data/' + data_fold + '/' + direct + '/all_iters', 'r')
+            f = open(comm_data_fold + '/' + direct + '/all_iters', 'r')
             time = float(f.readlines()[0])
             f.close()
             mach_num = int(direct.split('data')[1].split('_')[3])
@@ -82,11 +85,30 @@ for k, dataset in enumerate(datasets):
                 time_dict['comm'][str(mach_num)]['lower']['epochs'] = epochs
                 time_dict['comm'][str(mach_num)]['lower']['all_iters'] = time
 
+    def get_real_comm_data():
+        directs = get_directories(real_comm_data_fold)
+        print directs
+        directs = filter(lambda x: dataset in x, directs)
+
+        print directs
+
+        for i in range(1, machs + 1):
+            direct = filter(lambda x: str(i) + '_machines' in x, directs)[0]
+            f = open(real_comm_data_fold + '/' + direct + '/epochs', 'r')
+            epochs = ast.literal_eval(f.readlines()[0])
+            f.close()
+            f = open(real_comm_data_fold + '/' + direct + '/all_iters', 'r')
+            time = float(f.readlines()[0])
+            f.close()
+
+            time_dict['real_comm'][str(i)] = {}
+            time_dict['real_comm'][str(i)]['epochs'] = epochs
+            time_dict['real_comm'][str(i)]['all_iters'] = time
+
     get_real_data()
     get_comm_data()
-
-    #print log_weight_upper
-    #print log_weight_lower
+    get_real_comm_data()
+    print time_dict['real_comm']
 
     comps = []
     comms = []
@@ -95,9 +117,9 @@ for k, dataset in enumerate(datasets):
     for i in range(1, machs + 1):
         try:
             #comps.append(time_dict['url'][str(i)]['all_iters'] - (log_weight_upper*time_dict['comm'][str(i)]['upper']['all_iters'] + log_weight_lower*time_dict['comm'][str(i)]['lower']['all_iters']))
-            comps.append(time_dict[dataset][str(i)]['all_iters'] - time_dict['comm'][str(i)]['upper']['all_iters'])
+            comps.append(time_dict[dataset][str(i)]['all_iters'] - time_dict['real_comm'][str(i)]['all_iters'])
             reals.append(time_dict[dataset][str(i)]['all_iters'])
-            comms.append(time_dict['comm'][str(i)]['upper']['all_iters'])
+            comms.append(time_dict['real_comm'][str(i)]['all_iters'])
 
         except:
             print i

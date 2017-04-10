@@ -80,17 +80,21 @@ def fixed_design_init(exp_folder, master_type, s3url, num_features, jar_path, al
 
 
 
-def run_suite_of_exps_static(samples_per_machine, scale_data, exp_folder, s3url, features, master_type, algorithm, replication, worker_type, epochs, trials, mach_count):
+def run_suite_of_exps_static(samples_per_machine, scale_data, exp_folder, s3url, features, master_type, algorithm, replication, worker_type, epochs, trials, mach_count, scale_type, fraction):
     jar_path = 'spark_job_files/log_reg_explicit_parallelism/target/scala-2.11/log-reg-explicit-parallelism_2.11-1.0.jar'
 
     print exp_folder
 
     total_samples = 0
     if scale_data == True:
-        total_samples = samples_per_machine*mach_count
+        if scale_type == 'sample':
+            total_samples = samples_per_machine*mach_count
+        if scale_type == 'fractional':
+            total_samples = samples[datasets.index(s3url.split('/')[-1].split('_')[0])]
+            total_samples = int(fraction*total_samples*.999)
 
 
-    suffix = time_str() + '_' + s3url.split('/')[-1] + '_' + str(mach_count) + '_machines_comm_data_' + str(epochs) + '_epochs_' + str(trials) + '_trials'
+    suffix = time_str() + '_' + s3url.split('/')[-1] + '_' + str(mach_count) + '_' + str(fraction) + '_fraction'
 
     print 'Num Exps:', str(trials)
     print 'Suffix:', suffix
@@ -100,24 +104,25 @@ def run_suite_of_exps_static(samples_per_machine, scale_data, exp_folder, s3url,
 
 
 
-def run_real_suite(exp_fold, epochs, checkpoint, trials, scale_data, samples_per_machine, worker_type, machine_checkpoint, data, max_machs):
+def run_real_suite(exp_fold, epochs, checkpoint, trials, scale_data, samples_per_machine, scale_type, fraction, worker_type, machine_checkpoint, data, max_machs):
     reset = 5
     if data < 0:
         reset = int(math.fabs(data))
         data = 0
 
-    machines = [i for i in range(machine_checkpoint, max_machs + 1)]
+    #machines = [i for i in range(machine_checkpoint, max_machs + 1)]
+    machines = [2,4]
     for mach_count in machines:
         if (data == 1 or data <= 0) and reset >= 5:
-            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://susy-data/susy', 18, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://susy-data/susy', 18, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
         if (data == 2 or data <= 0) and reset >= 4:
-            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://higgs-data/higgs', 28, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        if (data == 3 or data <= 0) and reset >= 3:
-            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://higgs-data/higgs', 28, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
+        # if (data == 3 or data <= 0) and reset >= 3:
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
         # if (data == 4 or data <= 0) and reset >= 2:
-        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, fraction)
         # if (data == 5 or data <= 0) and reset >= 1:
-        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, fraction)
 
         if reset < 5:
             reset = 5
@@ -172,16 +177,11 @@ def main():
 
     os.system('python cloud_scripts/text_message_warn.py ' + pid + ' &')
 
+    for i in range(5 ,6):
+        run_real_suite('data/real_fractional_times_30_trials/m1', 500, 0, 30, True, 0, 'fractional', .5**i, 'm1.large', 1, 0, 15)
+    # for i in range(1,6):
+    #     run_real_suite('data/real_fractional_times_30_trials/c1', 500, 0, 30, True, 0, 'fractional', .5**i, 'cg1.4xlarge', 1, 0, 15)
 
-
-
-
-    run_real_suite('data/real_comm_times/c1', 500, 0, 1, True, 4, 'cg1.4xlarge', 1, 0, 15)
-
-    #run_real_suite('data/real_comm_times/m1', 500, 0, 3, True, 4, 'm1.large', 1, 0, 15)
-    #run_real_suite('data/real_comm_times/c1', 500, 0, 3, True, 1, 'cg1.4xlarge', 1, 0, 15)
-    #run_real_suite('data/real_comm_times/h1', 500, 0, 3, True, 1, 'hi1.4xlarge', 1, 0, 8)
-    #run_real_suite('data/computation-scaling-3-30-17/h1', 500, 0, 1, False, 1, 'hi1.4xlarge', 1, 0, 8)
 
     # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
     #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
