@@ -91,18 +91,6 @@ def clean_master_known_hosts(master_ip):
 
 def terminate_instances(inst_ids, inst_ips):
     print "Terminating Instances...Hasta la vista baby!"
-    f1 = open('/Users/Kevin/.ssh/known_hosts', 'r')
-    known_host_lines = f1.readlines()
-    f2 = open('temp_files/temp_known_hosts', 'w')
-    for line in known_host_lines:
-        flag = 0
-        for ip in inst_ips:
-            if ip in line:
-                flag = 1
-        if flag == 0:
-            f2.write(line)
-
-    py_cmd_line('cp temp_files/temp_known_hosts /Users/Kevin/.ssh/known_hosts')
 
     for inst_id in inst_ids:
         py_euca_terminate_instances(inst_id)

@@ -18,7 +18,10 @@ def launch_instances(num_insts, inst_type):
 
     inst_count = 0
     currently_running = check_instance_status('ips', 'all')
+    attempts = 0
     while inst_count < num_insts:
+        if attempts > 0:
+            print 'Attempt Number:', str(attempts), 'to boot up the instances.'
         stdout = py_euca_run_instances(image, num_insts - inst_count, inst_type)
         new_running_ips = check_instance_status('ips', 'all', stdout)
         wait_for_nodes_to_launch(new_running_ips)
@@ -28,6 +31,7 @@ def launch_instances(num_insts, inst_type):
         wait_ssh(ips)
         currently_running += ips
         inst_count += len(ips)
+        attempts +=1
 
     return stdout
 
@@ -104,6 +108,7 @@ def check_instance_status(info, inst_status, stdout=None):
 
 def wait_for_nodes_to_launch(ips):
     for ip in ips:
+        os.system('ssh-keygen -q -R ' + ip)
         while(1):
             sleep(10)
             stdout = py_euca_describe_instances()

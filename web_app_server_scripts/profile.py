@@ -8,7 +8,7 @@ from setup_cloud import *
 def determine_profile_experiments(json_dict):
 
     experiments = []
-    if json_dict['inst_type'] != 'm2.4xlarge':
+    if json_dict['inst_type'] == 'm2.4xlarge':
         experiments.append(16)
     else:
         experiments.append(8)

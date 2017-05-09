@@ -2,6 +2,8 @@ const ws = new WebSocket('ws://localhost:5000');
 
 ws.onopen = function open() {
   ws.send(JSON.stringify({message: 'hello', client: 'dataset upload'}));
+  // var dropdown = document.getElementById('profile-machine-count');
+  // dropdown.value("4");
 };
 
 ws.onmessage = function incoming(event) {
@@ -10,7 +12,7 @@ ws.onmessage = function incoming(event) {
     if (message['message'] == 'show loader') {
         if (check_if_same_dataset(message) == false) {
             elem_visibility('data-table', 'none');
-            elem_visibility('profile-budget-div', 'none');
+            //elem_visibility('profile-budget-div', 'none');
             elem_visibility('dataset-info-header', 'block');
             elem_visibility('dataset-profile-loader', 'block');
         }
@@ -20,9 +22,12 @@ ws.onmessage = function incoming(event) {
     }
     if (message['message'] == 'return profile data') {
         populate_profile_table(message);
-        change_profiling_default_amount(message);
+        //change_profiling_default_amount(message);
+        elem_visibility('dataset-save-div', 'block');
     }
-
+    // if (message['message'] == 'budget change') {
+    //     change_profiling_default_amount(message);
+    // }
 
 };
 
@@ -34,11 +39,11 @@ function elem_visibility(elemID, visibility) {
 
 function populate_profile_table(message) {
 
-    var values_to_populate = [message['url'],
+    var values_to_populate = [message['name'],
+                              message['url'],
                               message['size'],
                               message['samples'],
                               roundTo(parseFloat(message['features'], 3)).toString(),
-                              roundTo(parseFloat(message['sparsity'], 3)).toString(),
                               message['inst type'],
                               '$' + parseFloat(message['bid']).toString()
                               ]
@@ -56,9 +61,11 @@ function populate_profile_table(message) {
 
 }
 
+
 function change_profiling_default_amount(message) {
+    console.log(message)
     var input = document.getElementById('profile-budget-input');
-    input.value = '$' + roundTo((message['bid']*12), 3).toString();
+    input.value = '$' + roundTo(message['bid']*(message['num_workers'] + 1), 3).toString();
     elem_visibility('profile-budget-div', 'block');
 }
 
@@ -71,6 +78,7 @@ function check_if_same_dataset(message) {
         return false
     }
 }
+
 
 function roundTo(n, digits) {
     if (digits === undefined) {

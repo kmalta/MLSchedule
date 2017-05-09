@@ -26,26 +26,6 @@ function elem_visibility(elemID, visibility) {
 
 
 
-function populate_profile_info_table(message) {
-
-    console.log(message)
-
-    dataset_info_json = JSON.parse(message['dataset_info'])
-    var values_to_populate = [message['budget'],
-                              dataset_info_json['inst type'],
-                              8,
-                              11,
-                              '$' + parseFloat(dataset_info_json['bid']).toString()
-                              ]
-
-    for (i = 1; i < values_to_populate.length + 1; i++) {
-        var elem = document.getElementById('profile-table-row-col-' + i.toString());
-        elem.innerHTML = values_to_populate[i - 1];
-    }
-
-    elem_visibility('profile-data-table', 'table');
-
-}
 
 function roundTo(n, digits) {
     if (digits === undefined) {

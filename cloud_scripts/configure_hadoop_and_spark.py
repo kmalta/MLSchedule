@@ -13,8 +13,6 @@ import boto.s3.connection
 
 
 
-
-
 def set_up_master(master_type):
     master_ip, master_id = launch_instance_with_metadata(master_type)
     return master_ip, master_id
@@ -203,11 +201,11 @@ def scala_run_spark_job(nodes_info, worker_type, master_port, file_name, hadoop_
         spark_max_result = ' --conf spark.driver.maxResultSize=7g'
         os.system('cp spark_conf_files/hi1.4xlarge.conf spark_conf_files/spark-defaults.conf')
         num_cores = 2*num_cores
-    elif 'hs1.8xlarge' in worker_type:
-        driver_mem = '50000m'
-        executor_mem = '50000m'
+    elif 'm2.4xlarge' in worker_type:
+        driver_mem = '45000m'
+        executor_mem = '45000m'
         spark_max_result = ' --conf spark.driver.maxResultSize=10g'
-        os.system('cp spark_conf_files/hs1.8xlarge.conf spark_conf_files/spark-defaults.conf')
+        os.system('cp spark_conf_files/m2.4xlarge.conf spark_conf_files/spark-defaults.conf')
         num_cores = 2*num_cores
     elif 'm1.large' in worker_type:
         driver_mem = '11500m'

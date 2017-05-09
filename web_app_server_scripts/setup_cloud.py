@@ -105,7 +105,6 @@ def start_spark(nodes_info):
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/start-all.sh')
 
 def stop_spark(nodes_info):
-
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-slaves.sh')
     py_ssh('', nodes_info[0][0], 'spark-2.0.0/sbin/stop-master.sh')
 
@@ -306,6 +305,9 @@ def configure_machines_for_spark_job_experiments(s3url, working_dir, replication
     for node in nodes_info:
         py_ssh('', node[0], 'mv hadoop_xml_files hadoop_conf_files')
         py_scp_to_remote('', node[0], 'scripts_to_run_remotely/all_env_vars.sh', '~/scripts/all_env_vars.sh')
+    for ip in ips:
+        py_ssh('', ip, 'sudo chown ubuntu:ubuntu /mnt;mkdir /mnt/datanode; mkdir /mnt/spark')
+    py_ssh('', master_ip, 'sudo chown ubuntu:ubuntu /mnt; mkdir /mnt/spark')
         #py_ssh('', node[0], 'tar -xzf scripts_to_run_remotely.tar.gz; rm -rf scripts; mv scripts_to_run_remotely scripts')
 
 
@@ -314,6 +316,7 @@ def configure_machines_for_spark_job_experiments(s3url, working_dir, replication
     configure_hadoop(nodes_info, replication, working_dir)
     configure_nodes(nodes_info, working_dir)
     spark_config(nodes_info, working_dir)
+    py_ssh('', master_ip, 'source scripts/restart_hadoop.sh')
     start_spark(nodes_info)
 
 
@@ -330,8 +333,8 @@ def create_hdfs_file(dataset, experiment, master_ip, first, second):
     py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -put /mnt/' + dataset + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
 
 def clean_up_experiment(dataset, master_ip):
-    py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm ' + dataset + '_0_exp ' + ' /; /usr/local/hadoop/bin/hdfs dfs -ls /')
-
+    stop_spark(nodes_info)
+    py_ssh('', master_ip, '/usr/local/hadoop/bin/hdfs dfs -rm /' + dataset + '_0_exp ' + '; /usr/local/hadoop/bin/hdfs dfs -ls /')
 
 
 def run_spark_experiment(experiment, dataset, nodes_info, worker_type, jar_path, num_features, iterations, log_path):

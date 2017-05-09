@@ -86,15 +86,18 @@ def run_suite_of_exps_static(samples_per_machine, scale_data, exp_folder, s3url,
     print exp_folder
 
     total_samples = 0
+    suffix = ''
     if scale_data == True:
         if scale_type == 'sample':
             total_samples = samples_per_machine*mach_count
+            suffix = '_comm'
         if scale_type == 'fractional':
             total_samples = samples[datasets.index(s3url.split('/')[-1].split('_')[0])]
             total_samples = int(fraction*total_samples*.999)
+            suffix = '_' + str(fraction) + '_fraction'
 
 
-    suffix = time_str() + '_' + s3url.split('/')[-1] + '_' + str(mach_count) + '_' + str(fraction) + '_fraction'
+    suffix = time_str() + '_' + s3url.split('/')[-1] + '_' + str(mach_count) + '_machines' + suffix
 
     print 'Num Exps:', str(trials)
     print 'Suffix:', suffix
@@ -110,54 +113,58 @@ def run_real_suite(exp_fold, epochs, checkpoint, trials, scale_data, samples_per
         reset = int(math.fabs(data))
         data = 0
 
-    #machines = [i for i in range(machine_checkpoint, max_machs + 1)]
-    machines = [2,4]
+    machines = []
+    machines = [i for i in range(machine_checkpoint, max_machs + 1)]
+    # if fraction == 1:
+    #     machines = [i for i in range(machine_checkpoint, max_machs + 1)]
+    # else:
+    #     machines = [2**i for i in range(machine_checkpoint,3)]
     for mach_count in machines:
         if (data == 1 or data <= 0) and reset >= 5:
             run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://susy-data/susy', 18, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
         if (data == 2 or data <= 0) and reset >= 4:
             run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://higgs-data/higgs', 28, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
-        # if (data == 3 or data <= 0) and reset >= 3:
-        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
-        # if (data == 4 or data <= 0) and reset >= 2:
-        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, fraction)
+        if (data == 3 or data <= 0) and reset >= 3:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://url-combined-data/url_combined', 3231961, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
+        if (data == 4 or data <= 0) and reset >= 2:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kdda-data/kdda', 20216830, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
         # if (data == 5 or data <= 0) and reset >= 1:
-        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, fraction)
+        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://kddb-data/kddb', 29890095, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
 
         if reset < 5:
             reset = 5
 
-def machine_exp_synth_suite_sample(exp_folder, epochs, dataset, checkpoint, trials, scale_data, samples_per_machine, worker_type, machine_checkpoint, dataset_checkpoint, single):
+def machine_exp_synth_suite_sample(exp_fold, epochs, dataset, checkpoint, trials, scale_data, samples_per_machine, scale_type, fraction, worker_type, machine_checkpoint, data, max_machs):
 
-    machines = [i for i in range(machine_checkpoint, 16)]
+    reset = 5
+    if data < 0:
+        reset = int(math.fabs(data))
+        data = 0
+
+    machines = [i for i in range(machine_checkpoint, max_machs + 1)]
     for mach_count in machines:
         if mach_count > machines[0]:
-            if single == True:
-                dataset_checkpoint = 9
-            else:
-                dataset_checkpoint = 1
-        if dataset_checkpoint <= 1:
-            run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_1_0', 10, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        if dataset_checkpoint <= 2:
-            run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_2_0', 100, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+            data = 0
+            # if single == True:
+            #     dataset_checkpoint = 9
+            # else:
+            #     dataset_checkpoint = 1
+        if data == 1:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://synth-datasets-' + dataset + '/synth_data_1_0', 10, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
+        if data == 2:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://synth-datasets-' + dataset + '/synth_data_2_0', 100, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
         # if dataset_checkpoint <= 3:
         #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_3_0', 1000, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         # if dataset_checkpoint <= 4:
         #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_4_-1', 10000, worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
         # if dataset_checkpoint <= 5:
         #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_5_-2', int(1e5), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        if dataset_checkpoint <= 6:
-            run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_6_-3', int(1e6), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-        # if dataset_checkpoint <= 7:
-        #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_7_-4', int(1e7), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
+        if data == 6:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://synth-datasets-' + dataset + '/synth_data_6_-3', int(1e6), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
+        if data == 7:
+            run_suite_of_exps_static(samples_per_machine,scale_data, exp_fold, 's3://synth-datasets-' + dataset + '/synth_data_7_-4', int(1e7), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count, scale_type, fraction)
         # if dataset_checkpoint <= 8:
         #     run_suite_of_exps_static(samples_per_machine,scale_data, exp_folder, 's3://synth-datasets-' + dataset + '/synth_data_8_-5', int(1e8), worker_type, 'classification', 3, worker_type, epochs,trials, mach_count)
-
-
-def separate_machine_exp_synth_suite(exp_folds, epochs, dataset, checkpoint, trials, scale_data, samples_per_core, machine_checkpoint, dataset_checkpoint, single):
-    #machine_exp_synth_suite_sample(exp_folds[0], epochs, dataset, checkpoint, trials, scale_data, 8*samples_per_core, 'hi1.4xlarge', machine_checkpoint, dataset_checkpoint, single)
-    #machine_exp_synth_suite_sample(exp_folds[1], epochs, dataset, checkpoint, trials, scale_data, 4*samples_per_core, 'm1.large', machine_checkpoint, dataset_checkpoint, single)
-    machine_exp_synth_suite_sample(exp_folds[2], epochs, dataset, checkpoint, trials, scale_data, 4*samples_per_core, 'cg1.4xlarge', machine_checkpoint, dataset_checkpoint, single)
 
 
 
@@ -177,23 +184,111 @@ def main():
 
     os.system('python cloud_scripts/text_message_warn.py ' + pid + ' &')
 
-    for i in range(5 ,6):
-        run_real_suite('data/real_fractional_times_30_trials/m1', 500, 0, 30, True, 0, 'fractional', .5**i, 'm1.large', 1, 0, 15)
-    # for i in range(1,6):
-    #     run_real_suite('data/real_fractional_times_30_trials/c1', 500, 0, 30, True, 0, 'fractional', .5**i, 'cg1.4xlarge', 1, 0, 15)
+    #run_real_suite('data/real_fractional_times_30_trials/m1', 500, 0, 30, True, 4, 'fractional', .5**4, 'm1.large', 1, 0, 15)
+    #run_real_suite('data/real_comm_times_30_trials/m1', 500, 0, 30, True, 4, 'sample', 1, 'm1.large', 3, 0, 3)
+    #run_real_suite('data/real_comm_times_30_trials/m1', 500, 0, 30, True, 4, 'sample', 1, 'm1.large', 13, 1, 15)
+
+    #run_real_suite('data/real_comm_times/r1', 500, 0, 1, True, 8, 'sample', 1, 'm2.4xlarge', 2, 4, 2)
+    #run_real_suite('data/real_comm_times/r1', 500, 0, 1, True, 8, 'sample', 1, 'm2.4xlarge', 2, 5, 2)
+    
+
+    #run_real_suite('data/real_comm_times/r1', 500, 0, 1, True, 8, 'sample', 1, 'm2.4xlarge', 3, 5, 8)
+
+    #run_real_suite('data/real_times/r1', 500, 0, 1, False, 8, 'sample', 1, 'm2.4xlarge', 5, 5, 8)
+    # run_real_suite('data/real_times/m1', 500, 0, 1, False, 4, 'sample', 1, 'm1.large', 16, 0, 16)
+    # run_real_suite('data/real_comm_times/m1', 500, 0, 1, True, 4, 'sample', 1, 'm1.large', 16, 0, 16)
+    # run_real_suite('data/real_times_30_trials/m1', 500, 0, 30, False, 4, 'sample', 1, 'm1.large', 2, 0, 2)
+    # for i in range(17, 20):
+    #     run_real_suite('data/real_times/m1', 500, 0, 1, False, 4, 'sample', 1, 'm1.large', i, 0, i)
+    #     run_real_suite('data/real_comm_times/m1', 500, 0, 1, True, 4, 'sample', 1, 'm1.large', i, 0, i)
+    # run_real_suite('data/real_times_30_trials/m1', 500, 0, 30, False, 4, 'sample', 1, 'm1.large', 3, 3, 3)
+    # for i in [4,5,6,7,8]:
+    #     run_real_suite('data/real_times_30_trials/m1', 500, 0, 30, False, 4, 'sample', 1, 'm1.large', i, 0, i)
+    
+
+    #run_real_suite('data/real_times_30_trials/m1', 500, 0, 30, False, 8, 'sample', 1, 'm1.large', 2, 0, 8)
+    # for frac in [round(float(2)/i,4) for i in range(2,17)]:
+    #     print frac
+
+    # for frac in [round(float(2)/i,4) for i in range(3,17)]:
+    #     run_real_suite('data/real_fractional_times/m1', 500, 0, 1, False, 4, 'fractional', frac, 'm1.large', 2, 1, 2)
+    #     run_real_suite('data/real_fractional_times/m1', 500, 0, 1, False, 4, 'fractional', frac, 'm1.large', 2, 2, 2)
+    #     run_real_suite('data/real_fractional_times/m1', 500, 0, 1, False, 4, 'fractional', frac, 'm1.large', 2, 3, 2)
 
 
-    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
-    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
-    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
-    #                              ],
-    #                               500,'2k', 0, 3, True, 1, 1, 1, False)
 
-    # separate_machine_exp_synth_suite(['data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_h1', 
-    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_m1',
-    #                               'data/synth_cluster_scaling_exps_all_machine_counts_3_13_17_c1'
-    #                              ],
-    #                               500,'2k', 0, 1, True, 1, 1, 8, True)
+
+    # run_real_suite('data/real_comm_times_30_trials/m1', 500, 0, 30, True, 4, 'sample', 1, 'm1.large', 16, 1, 16)
+    # run_real_suite('data/real_comm_times_30_trials/m1', 500, 0, 30, True, 4, 'sample', 1, 'm1.large', 14, 2, 16)
+
+
+
+
+
+
+
+    # for i in [4]:
+    #     run_real_suite('data/hour_long_experiments/m1', 30*500, 0, 1, False, 4, 'sample', 1, 'm1.large', i, 1, i)
+
+    # for i in [4]:
+    #     run_real_suite('data/hour_long_experiments/m1', 15*500, 0, 1, False, 4, 'sample', 1, 'm1.large', i, 2, i)
+
+
+    # run_real_suite('data/hour_long_comm/m1', 15000, 0, 1, True, 4, 'sample', 1, 'm1.large', 4, 1, 4)
+    # machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 15000, '2k', 0, 1, True, 4, 'sample', 1, 'm1.large', 4, 2, 4)
+    #run_real_suite('data/hour_long_comm/m1', 1250, 0, 1, True, 4, 'sample', 1, 'm1.large', 4, 3, 4)
+    #run_real_suite('data/hour_long_full/m1', 8000, 0, 1, False, 4, 'sample', 1, 'm1.large', 4, 2, 4)
+
+    #run_real_suite('data/hour_long_full/m1', 1250, 0, 1, False, 4, 'sample', 1, 'm1.large', 4, 3, 4)
+    for i in range(1,17):
+        for k in range(1,6):
+            machine_exp_synth_suite_sample('data/hour_long_synth_comm/c1', 200000, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
+
+
+    for i in range(1,17):
+        for k in range(1,6):
+            machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 200000, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
+
+
+    for i in range(1,17):
+        for k in range(6,7):
+            machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 12000, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
+
+
+    for i in range(1,17):
+        for k in range(7,8):
+            machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 1800, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
+
+    # for i in range(1,17):
+    #     for k, epochs in enumerate([12000, ]):
+    #         machine_exp_synth_suite_sample('data/hour_long_comm/c1', k, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
+
+
+    #machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 1250, '2k', 0, 1, True, 4, 'sample', 1, 'm1.large', 4, 7, 4)
+    #machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 15000, '2k', 0, 1, True, 4, 'sample', 1, 'm1.large', 4, 1, 4)
+    #machine_exp_synth_suite_sample('data/hour_long_synth_comm/m1', 1250, '2k', 0, 1, True, 4, 'sample', 1, 'm1.large', 4, 6, 4)
+
+
+
+
+
+    # for k in range(2,17):
+    #     run_real_suite('data/real_comm_times_30_trials/m1', 500, 0, 10, True, 4, 'sample', 1, 'm1.large', k, 4, k)
+    #     run_real_suite('data/real_times_30_trials/m1', 500, 0, 10, False, 4, 'sample', 1, 'm1.large', k, 4, k)
+    #     run_real_suite('data/real_fractional_times_30_trials/m1', 500, 0, 10, True, 4, 'fractional', round(float(2)/k,4), 'm1.large', 2, 4, 2)
+
+            #run_real_suite('data/real_fractional_times_30_trials/m1', 500, 0, 30, True, 4, 'fractional', i, 'm1.large', 2, 3, 2)
+
+    #machine_exp_synth_suite_sample('data/synth_comm_times_30_trials/m1', 500, '2k', 0, 10, True, 4, 'sample', 1, 'm1.large', 9, 2, 9)
+    #machine_exp_synth_suite_sample('data/synth_comm_times_30_trials/m1', 500, '2k', 0, 10, True, 4, 'sample', 1, 'm1.large', 9, 2, 9)
+    # for i in range(10, 17):
+    #     machine_exp_synth_suite_sample('data/synth_comm_times_30_trials/m1', 500, '2k', 0, 10, True, 4, 'sample', 1, 'm1.large', i, 0, i)
+
+
+    #machine_exp_synth_suite_sample('data/synth_comm_times_30_trials/m1', 500, '2k', 0, 10, True, 4, 'sample', 1, 'm1.large', 10, 1, 10)
+    # for i in range(2, 17):
+    #     machine_exp_synth_suite_sample('data/synth_comm_times_30_trials/m1', 500, '2k', 0, 10, True, 4, 'sample', 1, 'm1.large', i, 0, i)
+
 
 
 
