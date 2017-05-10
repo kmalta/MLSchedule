@@ -69,7 +69,7 @@ wss.on('connection', function(_ws) {
       if (message['client'] == 'dataset profile table') {
         dataset_profile_table_ws = _ws;
         console.log('Hello Dataset Profile Table Client JS :)')
-        Dataset.find({name: 'susy'}, function (err, datasets) {
+        Dataset.find({}, function (err, datasets) {
           dataset_profile_table_ws.send(JSON.stringify({message: 'db table', db_json: datasets}))
        });
       }

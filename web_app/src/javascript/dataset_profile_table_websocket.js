@@ -7,16 +7,25 @@ ws.onopen = function open() {
 ws.onmessage = function incoming(event) {
     var message = JSON.parse(event.data);
     if (message['message'] == 'db table') {
-      window.onload = function() {
         for (var i=0; i < message['db_json'].length; i++) {
-            console.log(i)
             populate_db_info_table(JSON.stringify(message['db_json'][i]), i);
         }
-      }
+        for (var i=0; i < message['db_json'].length; i++) {
+            var row = document.getElementById('profile-table-row-' + i.toString());
+            row.onclick = (function(table){
+                return function(){
+                    table_row = document.getElementById('profile-data-table');
+                    table_row.innerHTML = table;
+                    elem_visibility('profile-dataset-info-header', 'block');
+                    elem_visibility('profile-data-table', 'table');
+                    elem_visibility('profile-budget-div', 'table');
+                }
+            })(message['db_json'][i]['table']);
+        }
     }
-
-
 };
+
+
 
 
 function populate_db_info_table(db_entry, idx) {
@@ -43,17 +52,17 @@ function populate_db_info_table(db_entry, idx) {
     html_to_add = html_to_add + "</tr>"
     elem.innerHTML = table + html_to_add
 
-    elem.onclick = createClickHandler(elem, db_entry['table']);
 }
 
-    var createClickHandler = function(elem, table) {
-        return function() { 
-            table_row = document.getElementById('profile-data-table');
-            table_row.innerHTML = table;
-            elem_visibility('profile-dataset-info-header', 'block');
-            elem_visibility('profile-data-table', 'table');
-        };
+
+
+function createClickHandler(table) {
+    return function (event) {
+        console.log(event)
+
     };
+};
+
 
 
 function elem_visibility(elemID, visibility) {
