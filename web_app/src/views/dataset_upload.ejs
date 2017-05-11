@@ -3,16 +3,15 @@
   <link rel="stylesheet" type="text/css" href="/css/table.css" title="Table" media="all" />
   <link rel="stylesheet" type="text/css" href="/css/loader.css" title="Table" media="all" />
   <link rel="stylesheet" type="text/css" href="/css/dataset_upload_styles.css" title="Table" media="all" />
-  <script src="/javascript/dataset_upload_websocket.js" charset="utf-8"></script>
+  <script src="/javascript/dataset_upload.js" charset="utf-8"></script>
 </head>
 
 
 <body>
   <h2>DATASET NAME (Config File Name):</h2>
-  <form method="post" action="/dataset_upload">
 
   <br>
-    <form method="post" action="/dataset_upload">
+    <form id="dataset_form" onSubmit="datasetGet(event);">
       <input id="dataset-name-input" type="text" name="dataset" value="">
       <input id="dataset-submit" type="submit" value="Get Dataset Analytics">
     </form> 
@@ -25,8 +24,8 @@
   <br>
   <div style="display:none" id="dataset-save-div">
     <br>
-      <form method="post" action="/dataset_db_save">
-        <input  id="dataset-save-submit" type="submit" value="Add Dataset">
+      <form id="save_dataset_form" onSubmit="datasetSave(event);">
+        <input  id="dataset-save-submit" type="submit" value="Save Dataset">
       </form> 
     <br>
   </div>

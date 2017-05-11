@@ -9,7 +9,7 @@ var datasetSchema = new Schema({
     samples: Number,
     features: Number,
     machine_type: String,
-    table: String
+    bid: Number
 });
 
 var Dataset = mongoose.model('Dataset', datasetSchema);

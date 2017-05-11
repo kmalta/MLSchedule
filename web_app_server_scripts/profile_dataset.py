@@ -1,7 +1,6 @@
 from price_module.get_bid_API import *
 from cloud_scripts.configure_hadoop_and_spark import *
 from boto_launch_scripts import *
-from hurry.filesize import size, si
 import math
 
 
@@ -54,7 +53,6 @@ def get_data_stats(cfg_file):
     dataset_dict['url'] = s3url
     dataset_dict['name'] = cfg_file
     dataset_dict['size_in_bytes'] = size_in_bytes
-    dataset_dict['size'] = size(size_in_bytes, system=si)
     dataset_dict['samples'] = samples
     dataset_dict['features'] = features
     dataset_dict['num_workers'] = 4;
