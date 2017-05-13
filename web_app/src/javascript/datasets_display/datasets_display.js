@@ -18,14 +18,12 @@ function createDBTable(data) {
         var row = document.getElementById('profile-table-row-' + i.toString());
         row.onclick = (function(db_entry){
             return function(){
-                table = populate_profile_table(db_entry);
-                table_row = document.getElementById('profile-data-table');
-                table_row.innerHTML = table;
-                elem_visibility('profile-dataset-info-header', 'block');
-                elem_visibility('profile-data-table', 'table');
+                populate_dataset_table(db_entry);
+
+                elem_visibility('dataset-info-header', 'block');
+                elem_visibility('data-table', 'table');
                 elem_visibility('profile-budget-div', 'block');
                 var bid = db_entry['bid'];
-
 
                 var input = document.getElementById('profile-input-budget');
                 input.value = '$' + roundTo(5*bid, 3).toString();
@@ -90,64 +88,3 @@ function populate_db_info_table(db_entry, idx) {
 
 };
 
-
-function populate_profile_table(message) {
-    console.log(message);
-    var values_to_populate = [message['name'],
-                              message['s3url'],
-                              humanFileSize(parseInt(message['size_in_bytes']), true),
-                              message['samples'],
-                              roundTo(parseFloat(message['features'], 3)).toString(),
-                              message['machine_type'],
-                              '$' + parseFloat(message['bid']).toString()
-                              ]
-
-    for (i = 1; i < 8; i++) {
-        var elem = document.getElementById('dataset-table-row-col-' + i.toString());
-        elem.innerHTML = values_to_populate[i - 1];
-    }
-
-    elem_visibility('data-table', 'table');
-};
-
-function elem_visibility(elemID, visibility) {
-    var elem = document.getElementById(elemID);
-    elem.style.display = visibility;
-};
-
-function roundTo(n, digits) {
-    if (digits === undefined) {
-        digits = 0;
-    }
-
-    var multiplicator = Math.pow(10, digits);
-    n = parseFloat((n * multiplicator).toFixed(11));
-    var test =(Math.round(n) / multiplicator);
-    return +(test.toFixed(2));
-};
-
-
-function humanFileSize(bytes, si) {
-    var thresh = si ? 1000 : 1024;
-    if(Math.abs(bytes) < thresh) {
-        return bytes + ' B';
-    }
-    var units = si
-        ? ['kB','MB','GB','TB','PB','EB','ZB','YB']
-        : ['KiB','MiB','GiB','TiB','PiB','EiB','ZiB','YiB'];
-    var u = -1;
-    do {
-        bytes /= thresh;
-        ++u;
-    } while(Math.abs(bytes) >= thresh && u < units.length - 1);
-    return bytes.toFixed(1)+' '+units[u];
-};
-
-function unhumanize(text) { 
-    var powers = {'k': 1, 'm': 2, 'g': 3, 't': 4};
-    var regex = /(\d+(?:\.\d+)?)\s?(k|m|g|t)?b?/i;
-
-    var res = regex.exec(text);
-
-    return parseInt(res[1] * Math.pow(1000, powers[res[2].toLowerCase()]));
-};

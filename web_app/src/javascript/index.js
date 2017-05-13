@@ -32,13 +32,6 @@ var server = app.listen((process.env.PORT || '3000'), function () {
 });
 
 db.on('error', console.error.bind(console, 'connection error:'));
-const wss = new WebSocket.Server({ server });
-
-
-//WEBSOCKETS
-
-dataset_profile_table_ws = null;
-profile_ws = null;
 
 
 
@@ -47,29 +40,23 @@ profile_ws = null;
 
 //GETS
 app.get('/', function (req, res, next) {
-  res.render(path.resolve('src/views/dataset_profile_table_page.ejs'));
+  res.render(path.resolve('src/views/datasets_display/datasets_display.ejs'));
 });
 
 app.get('/add_dataset', function (req, res, next) {
-  res.render(path.resolve('src/views/dataset_upload.ejs'));
+  res.render(path.resolve('src/views/dataset_upload/dataset_upload.ejs'));
 });
 
-app.get('/dataset_profile_table_page', function (req, res, next) {
-  res.render(path.resolve('src/views/dataset_profile_table_page.ejs'));
+app.get('/datasets_display', function (req, res, next) {
+  res.render(path.resolve('src/views/datasets_display/datasets_display.ejs'));
 });
 
-app.get('/profile_progress/:token', function(req, res) {
-  res.render(path.resolve('src/views/profile_progress.ejs'));
+app.get('/profile/:token', function(req, res) {
+  res.render(path.resolve('src/views/profile/profile.ejs'));
 });
 
 app.get('/profile', function (req, res, next) {
-  if (profile_table_str == null) {
-    res.redirect("/dataset_upload");
-  }
-  else {
-    res.render(path.resolve('src/views/profile.ejs'));
-    profile_ws.send(JSON.stringify({message: 'table', table: profile_table_str}));
-  }
+  res.render(path.resolve('src/views/profile/profile.ejs'));
 });
 
 
@@ -78,7 +65,6 @@ app.get('/get_dataset_db_entries', function(req, res) {
     res.send(datasets);
   });  
 });
-
 
 
 
@@ -135,13 +121,33 @@ app.post('/profile_button_submit', function(req, res) {
   profile.save(function(err) {
     if (err) throw err;
 
-    console.log('Dataset saved successfully!');
+    console.log('Profile saved successfully!');
   });
+  // var xhttp = new XMLHttpRequest();
+  // xhttp.open("GET", "http://0.0.0.0:8080/submit_profile/" + JSON.parse(req.body.data).dataset, true);
+  // xhttp.send();
+  // xhttp.onload = function() {
+  //   console.log(xhttp.responseText)
+  // }
 
-  res.redirect('/profile_progress/' + profile._id);
+  res.redirect('/profile/' + profile._id);
 });
 
 
+app.post('/get_profile_db_entry', function(req, res) {
+  var profile_id = JSON.parse(req.body.data).profile_id;
+  Profile.find({_id: profile_id}, function (err, profile) {
+    res.send(profile[0]);
+  });  
+});
+
+
+app.post('/get_dataset_db_entry', function(req, res) {
+  var dataset_id = JSON.parse(req.body.data).dataset_id;
+  Dataset.find({_id: dataset_id}, function (err, dataset) {
+    res.send(dataset[0]);
+  });  
+});
 
 
 

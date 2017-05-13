@@ -240,9 +240,9 @@ def main():
     #run_real_suite('data/hour_long_full/m1', 8000, 0, 1, False, 4, 'sample', 1, 'm1.large', 4, 2, 4)
 
     #run_real_suite('data/hour_long_full/m1', 1250, 0, 1, False, 4, 'sample', 1, 'm1.large', 4, 3, 4)
-    for i in range(1,17):
-        for k in range(1,6):
-            machine_exp_synth_suite_sample('data/hour_long_synth_comm/c1', 200000, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
+    # for i in range(1,17):
+    #     for k in range(1,6):
+    #         machine_exp_synth_suite_sample('data/hour_long_synth_comm/c1', 200000, '2k', 0, 1, True, 4, 'sample', 1, 'cg1.4xlarge', i, k, i)
 
 
     for i in range(1,17):

@@ -1,51 +1,11 @@
-
-
-function datasetGet(evt) {
-    evt.preventDefault();
-    var dataset_elem = document.getElementById('dataset-name-input');
-    var dataset = dataset_elem.value;
-
-    elem_visibility('data-table', 'none');
-    elem_visibility('dataset-info-header', 'block');
-    elem_visibility('dataset-profile-loader', 'block');
-
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/process_dataset_from_name", true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhttp.send('data=' + JSON.stringify({dataset: dataset}));
-    xhttp.onload = function() {
-        var data = JSON.parse(xhttp.responseText);
-        elem_visibility('dataset-profile-loader', 'none');
-        populate_profile_table(data);
-        elem_visibility('dataset-save-div', 'block');
-        elem_visibility('dataset-upload-dataset-table', 'block');
-    }
-}
-
-function datasetSave(evt) {
-    evt.preventDefault();
-    var json_to_send = get_profile_table_values();
-    var xhttp = new XMLHttpRequest();
-    xhttp.open("POST", "/dataset_db_save", true);
-    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-    xhttp.send('data=' + JSON.stringify(json_to_send));
-    window.location.replace('/')
-}
-
-
-function elem_visibility(elemID, visibility) {
-    var elem = document.getElementById(elemID);
-    elem.style.display = visibility;
-}
-
-function populate_profile_table(message) {
+function populate_dataset_table(message) {
 
     var values_to_populate = [message['name'],
-                              message['url'],
+                              message['s3url'],
                               humanFileSize(parseInt(message['size_in_bytes']), true),
                               message['samples'],
                               roundTo(parseFloat(message['features'], 3)).toString(),
-                              message['inst type'],
+                              message['machine_type'],
                               '$' + parseFloat(message['bid']).toString()
                               ]
 
@@ -57,7 +17,7 @@ function populate_profile_table(message) {
     elem_visibility('data-table', 'table');
 }
 
-function get_profile_table_values() {
+function get_dataset_table_values() {
     var arr = ['name', 'url', 'size', 'samples', 'features', 'inst_type', 'bid'];
     var dict = {};
     for (i = 1; i < 8; i++) {
@@ -69,18 +29,6 @@ function get_profile_table_values() {
     return dict;
 }
 
-
-function check_if_same_dataset(dataset) {
-    var elem = document.getElementById('dataset-table-row-col-1');
-    if (elem.innerHTML == dataset) {
-        return true
-    }
-    else {
-        return false
-    }
-}
-
-
 function roundTo(n, digits) {
     if (digits === undefined) {
         digits = 0;
@@ -90,6 +38,11 @@ function roundTo(n, digits) {
     n = parseFloat((n * multiplicator).toFixed(11));
     var test =(Math.round(n) / multiplicator);
     return +(test.toFixed(2));
+}
+
+function elem_visibility(elemID, visibility) {
+    var elem = document.getElementById(elemID);
+    elem.style.display = visibility;
 }
 
 

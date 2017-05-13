@@ -50,7 +50,7 @@ def get_data_stats(cfg_file):
 
     dataset_dict = {}
     dataset_dict['message'] = 'return profile data'
-    dataset_dict['url'] = s3url
+    dataset_dict['s3url'] = s3url
     dataset_dict['name'] = cfg_file
     dataset_dict['size_in_bytes'] = size_in_bytes
     dataset_dict['samples'] = samples
@@ -68,7 +68,7 @@ def get_data_stats(cfg_file):
 
     ret_val = get_bid(inst_type, regions, 1)
 
-    dataset_dict['inst type'] = inst_type
+    dataset_dict['machine_type'] = inst_type
     dataset_dict['bid'] = ret_val['bid']
 
     return dataset_dict
@@ -97,7 +97,7 @@ def get_data_stats_2(s3url):
 
     dataset_dict = {}
     dataset_dict['message'] = 'return profile data'
-    dataset_dict['url'] = s3url
+    dataset_dict['s3url'] = s3url
     dataset_dict['name'] = dataset
     dataset_dict['size'] = ds_size
     dataset_dict['samples'] = samples
@@ -115,7 +115,7 @@ def get_data_stats_2(s3url):
 
     ret_val = get_bid(inst_type, regions, 1)
 
-    dataset_dict['inst type'] = inst_type
+    dataset_dict['machine_type'] = inst_type
     dataset_dict['bid'] = ret_val['bid']
 
     return dataset_dict
