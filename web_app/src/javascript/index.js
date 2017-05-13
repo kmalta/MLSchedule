@@ -39,15 +39,15 @@ db.on('error', console.error.bind(console, 'connection error:'));
 
 
 //GETS
-app.get('/', function (req, res, next) {
+app.get('/', function (req, res) {
   res.render(path.resolve('src/views/datasets_display/datasets_display.ejs'));
 });
 
-app.get('/add_dataset', function (req, res, next) {
+app.get('/add_dataset', function (req, res) {
   res.render(path.resolve('src/views/dataset_upload/dataset_upload.ejs'));
 });
 
-app.get('/datasets_display', function (req, res, next) {
+app.get('/datasets_display', function (req, res) {
   res.render(path.resolve('src/views/datasets_display/datasets_display.ejs'));
 });
 
@@ -55,8 +55,12 @@ app.get('/profile/:token', function(req, res) {
   res.render(path.resolve('src/views/profile/profile.ejs'));
 });
 
-app.get('/profile', function (req, res, next) {
+app.get('/profile', function (req, res) {
   res.render(path.resolve('src/views/profile/profile.ejs'));
+});
+
+app.get('/back_button', function (req, res) {
+  res.render(path.resolve('src/views/datasets_display/datasets_display.ejs'));
 });
 
 
@@ -108,8 +112,6 @@ app.post('/dataset_db_save', function(req, res){
 
 app.post('/profile_button_submit', function(req, res) {
   var date = new Date();
-  console.log(date)
-  console.log(req.body)
   var profile = new Profile({
       time_submitted: date,
       dataset_id: req.body.datasetID,
@@ -123,12 +125,14 @@ app.post('/profile_button_submit', function(req, res) {
 
     console.log('Profile saved successfully!');
   });
-  // var xhttp = new XMLHttpRequest();
-  // xhttp.open("GET", "http://0.0.0.0:8080/submit_profile/" + JSON.parse(req.body.data).dataset, true);
-  // xhttp.send();
-  // xhttp.onload = function() {
-  //   console.log(xhttp.responseText)
-  // }
+  var xhttp = new XMLHttpRequest();
+  var json_send = JSON.stringify(req.body);
+
+  xhttp.open("GET", "http://0.0.0.0:8080/submit_profile/" + json_send, true);
+  xhttp.send();
+  xhttp.onload = function() {
+    console.log(xhttp.responseText)
+  }
 
   res.redirect('/profile/' + profile._id);
 });

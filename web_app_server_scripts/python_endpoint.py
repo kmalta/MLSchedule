@@ -25,6 +25,14 @@ def support_jsonp(f):
 def get_dataset_info(dataset):
     json_return = get_data_stats(dataset)
     return jsonify(json_return)
+
+
+@app.route('/submit_profile/<string:profile>', methods=['GET'])
+@support_jsonp
+def schedule_profile(profile):
+    #json_return = get_data_stats(dataset)
+    return "Successful endpoint"
+
     #res = requests.post("http://127.0.0.1:5000/determine_escalation/", json=s).json()
 
 if __name__ == "__main__":
