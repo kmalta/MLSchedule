@@ -1,6 +1,4 @@
-window.onload = grabProfileEntryInfo();
-
-function grabProfileEntryInfo() {
+window.onload = function grabProfileEntryInfo() {
     var url_arr = window.location.href.split('/');
     var profile_id = url_arr[url_arr.length -1];
     var xhttp = new XMLHttpRequest();
@@ -8,8 +6,8 @@ function grabProfileEntryInfo() {
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     xhttp.send('data=' + JSON.stringify({profile_id: profile_id}));
     xhttp.onload = function() {
-        populate_profile_info_table(xhttp.responseText);
         get_dataset_by_id(xhttp.responseText);
+        populate_profile_info_table(xhttp.responseText);
     }
 };
 
@@ -31,7 +29,6 @@ function get_dataset_by_id(message) {
 function populate_profile_info_table(message) {
 
     data = JSON.parse(message);
-
     var values_to_populate = [data['budget'],
                               data['machine_type'],
                               data['number_of_machines'],

@@ -21,7 +21,7 @@ def profile(json_dict):
 
     #BOTO Setup
     conn = start_ec2_boto_connection()
-    reservation, working_dir = euca_spot_launch_mimicry(conn, json_dict['bid'], json_dict['inst_type'], 3)
+    reservation, working_dir = euca_spot_launch_mimicry(conn, json_dict['bidPerMachine'], json_dict['machineType'], json_dict['numberOfMachines'])
     instances = get_instances_from_reservation(reservation)
     instance_ips = get_ips_from_instances(instances)
     print "IPs:", repr(instance_ips)
@@ -45,7 +45,7 @@ def profile(json_dict):
         run_spark_experiment(experiment, dataset, nodes_info, json_dict['inst_type'], jar_path, json_dict['features'], iterations, log_path)
         clean_up_experiment(dataset, master_ip)
 
-    return reservation
+    return reservation, working_dir
 
 
 

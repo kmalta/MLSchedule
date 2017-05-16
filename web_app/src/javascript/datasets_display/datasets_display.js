@@ -19,9 +19,12 @@ function createDBTable(data) {
         row.onclick = (function(db_entry){
             return function(){
                 populate_dataset_table(db_entry);
+                grabDatasetProfileEntryInfo(db_entry['_id']);
 
                 elem_visibility('dataset-info-header', 'block');
                 elem_visibility('data-table', 'table');
+                elem_visibility('dataset-profiles-header', 'block');
+                elem_visibility('dataset-profiles-table', 'table');
                 elem_visibility('profile-budget-div', 'block');
                 var bid = db_entry['bid'];
 
@@ -46,6 +49,40 @@ function createDBTable(data) {
         })(data[i]);
     }
 };
+
+
+function grabDatasetProfileEntryInfo(dataset_id) {
+    var xhttp = new XMLHttpRequest();
+    xhttp.open("POST", "/get_dataset_profiles_db_entries", true);
+    xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    xhttp.send('data=' + JSON.stringify({dataset_id: dataset_id}));
+    xhttp.onload = function() {
+        createDatasetProfileTable(JSON.parse(xhttp.responseText));
+    }
+};
+
+
+function createDatasetProfileTable(data) {
+    var table = document.getElementById('dataset-profiles-table');
+    var table_rows = Array.prototype.slice.call(table.childNodes, 3, table.childNodes.length);
+    for (var i=0; i < table_rows.length; i++) {
+        table_rows[i].innerHTML = '';
+    }
+    data.sort(function(x,y){return x['number_of_machines'] - y['number_of_machines']});
+    for (var i=0; i < data.length; i++) {
+        populate_dataset_profiles_table(JSON.stringify(data[i]), i);
+    }
+    for (var i=0; i < data.length; i++) {
+        var row = document.getElementById('dataset-profiles-table-row-' + i.toString());
+        row.onclick = (function(db_entry){
+            return function(){
+                window.location.replace('/profile/' + db_entry['_id'])
+            }
+        })(data[i]);
+    }
+};
+
+
 
 
 function change_profiling_default_amount(num_workers) {
@@ -76,7 +113,6 @@ function populate_db_info_table(db_entry, idx) {
     var table = elem.innerHTML;
     var row_id = 'profile-table-row-' + idx.toString();
 
-
     var html_to_add = "<tr id='" + row_id + "'>";
 
     for (i = 1; i < values_to_populate.length + 1; i++) {
@@ -86,5 +122,30 @@ function populate_db_info_table(db_entry, idx) {
     html_to_add = html_to_add + "</tr>"
     elem.innerHTML = table + html_to_add
 
+};
+
+
+function populate_dataset_profiles_table(db_entry, idx) {
+    var profile_db_entry = JSON.parse(db_entry);
+    var values_to_populate = [profile_db_entry['number_of_machines'],
+                              profile_db_entry['bid_per_machine'],
+                              profile_db_entry['budget'],
+                              profile_db_entry['machine_type'],
+                              profile_db_entry['_id']
+                              ]
+
+    var elem = document.getElementById('dataset-profiles-table');
+    var table = elem.innerHTML;
+    var row_id = 'dataset-profiles-table-row-' + idx.toString();
+
+
+    var html_to_add = "<tr id='" + row_id + "'>";
+
+    for (i = 1; i < values_to_populate.length + 1; i++) {
+        var entry_id = 'dataset-profiles-table-row-col-' + idx.toString() + '-' + i.toString();
+        html_to_add = html_to_add + "<td id='" + entry_id + "'>" + values_to_populate[i - 1] + "</td>"
+    }
+    html_to_add = html_to_add + "</tr>"
+    elem.innerHTML = table + html_to_add
 };
 

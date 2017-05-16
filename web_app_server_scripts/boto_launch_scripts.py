@@ -106,7 +106,7 @@ def euca_spot_launch_mimicry(conn, bid, instance_type, num_insts):
     os.system('mkdir ' + temp_dir)
     os.system('mkdir ' + temp_dir + '/profile_logs')
     os.system('mkdir ' + temp_dir + '/computation_log')
-    return reservation, temp_dir
+    return reservation, temp_dir, bid
 
 
 

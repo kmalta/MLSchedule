@@ -128,7 +128,7 @@ app.post('/profile_button_submit', function(req, res) {
   var xhttp = new XMLHttpRequest();
   var json_send = JSON.stringify(req.body);
 
-  xhttp.open("GET", "http://0.0.0.0:8080/submit_profile/" + json_send, true);
+  xhttp.open("GET", 'http://0.0.0.0:8080/submit_profile/' + json_send, true);
   xhttp.send();
   xhttp.onload = function() {
     console.log(xhttp.responseText)
@@ -145,11 +145,19 @@ app.post('/get_profile_db_entry', function(req, res) {
   });  
 });
 
-
 app.post('/get_dataset_db_entry', function(req, res) {
   var dataset_id = JSON.parse(req.body.data).dataset_id;
-  Dataset.find({_id: dataset_id}, function (err, dataset) {
-    res.send(dataset[0]);
+  Dataset.find({_id: dataset_id}, function (err, datasets) {
+    res.send(datasets[0]);
+  });  
+});
+
+
+app.post('/get_dataset_profiles_db_entries', function(req, res) {
+  var dataset_id = JSON.parse(req.body.data).dataset_id;
+  Profile.find({dataset_id: dataset_id}, function (err, profiles) {
+    console.log(profiles)
+    res.send(profiles);
   });  
 });
 
